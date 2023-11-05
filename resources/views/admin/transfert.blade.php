@@ -12,6 +12,10 @@
                         <div class="mb-2">
                             <label for="ref_prod" class="form-label">Code Article</label>
                             <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="ref_prod" class="form-label">Bon de transfert</label>
+                            <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
                         </div>                        
                         <div class="mb-2">
                             <label for="ref_prod" class="form-label">Réference du produit</label>
@@ -31,14 +35,15 @@
                         </div>
 
                         <div class="mb-2">
-                            <label for="ref_prod" class="form-label">Nom depot</label>
+                            <label for="ref_prod" class="form-label">Demandeur</label>
                             <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
                         </div>
-                        
+
                         <div class="mb-2">
-                            <label for="qte_stock" class="form-label">Quantité en stock</label>
-                            <input type="text" class="form-control" id="qte_stock" name="qte_stock" required>
+                            <label for="ref_prod" class="form-label">Approvisioneur</label>
+                            <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
                         </div>
+        
                         <button type="submit" id="submitFormProduit" class="btn btn-outline-primary">
                             Enregistrer
                         </button>
@@ -50,13 +55,32 @@
                         <table class="table table-striped" id="liste">
                             <thead>
                                 <th>Code Art</th>
+                                <th>Bon de transfert</th>
                                 <th >Designation</th>
                                 <th>Quantité demandée</th>
                                 <th>Quantité approuvée </th>
+                                <th>Trans </th>
+                                <th>Status </th>
                                 <th>Date</th>
                                 <th>Action</th>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                                <tr>
+                                  <th scope="row">1</th>
+                                  <td>BT0102/0002</td>
+                                  <td>Fresh</td>
+                                  <td>20</td>
+                                  <td>20</td>
+                                  <td>20</td>
+                                  <td>En cours</td>
+                                  <td>01-Nov-2023</td>                
+                                  <td> 
+                                      <a href="#" class="btn btn-info ">Modifier</a>
+                                      <a href="#" class="las la-delet btn btn-danger">Supprimer</a>
+                                  </td>
+                                </tr>
+                               
+                              </tbody>
                         </table>
                     </div>
                 </div>

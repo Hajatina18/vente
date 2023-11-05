@@ -18,7 +18,17 @@
                         </form>
                         <div >
                             <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <a href="#" class="btn btn-info">Ajouter en stock</a>
+                                <a href="#" class="btn btn-info">Ajout nouveau Depot</a>
+                            </button>
+                        </div>
+                        <div >
+                            <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="l">
+                                <a href="#" class="btn btn-info">Depot 02</a>
+                            </button>
+                        </div>
+                        <div >
+                            <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#">
+                                <a href="#" class="btn btn-info">Depot Magasin</a>
                             </button>
                         </div>
 
@@ -48,83 +58,7 @@
                                     <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
                                 </div>
         
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Designation</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                </div>         
-        
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Fournisseur</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                </div>
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Réference Fournisseur</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                </div>                        
-        
-                                <div class="mb-2">
-                                    <label for="nom_prod" class="form-label">Prix d'Achat</label>
-                                    <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="image_prod" class="form-label">Image</label>
-                                    <input class="form-control" type="file" id="image_prod" name="image_prod">
-                                </div>
-                                <div class="card bg-white p-0 mb-2">
-                                    <div class="card-header bg-white text-center">
-                                        <h5 class="m-0">Unité du produit</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table" id="unite_mesure">
-                                            <thead>
-                                                <tr class="text-center">
-                                                    <th width="30%">Unité</th>
-                                                    <th width="30%">
-                                                        Quantité
-                                                        <i class="las la-question-circle" style="cursor: pointer"></i>
-                                                    </th>
-                                                    <th width="10%"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <select class="form-select" id="unite" name="unite">
-                                                          
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" class="form-control" id="prix" name="prix"
-                                                            required>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" id="qte" name="qte" required>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-outline-secondary add">
-                                                            <i class="las la-plus-circle"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="my-3">
-                                    <label for="" class="form-label me-3">Fait à la demande</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="fait_demande" value="true" id="demandeOui">
-                                        <label class="form-check-label" for="demandeOui">
-                                            Oui
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="fait_demande" value="false" id="demandeNon" checked>
-                                        <label class="form-check-label" for="demandeNon">
-                                            Non
-                                        </label>
-                                    </div>
-                                </div>
+                                
                                                         
                         </div> 
                         </form>  
@@ -151,6 +85,8 @@
                             <th scope="col">Code Art</th>
                             <th scope="col">Désign</th>
                             <th scope="col">Réf BLF FRNS</th>
+                            <th scope="col">Numero Facture</th>
+                            <th scope="col">Bon de Livraison</th>
                             <th scope="col">Prix A HT</th>
                             <th scope="col">Prix A TTC</th>
                             <th scope="col">C.Revient</th>
@@ -164,17 +100,19 @@
                           <tr>
                             <th scope="row">1</th>
                             <td>Mark</td>
-                            <td>Otto</td>
+                            <td>Julie</td>
                             <td>@mdo</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td>Otto</td>
-                            <td>
-                                <a href="#" class="btn btn-info">Modifier</a>
-                                <a href="#" class="btn btn-danger">Supprimer</a>
+                            <td>Tina</td>
+                            <td>Ando</td>
+                            <td>Fitahiana</td>
+                            <td>Fanamby</td>
+                            <td>Fitiavana</td>
+                            <td>Tsila</td>
+                            <td>Jean</td>
+                            <td>Loris</td>                 
+                            <td>030 
+                                <a href="#" class="btn btn-info ">Modifier</a>
+                                <a href="#" class="las la-delet btn btn-danger">Supprimer</a>
                             </td>
                           </tr>
                          

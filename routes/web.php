@@ -99,7 +99,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::get('/create',[DepotController::class, 'create'])->name('create_depot');
     });
 
-    Route::group(['prefix' => 'debotSecond'],function (){
+    Route::group(['prefix' => 'depotSecond'],function (){
         Route::get('/',[DepotSecondController::class, 'index'])->name('depotSecond_admin');
         
     });

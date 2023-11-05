@@ -5,148 +5,195 @@
     <div class="card card-commande bg-white">
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-md-6 col-lg-4">
-                    <form method="POST" id="formEntrer">
-                        @csrf
-                        <h4 class="text-center">Formulaire Entrée</h4>
-                        <div class="mb-2">
-                            <label for="date_facture" class="form-label">Référence BL Frns</label>  <!-- new insert -->
-                            <input type="text" class="form-control" id="refblfrns" name="refblfrns">
+                <div class="col-12 col-md-6 col-lg-12">
+                    <!-- start modal -->
+                    <div class="d-flex justify-content-between mb-2">
+                        <div >
+                            <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <a href="#" class="btn btn-info">Entrée prduits</a>
+                            </button>
                         </div>
-                        <div class="mb-2">
-                            <label for="date_facture" class="form-label">Code Art</label>  <!-- new insert -->
-                            <input type="text" class="form-control" id="refblfrns" name="refblfrns">
-                        </div>
-                        <div class="mb-2">
-                            <label for="ref_prod" class="form-label">Fournisseur</label>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <input type="text" class="form-control" id="frns" name="frns">
-                                <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#modalFrns"><i
-                                        class="las la-search"></i></button>
+                    </div>
+                
+                    <!--start add stock -->                   
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Ajout Stock</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div> 
+
+                                <!-- start modal -->
+                                <form method="POST" id="formEntrer">
+                                    <div class="modal-body">
+                                        @csrf
+                                        <h4 class="text-center">Formulaire Entrée</h4>
+
+                                            <div class="mb-2">
+                                                <label for="date_facture" class="form-label">Code Art</label>  <!-- new insert -->
+                                                <input type="text" class="form-control" id="refblfrns" name="refblfrns">
+                                            </div>
+                                            
+                                            <div class="mb-2">
+                                                <label for="ref_prod" class="form-label">Fournisseur</label>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <input type="text" class="form-control" id="frns" name="frns">
+                                                    <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#modalFrns"><i
+                                                        class="las la-search"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="date_facture" class="form-label">Date Facture</label>
+                                                <input type="date" class="form-control" id="date_facture" name="date_facture">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="num_facture" class="form-label">Numero Facture</label>
+                                                <input type="text" class="form-control" id="num_facture" name="num_facture">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="date_facture" class="form-label">PCB</label>  <!-- new insert -->
+                                                <input type="text" class="form-control" id="refblfrns" name="refblfrns">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="num_bl" class="form-label">Bon de livraison</label>
+                                                <input type="text" class="form-control" id="num_bl" name="num_bl" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="num_bl" class="form-label">Prix d'Achat HT</label>
+                                                <input type="text" class="form-control" id="num_bl" name="num_bl" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="num_bl" class="form-label">Prix d'Achat TTC</label>
+                                                <input type="text" class="form-control" id="num_bl" name="num_bl" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="num_bl" class="form-label">Cout transport</label>
+                                                <input type="text" class="form-control" id="num_bl" name="num_bl" required>
+                                            </div>
+
+                                            <div class="mb-2">
+                                                <label for="date_echeance" class="form-label">Date Echeance</label>
+                                                <input type="date" class="form-control" id="date_echeance" name="date_echeance">
+                                            </div>
+                                            <table class="table table-striped" id="produits">
+                                                <thead>
+                                                    <th width="50%">Produit</th>
+                                                    <th width="25%">Unite</th>
+                                                    <th width="20%">Qte</th>
+                                                    <th width="5%"></th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <select name="produit" id="produit" class="form-select">
+                                                                <option value=""></option>
+                                                                @foreach ($produits as $produit)
+                                                                <option value="{{ $produit->ref_prod }}">{{ $produit->nom_prod }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select name="unite" id="unite" class="form-select">
+
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="qte" id="qte" class="form-control">
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-outline-secondary add">
+                                                                <i class="las la-plus-circle"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <button type="submit" id="submitFormEntrer" class="btn btn-outline-primary">
+                                                Enregistrer
+                                            </button>
+                                            
+                                    </div>
+                                </form>
+                                <!-- end modal-->
                             </div>
                         </div>
-                        <div class="mb-2">
-                            <label for="date_facture" class="form-label">Date Facture</label>
-                            <input type="date" class="form-control" id="date_facture" name="date_facture">
-                        </div>
-                        <div class="mb-2">
-                            <label for="num_facture" class="form-label">Numero Facture</label>
-                            <input type="text" class="form-control" id="num_facture" name="num_facture">
-                        </div>
-                        <div class="mb-2">
-                            <label for="num_bl" class="form-label">Bon de livraison</label>
-                            <input type="text" class="form-control" id="num_bl" name="num_bl" required>
-                        </div>
-                        <div class="mb-2">
-                            <label for="date_echeance" class="form-label">Date Echeance</label>
-                            <input type="date" class="form-control" id="date_echeance" name="date_echeance">
-                        </div>
-                        <table class="table table-striped" id="produits">
+                    </div>
+                    <!-- end add -->
+                    <!-- start table -->    
+                    <div class="my-3 p-3 bg-body rounded shadow-sm">
+     
+                        <h4 class="text-center">Liste des unités de mesure</h4>
+                        <table class="table table-striped" id="liste">
                             <thead>
-                                <th width="50%">Produit</th>
-                                <th width="25%">Unite</th>
-                                <th width="20%">Qte</th>
-                                <th width="5%"></th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <select name="produit" id="produit" class="form-select">
-                                            <option value=""></option>
-                                            @foreach ($produits as $produit)
-                                            <option value="{{ $produit->ref_prod }}">{{ $produit->nom_prod }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="unite" id="unite" class="form-select">
-
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="qte" id="qte" class="form-control">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-secondary add">
-                                            <i class="las la-plus-circle"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button type="submit" id="submitFormEntrer" class="btn btn-outline-primary">
-                            Enregistrer
-                        </button>
-                    </form>
-                </div>
-                <div class="col-12 col-md-6 col-lg-8">
-                    <h4 class="text-center">Liste des unités de mesure</h4>
-                    <table class="table table-striped" id="liste">
-                        <thead>
-                            <th>Réf Bl Frns</th> <!-- new insert -->
-                            <th>Fournisseur</th>
-                            <th>Code Art</th> <!-- new insert -->
-                            <th>Date</th>
-                            <th>Date Facture</th>
-                            <th>Numero Facture</th>
-                            <th>Bon de Livraison</th>
-                            <th>Date Echeance</th>
-                            <th>Action</th>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detail de l'entrer</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 mb-2">
-                        <p class="m-0">Fournisseur : <span id="frnsModal" style="font-weight: 600"></span></p>
-                    </div>
-                    <div class="col-12 mb-2">
-                        <p class="m-0">Date d'enregistrement: <span id="dateModal" style="font-weight: 600"></span></p>
-                    </div>
-                    <div class="col-12 mb-2">
-                        <p class="m-0">Date facture : <span id="date_factureModal" style="font-weight: 600"></span></p>
-                    </div>
-                    <div class="col-12 mb-2">
-                        <p class="m-0">Numero Facture : <span id="num_factureModal" style="font-weight: 600"></span></p>
-                    </div>
-                    <div class="col-12 mb-2">
-                        <p class="m-0">Bon de livraison : <span id="num_blModal" style="font-weight: 600"></span></p>
-                    </div>
-                    <div class="col-12 mb-2">
-                        <p class="m-0">Date Echeance : <span id="date_echeanceModal" style="font-weight: 600"></span></p>
-                    </div>
-                    <div class="col-12">
-                        <hr style="height: 3px; width : 100%">
-                        <h4 class="text-center">Liste des produits</h4>
-                        <table class="table table-striped" id="listePaniers">
-                            <thead>
-                                <th>Image</th>
-                                <th>Nom Produit</th>
-                                <th>Quantité</th>
+                                <th>Code Art</th> <!-- new insert -->
+                                <th>Réf Bl Frns</th> <!-- new insert -->
+                                <th>Fournisseur</th>
+                                <th>Date Facture</th>
+                                <th>Numero Facture</th>
+                                <th>Bon de Livraison</th>
+                                <th>P A HT</th>
+                                <th>P A TTC</th>
+                                <th>C Trans</th>
+                                <th>Date Echeance</th>
+                                <th>Action</th>
                             </thead>
                             <tbody></tbody>
                         </table>
-                    </div>
+                    </div> <!-- end table -->
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
-</div>
+    <div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail de l'entrer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <p class="m-0">Fournisseur : <span id="frnsModal" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">Date d'enregistrement: <span id="dateModal" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">Date facture : <span id="date_factureModal" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">Numero Facture : <span id="num_factureModal" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">Bon de livraison : <span id="num_blModal" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">Date Echeance : <span id="date_echeanceModal" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12">
+                                <hr style="height: 3px; width : 100%">
+                                <h4 class="text-center">Liste des produits</h4>
+                                <table class="table table-striped" id="listePaniers">
+                                    <thead>
+                                        <th>Image</th>
+                                        <th>Nom Produit</th>
+                                        <th>Quantité</th>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+            </div>    
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+    
+
 <div class="modal fade" id="modalFrns" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

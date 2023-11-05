@@ -51,7 +51,7 @@
   <li class="sidebar-item">
         <a href="{{ route('depot_admin') }}" class="sidebar-link">
             <i class="las la-house-damage mb-2"></i>
-            <span>Stock</span>
+            <span>Depots</span>
         </a>
     </li>
 
