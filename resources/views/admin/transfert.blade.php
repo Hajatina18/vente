@@ -6,57 +6,74 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-md-4 col-lg-4">
-                    <!-- start modal -->
-                    <!-- buttom trigger modal -->
-                    <div >
-                        <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <a href="#" class="btn btn-info">Effectuer un transfert</a>
-                        </button>
+                   
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Transferer des produits
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Transfert poduit</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                
+                                <form method="POST" action="" id="formProduct">
+                                    @csrf
+                                    
+                                    <div class="mb-2">
+                                        <label for="ref_prod" class="form-label">Code Article</label>
+                                        <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="ref_prod" class="form-label">Bon de transfert</label>
+                                        <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                    </div>                        
+                                    <div class="mb-2">
+                                        <label for="ref_prod" class="form-label">Réference du produit</label>
+                                        <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="nom_prod" class="form-label">Designation</label>
+                                        <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="nom_prod" class="form-label">Quantité démandée</label>
+                                        <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="nom_prod" class="form-label">Quantité Approuvée</label>
+                                        <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
+                                    </div>
+    
+                                    <div class="mb-2">
+                                        <label for="ref_prod" class="form-label">Demandeur</label>
+                                        <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                    </div>
+    
+                                    <div class="mb-2">
+                                        <label for="ref_prod" class="form-label">Approvisioneur</label>
+                                        <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" id="submitFormProduit" class="btn btn-outline-primary">
+                                            Enregistrer
+                                        </button>
+                                    </div>
+                                </form>
+
+                            </div>
+                                 
+                        </div>
+                        </div>
                     </div>
-                            <form method="POST" action="" id="formProduct">
-                                @csrf
-                                <h4 class="text-center">Transfert poduit</h4>
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Code Article</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                </div>
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Bon de transfert</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                </div>                        
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Réference du produit</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                </div>
-                                <div class="mb-2">
-                                    <label for="nom_prod" class="form-label">Designation</label>
-                                    <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
-                                </div>
-                                <div class="mb-2">
-                                    <label for="nom_prod" class="form-label">Quantité démandée</label>
-                                    <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
-                                </div>
-                                <div class="mb-2">
-                                    <label for="nom_prod" class="form-label">Quantité Approuvée</label>
-                                    <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Demandeur</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Approvisioneur</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                </div>
-                
-                                <button type="submit" id="submitFormProduit" class="btn btn-outline-primary">
-                                    Enregistrer
-                                </button>
-                            </form>
+                            
                 </div>
-                <div class="col-12 col-md-8 col-lg-8">
+                <div >
                     <h4 class="text-center">Journal des transferts</h4>
                     <div class="table-responsive">
                         <table class="table table-striped" id="liste">
