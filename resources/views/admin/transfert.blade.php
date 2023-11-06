@@ -6,48 +6,55 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-md-4 col-lg-4">
-                    <form method="POST" action="" id="formProduct">
-                        @csrf
-                        <h4 class="text-center">Transfert poduit</h4>
-                        <div class="mb-2">
-                            <label for="ref_prod" class="form-label">Code Article</label>
-                            <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                        </div>
-                        <div class="mb-2">
-                            <label for="ref_prod" class="form-label">Bon de transfert</label>
-                            <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                        </div>                        
-                        <div class="mb-2">
-                            <label for="ref_prod" class="form-label">Réference du produit</label>
-                            <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                        </div>
-                        <div class="mb-2">
-                            <label for="nom_prod" class="form-label">Designation</label>
-                            <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
-                        </div>
-                        <div class="mb-2">
-                            <label for="nom_prod" class="form-label">Quantité démandée</label>
-                            <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
-                        </div>
-                        <div class="mb-2">
-                            <label for="nom_prod" class="form-label">Quantité Approuvée</label>
-                            <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
-                        </div>
-
-                        <div class="mb-2">
-                            <label for="ref_prod" class="form-label">Demandeur</label>
-                            <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                        </div>
-
-                        <div class="mb-2">
-                            <label for="ref_prod" class="form-label">Approvisioneur</label>
-                            <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                        </div>
-        
-                        <button type="submit" id="submitFormProduit" class="btn btn-outline-primary">
-                            Enregistrer
+                    <!-- start modal -->
+                    <!-- buttom trigger modal -->
+                    <div >
+                        <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <a href="#" class="btn btn-info">Effectuer un transfert</a>
                         </button>
-                    </form>
+                    </div>
+                            <form method="POST" action="" id="formProduct">
+                                @csrf
+                                <h4 class="text-center">Transfert poduit</h4>
+                                <div class="mb-2">
+                                    <label for="ref_prod" class="form-label">Code Article</label>
+                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="ref_prod" class="form-label">Bon de transfert</label>
+                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                </div>                        
+                                <div class="mb-2">
+                                    <label for="ref_prod" class="form-label">Réference du produit</label>
+                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="nom_prod" class="form-label">Designation</label>
+                                    <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="nom_prod" class="form-label">Quantité démandée</label>
+                                    <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="nom_prod" class="form-label">Quantité Approuvée</label>
+                                    <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="ref_prod" class="form-label">Demandeur</label>
+                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="ref_prod" class="form-label">Approvisioneur</label>
+                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                </div>
+                
+                                <button type="submit" id="submitFormProduit" class="btn btn-outline-primary">
+                                    Enregistrer
+                                </button>
+                            </form>
                 </div>
                 <div class="col-12 col-md-8 col-lg-8">
                     <h4 class="text-center">Journal des transferts</h4>

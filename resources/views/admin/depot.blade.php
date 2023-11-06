@@ -16,62 +16,61 @@
                             <input type="search" class="form-control me-3" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
-                        <div >
-                            <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                <a href="#" class="btn btn-info">Ajout nouveau Depot</a>
-                            </button>
-                        </div>
-                        <div >
-                            <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="l">
-                                <a href="#" class="btn btn-info">Depot 02</a>
-                            </button>
-                        </div>
-                        <div >
-                            <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#">
-                                <a href="#" class="btn btn-info">Depot Magasin</a>
-                            </button>
-                        </div>
+                            <div >
+                                <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <a href="#" class="btn btn-info">Ajout nouveau Depot</a>
+                                </button>
+                            </div>
+                            <div >
+                                <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="l">
+                                    <a href="#" class="btn btn-info">Depot 02</a>
+                                </button>
+                            </div>
+                            <div >
+                                <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#">
+                                    <a href="#" class="btn btn-info">Depot Magasin</a>
+                                </button>
+                            </div>
 
                     </div>
                     
                     <!-- Start add stock -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ajout Stock</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <!-- start modal -->
-                            <form action="('DepotController')" method="POST" action="" id="formProduct">
-                            <div class="modal-body">
-                            
-                                @csrf
-                                <h4 class="text-center">Formulaire Depot</h4>
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Réference du stock</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Ajout Stock</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-        
-                                <div class="mb-2">
-                                    <label for="ref_prod" class="form-label">Code Article</label>
-                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                </div>
-        
-                                
-                                                        
-                        </div> 
-                        </form>  
+                                <!-- start modal -->
+                                <form action="('DepotController')" method="POST" action="" id="formProduct">
+                                    <div class="modal-body">
+                                    
+                                        @csrf
+                                        <h4 class="text-center">Formulaire Depot</h4>
+                                            <div class="mb-2">
+                                                <label for="ref_prod" class="form-label">Réference du stock</label>
+                                                <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                            </div>
+                
+                                            <div class="mb-2">
+                                                <label for="ref_prod" class="form-label">Code Article</label>
+                                                <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                            </div>
+                                                                        
+                                    </div> 
+                                </form>  
 
                             <!-- end modal -->
                             </div>
+
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
-                            <button type="submit" id="submitFormProduit" class="btn btn-primary">Enregistrer</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" id="submitFormProduit" class="btn btn-primary">Enregistrer</button>
                             </div>
                         </div>
-                        </div>
                     </div>
+                    
 
                     <!-- end add -->
                     <!-- start table -->

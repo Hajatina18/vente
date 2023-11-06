@@ -26,53 +26,65 @@
 
         </div>
     </header>
-    <main class="main-content mb-5 mt-5">
-        <div class="login-content">
-            <form action="{{ route('check_login') }}" method="post">
-                <h5 class="text-center">Authentification</h5>
-                @csrf
-                {{-- @error('')
-                
-                @enderror --}}
-                    
-                
-                @if(session('error'))
-                    <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
-                        <i class="las la-exclamation-triangle me-2"></i>
-                        <div>
-                            {{ session('error') }}
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
+     
+        {{-- <main class=" mb-5 mt-5">
+            
+            <div class="main-content-area login-content">
+                form
+            </div>
+        
+        </main> --}}
 
-                <div class="form-group my-4">
-                    <input type="text" class="form-control mb-3" id="username" name="username" @error('username') is-invalid @enderror required autofocus>
-                    <label for="username" class="form-label">Nom d'utilisateur</label>
-                </div>
-                <div class="form-group my-4">
-                    <input type="password" class="form-control mb-3" id="password" name="password" @error('password') is-invalid @enderror required>
-                    <label for="password" class="form-label">Mot de passe</label>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group form-check form-switch my-2">
-                            <input type="checkbox" class="form-check-input" id="remember" name="remember" role="switch">
-                            <label for="remember" class="form-check-input">Souvien de moi</label>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 mx-auto rounded shadow bg-white">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="m-5 text-center">
+                                <h1>Bienvenue</h1>
+                            </div>
+                                <form action="{{ route('check_login') }}" method="post" class="mb-5">
+                                    @csrf
+                    
+                                    @if(session('error'))
+                                        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+                                            <i class="las la-exclamation-triangle me-2"></i>
+                                            <div>
+                                                {{ session('error') }}
+                                            </div>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    @endif
+                    
+                                    <div class="form-group mb-3">                                  
+                                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                                        <input type="text" class="form-control" id="username" name="username" required>
+                                    </div>
+                                    <div class="form-group my-4">
+                                        <label for="password" class="form-label">Mot de passe</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-outline-primary">
+                                        Se connecter
+                                    </button>
+                                </form> 
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <img src="./login_img.svg" alt="login" class="img-fluid p-5">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6 text-end">
-                        <a href="#" >Mot de passe oublier?</a>
-                    </div>
                 </div>
-                <div class="d-grid gap-2">                
-                    <button type="submit" class="btn btn-outline-primary my-2">
-                        Se connecter
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
-    </main>
+
+
+
+
+
+    
 
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/popper.min.js"></script>
