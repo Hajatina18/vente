@@ -30,12 +30,12 @@
                                             @csrf
                                             <h4 class="text-center">Formulaire Depot</h4>
                                                 <div class="mb-2">
-                                                    <label for="ref_prod" class="form-label">Réference du stock</label>
+                                                    <label for="ref_prod" class="form-label">Nom dépot</label>
                                                     <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
                                                 </div>
                     
                                                 <div class="mb-2">
-                                                    <label for="ref_prod" class="form-label">Code Article</label>
+                                                    <label for="ref_prod" class="form-label">Localisation</label>
                                                     <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
                                                 </div>
                                                                             

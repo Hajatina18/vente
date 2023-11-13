@@ -71,8 +71,8 @@ a:hover {
 .sidebar-left {
     width: 100px;
     position: fixed;
-    padding: 70px 0 50px;
-    background-color: #00b5ff;
+    padding: 60px 10 40px;
+    background-color: #292b45;
 }
 
 .sidebar-left .list-sidebar {
@@ -104,7 +104,7 @@ a:hover {
 .sidebar-left .list-sidebar .sidebar-item.active,
 .sidebar-left .list-sidebar .sidebar-item:hover {
     color: black;
-    background-color: white;
+    background-color: #2f8fdb;
 }
 
 .sidebar-left .list-sidebar .sidebar-item .sidebar-link {
@@ -318,4 +318,21 @@ a:hover {
 
  ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.card-body
+{
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    padding: 10px;
+    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0,0.47);
+    box-shadow: 2px 4px 10px 1px rgba(0, 0, 0,0.47);
+    border-radius: 10px;
+    height: 100px;
+} 
+.wrapper {
+    align-items: stretch;
+    display: flex;
+    width: 100%;
 }

@@ -99,8 +99,8 @@
                                   <td>En cours</td>
                                   <td>01-Nov-2023</td>                
                                   <td> 
-                                      <a href="#" class="btn btn-info ">Modifier</a>
-                                      <a href="#" class="las la-delet btn btn-danger">Supprimer</a>
+                                      <a href="#" class="btn btn-info "><i class="la la-pencil"></i></a>
+                                      <a href="#" class="las la-delet btn btn-danger"><i class="la la-trash-alt"></i></a>
                                   </td>
                                 </tr>
                                

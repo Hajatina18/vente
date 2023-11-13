@@ -71,14 +71,10 @@
                                                 <label class="form-check-label" for="remember-me">Souviens de moi</label>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="text-end">
-                                                <a href="#">Mot de passe oublier ?</a>
-                                            </div>
-                                        </div>
+                                       
                                     </div>
 
-                                    <button type="submit" class="btn btn-outline-primary">
+                                    <button type="submit" class="btn btn-outline-primary ">
                                         Se connecter
                                     </button>
                                 </form> 

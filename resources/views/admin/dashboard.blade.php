@@ -8,7 +8,7 @@
                 <div class="col-md-4 col-12 col-lg-3">
                     <div class="card card-dashboard">
                         <div class="card-body">
-                            <div class="text-dash">
+                            <div class="text-dash box shadow1">
                                 <h3>Total Journalier</h3>
                                 <p>{{ number_format($jour[0]->total, 2, ',', ' ') }} Ar</p>
                             </div>
@@ -21,7 +21,7 @@
                 <div class="col-md-4 col-12 col-lg-3">
                     <div class="card card-dashboard">
                         <div class="card-body">
-                            <div class="text-dash">
+                            <div class="text-dash box shadow2">
                                 <h3>Commande du jour</h3>
                                 <p>{{ number_format($nombre[0]->nombre, 0, ',', ' ') }}</p>
                             </div>
@@ -34,7 +34,7 @@
                 <div class="col-md-4 col-12 col-lg-3">
                     <div class="card card-dashboard">
                         <div class="card-body">
-                            <div class="text-dash">
+                            <div class="text-dash box shadow3">
                                 <h3>Total du mois</h3>
                                 <p>{{ number_format($month[0]->total, 2, ',', ' ') }} Ar</p>
                             </div>
@@ -47,7 +47,7 @@
                 <div class="col-md-4 col-12 col-lg-3">
                     <div class="card card-dashboard">
                         <div class="card-body">
-                            <div class="text-dash">
+                            <div class="text-dash box shadow4">
                                 <h3>Client du mois</h3>
                                 <p>{{ number_format($client[0]->nombre, 0, ',', ' ') }}</p>
                             </div>
