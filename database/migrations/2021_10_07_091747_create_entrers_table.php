@@ -15,10 +15,16 @@ class CreateEntrersTable extends Migration
     {
         Schema::create('entrers', function (Blueprint $table) {
             $table->id('id_entrer');
+            $table->string('code_art');
+            $table->string('pcb');
             $table->bigInteger('id_frns', false, true);
+            $table->string('reference_bl_frns');
             $table->date('date_facture')->nullable();
             $table->string('num_facture')->nullable();
             $table->string('num_bl');
+            $table->double('prix_achat_ht')-> default(0);
+            $table->double('prix_achat_ttc')-> default(0);
+            $table->double('cout_trans')-> default(0);
             $table->date('date_echeance')->nullable();
             $table->timestamps();
         });

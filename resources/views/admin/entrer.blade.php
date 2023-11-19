@@ -76,7 +76,7 @@
                                                 <label for="date_echeance" class="form-label">Date Echeance</label>
                                                 <input type="date" class="form-control" id="date_echeance" name="date_echeance">
                                             </div>
-                                            <table class="table table-striped" id="produits">
+                                            <table class="table table-striped table-hover" id="produits">
                                                 <thead>
                                                     <th width="50%">Produit</th>
                                                     <th width="25%">Unite</th>
@@ -155,7 +155,16 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12 mb-2">
+                                <p class="m-0">Code Art : <span id="" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">PCB : <span id="" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
                                 <p class="m-0">Fournisseur : <span id="frnsModal" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">Ref BL FRNS : <span id="" style="font-weight: 600"></span></p>
                             </div>
                             <div class="col-12 mb-2">
                                 <p class="m-0">Date d'enregistrement: <span id="dateModal" style="font-weight: 600"></span></p>
@@ -168,6 +177,15 @@
                             </div>
                             <div class="col-12 mb-2">
                                 <p class="m-0">Bon de livraison : <span id="num_blModal" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">P.A HT : <span id="" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">PA TTC : <span id="" style="font-weight: 600"></span></p>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <p class="m-0">Coût Trans : <span id="num_blModal" style="font-weight: 600"></span></p>
                             </div>
                             <div class="col-12 mb-2">
                                 <p class="m-0">Date Echeance : <span id="date_echeanceModal" style="font-weight: 600"></span></p>

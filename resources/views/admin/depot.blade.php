@@ -9,10 +9,14 @@
             <div class="row">
                 <div class="col-12 col-md-2 col-lg-12">
                         <!-- Button trigger modal -->
-                        <div class="between"></div>
+                        <div class="between">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Remplir formulaire
+                                Ajouter un nouvel depot
                             </button>
+                            <button type="button" class="btn btn-primary" >
+                                <a href="{{ route('listedepot')}}" class="">Voir liste depot</a>
+                            </button> 
+                            
                         
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -51,6 +55,10 @@
                             </div>
                         </div>
 
+                        <!-- start modal liste des depots -->
+                       
+                        
+                        <!-- start modal -->
 
 
 
