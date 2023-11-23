@@ -16,6 +16,11 @@ class CreateTransfertTable extends Migration
         Schema::create('transferts', function (Blueprint $table) {
             $table->id('id_transfert');
             $table->integer('id_depot');
+            $table->string('bon_de_transfert');
+            $table->integer('quantite_demender');
+            $table->integer('quantite_approuver');
+            $table->string('demandeur');
+            $table->string('approvisisionneur');
             $table->date('date_transfert');
             $table->timestamps();
         });

@@ -65,12 +65,7 @@
                                         <input type="password" class="form-control" id="password" name="password" required>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="remember-me">
-                                                <label class="form-check-label" for="remember-me">Souviens de moi</label>
-                                            </div>
-                                        </div>
+                                       
                                        
                                     </div>
 

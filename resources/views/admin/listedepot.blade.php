@@ -21,7 +21,7 @@
                             
                             
                             <button type="submit" class="btn btn-outline-primary">
-                                Ajouter
+                                <a href="{{ url('/depot/create') }}" class="btn btn-success btn-sm" title="Add New Contact"> Ajouter</a>
                             </button>
                         </form>
                     </div>
@@ -34,7 +34,19 @@
                                 <th>Localisation</th>
                                 <th>Action</th>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                            @foreach ($depots as $depot)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $depot->nom }}</td>
+                                    <td>{{ $depot->localisation }}</td>
+                                    <td>
+                                        <a href="{{ url('/create/') }}" 
+                                    </td>
+                                </tr>
+                                
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

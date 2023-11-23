@@ -10,11 +10,9 @@
                 <div class="col-12 col-md-2 col-lg-12">
                         <!-- Button trigger modal -->
                         <div class="between">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Ajouter un nouvel depot
-                            </button>
+                         
                             <button type="button" class="btn btn-primary" >
-                                <a href="{{ route('listedepot')}}" class="">Voir liste depot</a>
+                                <a href="{{ route('listedepot')}}" class="" title="">Voir liste depot</a>
                             </button> 
                             
                         
