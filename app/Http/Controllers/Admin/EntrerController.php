@@ -16,7 +16,7 @@ class EntrerController extends Controller
     public function index()
     {
         $frns = Fournisseur::all();
-        $produits = Produit::where('fait_demande', false)->get();
+        $produits = Produit::where('fait_demande', true)->get();
         return view('admin.entrer', ['produits' => $produits, 'fournisseurs' => $frns]);
     }
     public function getUnite(Request $request)
@@ -26,6 +26,7 @@ class EntrerController extends Controller
     }
     public function addEntrer(Request $request)
     {
+        
         $nom = ($request->frns != '') ? $request->frns : 'Anonyme';
         $fournisseur = Fournisseur::where('nom_frns', $nom)->first();
         if($fournisseur){
@@ -37,6 +38,12 @@ class EntrerController extends Controller
             $id_frns = $frns->id_frns;
         }
         $enter = new Entrer;
+        $enter->code_art = $request->code_art;
+        $enter->reference_bl_frns = $request->reference_bl_frns;
+        $enter->pcb =  $request->pcb;
+        $enter->prix_achat_ht = $request->prix_achat_ht;
+        $enter->prix_achat_ttc	 = $request->prix_achat_ttc;
+        $enter->cout_trans = $request->cout_trans;
         $enter->id_frns = $id_frns;
         $enter->date_facture = $request->date_facture;
         $enter->num_facture = $request->num_facture;
@@ -77,7 +84,7 @@ class EntrerController extends Controller
 
     public function liste()
     {
-        $entrers = Entrer::all();
+        $entrers = Entrer::where('depot', 1)->get();
         foreach ($entrers as $entrer) {
             $date = new DateTime($entrer->created_at);
             $entrer->nom_frns = Fournisseur::find($entrer->id_frns)->nom_frns;
@@ -85,6 +92,22 @@ class EntrerController extends Controller
             $entrer->date_echeance = ($entrer->date_echeance == NULL) ? "" : date('d/m/Y', strtotime($entrer->date_echeance));
             $entrer->action = '<a href="javascript:void(0)" class="badge bg-primary p-2" onclick=\'getDetail("'.$entrer->id_entrer.'")\'>Détail</a>';
             $entrer->date = $date->format('d/m/Y H:i:s');
+            $entrer->depot = 1;
+        }
+        echo json_encode($entrers);
+    }
+
+    public function listeSecond()
+    {
+        $entrers = Entrer::where('depot', 2)->get();
+        foreach ($entrers as $entrer) {
+            $date = new DateTime($entrer->created_at);
+            $entrer->nom_frns = Fournisseur::find($entrer->id_frns)->nom_frns;
+            $entrer->date_facture = ($entrer->date_facture == NULL) ? "" : date('d/m/Y', strtotime($entrer->date_facture));
+            $entrer->date_echeance = ($entrer->date_echeance == NULL) ? "" : date('d/m/Y', strtotime($entrer->date_echeance));
+            $entrer->action = '<a href="javascript:void(0)" class="badge bg-primary p-2" onclick=\'getDetail("'.$entrer->id_entrer.'")\'>Détail</a>';
+            $entrer->date = $date->format('d/m/Y H:i:s');
+           
         }
         echo json_encode($entrers);
     }

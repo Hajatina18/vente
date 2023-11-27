@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\depot;
+use App\Models\Fournisseur;
+use App\Models\Produit;
 use DateTime;
 
 
@@ -11,20 +13,26 @@ class DepotController extends Controller
 { 
         public function index()
         {
-            // $depots = depot::orderBy("nom","asc")->paginate(8);
-            return view('admin.depot');
-        }
-        // public function addDepot(Request $request)
-        // {
-        //     $newDepot = depot::create($request->all());
-        //     try {
-        //         $newDepot = depot::create($request->all());
-        //         return back();
-        //     } catch(Exception $e) { 
-        //         return response()->json($e->getMessage()); 
-        //     }
+        
+            $frns = Fournisseur::all();
+            $produits = Produit::where('fait_demande', true)->get();
+            return view('admin.depot', ['produits' => $produits, 'fournisseurs' => $frns]);
            
-        // }
+        }
+        public function indexSecond()
+        {
+            $frns = Fournisseur::all();
+            $produits = Produit::where('fait_demande', true)->get();
+            return view('admin.depotsecond', ['produits' => $produits, 'fournisseurs' => $frns]);
+           
+        }
+        public function indexThird()
+        {
+            $frns = Fournisseur::all();
+            $produits = Produit::where('fait_demande', true)->get();
+            return view('admin.depotthird', ['produits' => $produits, 'fournisseurs' => $frns]);
+           
+        }
         public function store()
         {
             $request ->validate([
