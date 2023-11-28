@@ -57,7 +57,9 @@
 <body>
     <div class="sidebar-left">
         @if (auth()->user()->is_admin === 1)
-            @include("layout.admin")                
+            @include("layout.admin")      
+        @elseif (auth()->user()->is_admin === 2)
+            @include("layout.commerce")          
         @else
             @include("layout.vente")
         @endif

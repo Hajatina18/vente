@@ -34,6 +34,10 @@
                                     <input class="form-check-input" type="radio" name="is_admin" id="admin" value="1">
                                     <label class="form-check-label" for="admin">Administrateur</label>
                                 </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="is_admin" id="commerce" value="2">
+                                    <label class="form-check-label" for="commerce">Commercial</label>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-outline-primary">
                                 Enregistrer

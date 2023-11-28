@@ -27,8 +27,13 @@
                                     
                                     <div class="mb-2">
                                         <label for="ref_prod" class="form-label">Code Article</label>
-                                        <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                        <select class="form-select" id="ref_prod" name="ref_prod" required>
+                                            <option value="valeur1">Option 1</option>
+                                            <option value="valeur2">Option 2</option>
+                                            <!-- Ajoutez d'autres options si nécessaire -->
+                                        </select>
                                     </div>
+                                    
                                     <div class="mb-2">
                                         <label for="ref_prod" class="form-label">Bon de transfert</label>
                                         <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>

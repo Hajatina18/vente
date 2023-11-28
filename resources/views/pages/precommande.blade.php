@@ -7,7 +7,7 @@
     }
     .precommande {
         box-shadow: 0px 0px 10px 5px #00000042;
-        padding: 15px 10px
+        padding: 15px 10px;
     }
 </style>
 <div class="commande-content w-100">

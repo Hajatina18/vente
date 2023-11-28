@@ -70,6 +70,24 @@ Route::get('/logout', function(){
     Auth::logout();
     return redirect(route('login'));
 })->middleware(['auth'])->name('logout');
+
+
+//Commercial
+// Route::group(['middleware' => ['vente:2'], 'prefix' => 'commercial'], function () {
+//     Route::get('/', [CommercialController::class, 'index'])->name('produit_com');
+//     // Ajoutez d'autres routes spécifiques pour les utilisateurs commerciaux
+//     // Assurez-vous d'avoir les actions nécessaires définies dans votre CommercialController
+// });
+
+Route::group(['middleware' => ['vente:2'], 'prefix' => 'commercial'], function () {
+    Route::get('/', 'App\Http\Controllers\CommercialController@index')->name('produit_com');
+    Route::get('/liste', 'App\Http\Controllers\Admin\ProduitController@liste')->name('liste_produit');
+    Route::post('/ajouter', 'App\Http\Controllers\Admin\ProduitController@ajouter')->name('ajouter_produit');
+    Route::post('/modifier/{id}', 'App\Http\Controllers\Admin\ProduitController@modifier')->name('modifier_produit');
+});
+
+
+
 Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
     Route::get('/', [Dashboard::class, 'index'])->name("admin");
     Route::group(['prefix' => 'unite'], function(){
@@ -97,8 +115,8 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
     Route::group(['prefix' => 'depots'],function (){
         Route::get('/',[DepotController::class, 'index'])->name('depot_admin');
         Route::get('/liste',[DepotController::class, 'liste'])->name('listedepot');
-        Route::post('/',[DepotController::class, 'addDepot'])->name('addepot_admin');
-        Route::get('/create',[DepotController::class, 'create'])->name('create_depot');
+        // Route::post('/',[DepotController::class, 'addDepot'])->name('a_depot');
+        Route::post('/liste',[DepotController::class, 'create'])->name('add_depot');
     });
 
     Route::group(['prefix' => 'depotSecond'],function (){

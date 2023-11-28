@@ -17,41 +17,7 @@
                             
                         
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                
-                                    <form action="('DepotController')" method="POST" action="" id="formProduct">
-                                        <div class="modal-body">
-                                        
-                                            @csrf
-                                            <h4 class="text-center">Formulaire Depot</h4>
-                                                <div class="mb-2">
-                                                    <label for="ref_prod" class="form-label">Nom dépot</label>
-                                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                                </div>
-                    
-                                                <div class="mb-2">
-                                                    <label for="ref_prod" class="form-label">Localisation</label>
-                                                    <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
-                                                </div>
-                                                                            
-                                        </div> 
-                                    </form>  
-
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
-                                <button type="button" class="btn btn-primary">Enregistrer</button>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
+                       
 
                         <!-- start modal liste des depots -->
                        
@@ -76,7 +42,7 @@
                     <div class="my-3 p-3 bg-body rounded shadow-sm"> 
                      
                     <h6 class="border-bottom pb-2 mb-4">Liste des stock</h6>
-                    <table class="table table-bordered table-hover mt-2">
+                    <table class="table table-bordered table-hover mt-2" id="liste">
                         <thead>
                           <tr>
                             <th scope="col">Id</th>
@@ -192,3 +158,55 @@
     </div>
 </div> 
 @endsection 
+
+@push('js')
+    <script type="text/javascript">
+        var table;
+        $("document").ready(function(){
+            table = $("#liste").DataTable({
+                "ajax" : {
+                    "url" : '{{  route("listedepot") }}',
+                    "dataSrc" : ''
+                },
+                "columns" : {
+                    url: "{{ asset('datatable/french.json') }}"
+                }
+            });
+        });
+        $("#formDepot").on('submit', function(){
+            var form = $(this);
+            if($("#depot").val()){
+                $.ajax({
+                    url : '{{ route("add_depot") }}',
+                    type : 'POST',
+                    data : form.serialize(),
+                    dataType : 'json',
+                    beforeSend: function () {
+                        $('#loader').removeClass('hidden')
+                    },
+                    complete : function (){
+                        $('#loader',addClass('hidden'))
+                    },
+                    success: function(response){
+                        $("#formDepot")[0].reset();
+                        $("#id_depot").val(null);
+                        Swal.fire({
+                            icon: response.icon,
+                            text: response.text
+                        });
+                        table.ajax.reload();
+                    }
+                });
+            }else{
+                Swal.fire({
+                    icon : 'warning',
+                    text: 'Veuillez renseigner le champ Depot pour completer l\'insertion, s\'il vous plait'
+                });
+            }
+            return false
+        });
+
+
+    </script>
+    
+@endpush
