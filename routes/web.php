@@ -30,10 +30,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post('/add_stock', [BalanceController::class, 'addStock'])->name('add_stock_week');
-Route::group(['middlename' => ["auth"]], function(){
+Route::group(['middleware' => ["auth"]], function(){
     Route::group(['prefix' => "entrer"], function(){
         Route::get('/', [EntrerController::class, 'index'])->name('entrer_admin');
         Route::get('/liste', [EntrerController::class, 'liste'])->name('liste_entrer');
+       Route::get('/liste-second', [EntrerController::class, 'listeSecond'])->name('liste_entrer_second');
         Route::post('/', [EntrerController::class, 'addEntrer'])->name('add_entrer');
         Route::post('/add_panier', [EntrerController::class, 'add_panier'])->name('add_panier_entrer');
         Route::post('/get_unite', [EntrerController::class, 'getUnite'])->name('getUnite');
@@ -114,6 +115,8 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
     // Route::get('/', [DepotController::class, 'index'])->name('depot_admin');
     Route::group(['prefix' => 'depots'],function (){
         Route::get('/',[DepotController::class, 'index'])->name('depot_admin');
+        Route::get('/second',[DepotController::class, 'indexSecond'])->name('depot_second');
+        Route::get('/third',[DepotController::class, 'indexThird'])->name('depot_third');
         Route::get('/liste',[DepotController::class, 'liste'])->name('listedepot');
         // Route::post('/',[DepotController::class, 'addDepot'])->name('a_depot');
         Route::post('/liste',[DepotController::class, 'create'])->name('add_depot');

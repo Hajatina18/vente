@@ -35,8 +35,8 @@
                                     </div>
                                     
                                     <div class="mb-2">
-                                        <label for="ref_prod" class="form-label">Bon de transfert</label>
-                                        <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                        <label for="bon_de_transfert" class="form-label">Bon de transfert</label>
+                                        <input type="text" class="form-control" id="bon_de_transfert" name="bon_de_transfert" required>
                                     </div>                        
                                     <div class="mb-2">
                                         <label for="ref_prod" class="form-label">Réference du produit</label>
@@ -47,22 +47,22 @@
                                         <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
                                     </div>
                                     <div class="mb-2">
-                                        <label for="nom_prod" class="form-label">Quantité démandée</label>
-                                        <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
+                                        <label for="quantite_demender" class="form-label">Quantité démandée</label>
+                                        <input type="text" class="form-control" id="quantite_demender" name="quantite_demender" required>
                                     </div>
                                     <div class="mb-2">
-                                        <label for="nom_prod" class="form-label">Quantité Approuvée</label>
-                                        <input type="text" class="form-control" id="nom_prod" name="nom_prod" required>
-                                    </div>
-    
-                                    <div class="mb-2">
-                                        <label for="ref_prod" class="form-label">Demandeur</label>
-                                        <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                        <label for="quantite_approuver" class="form-label">Quantité Approuvée</label>
+                                        <input type="text" class="form-control" id="quantite_approuver" name="quantite_approuver" required>
                                     </div>
     
                                     <div class="mb-2">
-                                        <label for="ref_prod" class="form-label">Approvisioneur</label>
-                                        <input type="text" class="form-control" id="ref_prod" name="ref_prod" required>
+                                        <label for="demandeur" class="form-label">Demandeur</label>
+                                        <input type="text" class="form-control" id="demandeur" name="demandeur" required>
+                                    </div>
+    
+                                    <div class="mb-2">
+                                        <label for="approvisisionneur" class="form-label">Approvisioneur</label>
+                                        <input type="text" class="form-control" id="approvisisionneur" name="approvisisionneur" required>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" id="submitFormProduit" class="btn btn-outline-primary">
@@ -147,3 +147,46 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+<script type="text/javascript">
+    var table;
+      
+        var i = 1;
+        $("document").ready(function(){
+            
+            table = $("#liste").DataTable({
+                "ajax": {
+                    "url" : '{{ route("liste_entrer") }}',
+                    "dataSrc": ''
+                },
+                "order": [[ 0, "desc" ]], //or asc 
+                "columnDefs" : [
+                    {"targets":0, "type":"date-euro"},
+                    {"targets":2, "type":"date-uk"},
+                    {"targets":5, "type":"date-uk"}
+                ],
+                "language": {
+                    url: "{{ asset('datatable/french.json') }}"
+                },
+                "columns" : [
+                    {data:"bon_de_transfert"},
+                    {data:"quantite_demender"},      
+                    {data:"quantite_approuver"},
+                    {data:"demandeur"},
+                    {data:"approvisisionneur"},
+                    {data:"date_transfert"},
+                ]
+            })
+        });
+        $("table").on('click','.add', function(){
+            $(this).parents('tbody').append('<tr><td><select name="produit" id="produit" class="form-select">'+prod+'</select></td><td><select name="unite" id="unite" class="form-select"></select></td><td><input type="text" name="qte" id="qte" class="form-control"></td><td><button type="button" class="btn btn-outline-secondary delete"><i class="las la-trash"></i></button></td></tr>');
+            i++;
+        });
+        $("table").on('click', '.delete', function(){
+            $(this).parents('tr').remove();
+            i--;
+        });
+     
+</script>
+@endpush

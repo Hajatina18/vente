@@ -55,7 +55,7 @@
                         </a>
                         <ul class="dropdown-menu bg-secondary">
                             <li class="sidebar-item "><a href="{{ route('depot_admin') }}" aria-current="true" class="sidebar-link">Principale</a></li>
-                            <li class="sidebar-item "><a href=""aria-current="true" class="sidebar-link">Deuxieme</a></li>
+                            <li class="sidebar-item "><a href="{{ route('depot_second') }}" aria-current="true" class="sidebar-link">Deuxieme</a></li>
                             <li class="sidebar-item "><a href="" class="sidebar-link">Magasin</a></li>
                         </ul>
                     </li>

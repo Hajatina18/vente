@@ -7,13 +7,13 @@
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-12">
                     <!-- start modal -->
-                    <div class="d-flex justify-content-between mb-2">
+                    <!-- <div class="d-flex justify-content-between mb-2">
                         <div >
                             <button type="button " class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <a href="#" class="btn btn-info">Entrée prduits</a>
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                 
                     <!--start add stock -->                   
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -127,7 +127,8 @@
                     <!-- start table -->    
                     <div class="my-3 p-3 bg-body rounded shadow-sm">
      
-                        <h4 class="text-center">Liste des unités de mesure</h4>
+                        <h4 class="text-center">
+                            Deuxième dépôt </h4>
                         <table class="table table-striped" id="liste">
                             <thead>
                                 <th>Code Art</th> <!-- new insert -->
@@ -268,7 +269,7 @@
             });
             table = $("#liste").DataTable({
                 "ajax": {
-                    "url" : '{{ route("liste_entrer") }}',
+                    "url" : '{{ route("liste_entrer_second") }}',
                     "dataSrc": ''
                 },
                 "order": [[ 0, "desc" ]], //or asc 
