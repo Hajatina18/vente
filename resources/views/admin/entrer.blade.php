@@ -293,7 +293,7 @@
                     {data:"date_echeance"},
                     {data:"action"}
                 ]
-            })
+            });
         });
         $("table").on('click','.add', function(){
             $(this).parents('tbody').append('<tr><td><select name="produit" id="produit" class="form-select">'+prod+'</select></td><td><select name="unite" id="unite" class="form-select"></select></td><td><input type="text" name="qte" id="qte" class="form-control"></td><td><button type="button" class="btn btn-outline-secondary delete"><i class="las la-trash"></i></button></td></tr>');

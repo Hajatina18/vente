@@ -94,6 +94,7 @@ class EntrerController extends Controller
             $entrer->date = $date->format('d/m/Y H:i:s');
             $entrer->depot = 1;
         }
+        dd($entrers);
         echo json_encode($entrers);
     }
 

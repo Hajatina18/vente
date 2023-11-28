@@ -69,10 +69,12 @@ a:hover {
 }
 
 .sidebar-left {
-    width: 100px;
+    width: 200px;
     position: fixed;
-    padding: 60px 10 40px;
+    padding: 60px 10 0px;
     background-color: #292b45;
+    top:0;
+    bottom: 0;
 }
 
 .sidebar-left .list-sidebar {
@@ -80,10 +82,10 @@ a:hover {
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: calc(100vh - 120px);
+    height: calc(100vh);
     padding: 0 0;
     margin: 0;
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 
 .sidebar-left .list-sidebar:hover {
@@ -99,28 +101,30 @@ a:hover {
     border-right: 0;
     border-left: 0;
     transition: all .5s ease-in-out;
+    display: flex;
+    font-size: 14px;
+    padding-left: 20px;
 }
 
 .sidebar-left .list-sidebar .sidebar-item.active,
 .sidebar-left .list-sidebar .sidebar-item:hover {
-    color: black;
+    color: white;
     background-color: #2f8fdb;
 }
 
 .sidebar-left .list-sidebar .sidebar-item .sidebar-link {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .sidebar-left .list-sidebar .sidebar-item .sidebar-link i {
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 .content {
-    width: calc(100% - 100px);
-    margin-left: 100px;
+    width: calc(100% - 300px);
+    margin-left: 250px;
     min-height: 50vh;
     padding-top: 20px;
     display: flex;
@@ -326,8 +330,8 @@ a:hover {
     justify-content: space-between;
     flex: 1;
     padding: 10px;
-    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0,0.47);
-    box-shadow: 2px 4px 10px 1px rgba(0, 0, 0,0.47);
+    -webkit-box-shadow: 2px 2px 1px 1px rgba(0, 0, 0,0.2);
+    box-shadow: 2px 2px 1px 1px rgba(0, 0, 0,0.2);
     border-radius: 10px;
     height: 100px;
 } 
@@ -336,3 +340,4 @@ a:hover {
     display: flex;
     width: 100%;
 }
+
