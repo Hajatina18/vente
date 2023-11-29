@@ -20,6 +20,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
+
 a,
 a:hover {
     text-decoration: none;
@@ -41,7 +42,7 @@ a:hover {
     width: 100%;
     background: #00b5ff;
     /*min-height: 50px;*/
-    height: 70px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -141,6 +142,9 @@ a:hover {
     height: calc(100vh - 140px);
     border-radius: 0;
 }
+.container{
+    border-radius: 25px;
+}
 
 #formSearch .form-group {
     position: relative;
@@ -216,6 +220,11 @@ a:hover {
 .panier-item .panier-item-qty .form-control {
     width: 60px;
     padding: .25rem 0 .25rem 0.25rem;
+}
+.log{
+    padding-left: 8px;
+    border-radius: 25px;
+    
 }
 
 .login-content {

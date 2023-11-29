@@ -16,119 +16,14 @@
                     </div> -->
                 
                     <!--start add stock -->                   
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Ajout Stock</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div> 
-
-                                <!-- start modal -->
-                                <form method="POST" id="formEntrer">
-                                    <div class="modal-body">
-                                        @csrf
-                                        <h4 class="text-center">Formulaire Entrée</h4>
-
-                                            <div class="mb-2">
-                                                <label for="date_facture" class="form-label">Code Article</label>  <!-- new insert -->
-                                                <input type="text" class="form-control" id="code_art" name="code_art">
-                                            </div>
-                                            
-                                            <div class="mb-2">
-                                                <label for="ref_prod" class="form-label">Fournisseur</label>
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <input type="text" class="form-control" id="frns" name="frns">
-                                                    <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#modalFrns"><i
-                                                        class="las la-search"></i></button>
-                                                </div>
-                                            </div>
-                                            <div class="mb-2">
-                                                <label for="reference_bl_frns" class="form-label">Réf bon de Livraison Fournisseurs</label>
-                                                <input type="text" class="form-control" id="reference_bl_frns" name="reference_bl_frns">
-                                            </div>
-                                            <div class="mb-2">
-                                                <label for="date_facture" class="form-label">Date Facture</label>
-                                                <input type="date" class="form-control" id="date_facture" name="date_facture">
-                                            </div>
-                                            <div class="mb-2">
-                                                <label for="num_facture" class="form-label">Numero Facture</label>
-                                                <input type="text" class="form-control" id="num_facture" name="num_facture">
-                                            </div>
-                                            <div class="mb-2">
-                                                <label for="date_facture" class="form-label">PCB</label>  <!-- new insert -->
-                                                <input type="text" class="form-control" id="pcb" name="pcb">
-                                            </div>
-                                            <div class="mb-2">
-                                                <label for="num_bl" class="form-label">Bon de livraison</label>
-                                                <input type="text" class="form-control" id="num_bl" name="num_bl" required>
-                                            </div>
-                                            <div class="mb-2">
-                                                <label for="prix_achat_ht" class="form-label">Prix d'Achat HT</label>
-                                                <input type="text" class="form-control" id="prix_achat_ht" name="prix_achat_ht" required>
-                                            </div>
-                                            <div class="mb-2">
-                                                <label for="prix_achat_ttc" class="form-label">Prix d'Achat TTC</label>
-                                                <input type="text" class="form-control" id="prix_achat_ttc" name="prix_achat_ttc" required>
-                                            </div>
-                                            <div class="mb-2">
-                                                <label for="cout_trans" class="form-label">Cout transport</label>
-                                                <input type="text" class="form-control" id="cout_trans" name="cout_trans" required>
-                                            </div>
-
-                                            <div class="mb-2">
-                                                <label for="date_echeance" class="form-label">Date Echeance</label>
-                                                <input type="date" class="form-control" id="date_echeance" name="date_echeance">
-                                            </div>
-                                            <table class="table table-striped table-hover" id="produits">
-                                                <thead>
-                                                    <th width="50%">Produit</th>
-                                                    <th width="25%">Unite</th>
-                                                    <th width="20%">Qte</th>
-                                                    <th width="5%"></th>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <select name="produit" id="produit" class="form-select">
-                                                                <option value=""></option>
-                                                                @foreach ($produits as $produit)
-                                                                <option value="{{ $produit->ref_prod }}">{{ $produit->nom_prod }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <select name="unite" id="unite" class="form-select">
-
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" name="qte" id="qte" class="form-control">
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-secondary add">
-                                                                <i class="las la-plus-circle"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <button type="submit" id="submitFormEntrer" class="btn btn-outline-primary">
-                                                Enregistrer
-                                            </button>
-                                            
-                                    </div>
-                                </form>
-                                <!-- end modal-->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end add -->
+                                
+                                
+                   
                     <!-- start table -->    
                     <div class="my-3 p-3 bg-body rounded shadow-sm">
      
                         <h4 class="text-center">
-                            Deuxième dépôt </h4>
+                            Caisse1 </h4>
                         <table class="table table-striped" id="liste">
                             <thead>
                                 <th>Code Art</th> <!-- new insert -->

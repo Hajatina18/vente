@@ -66,16 +66,22 @@
     </div>
     <header class="main-header">
         <a href="#" class="home-header"></a>
-        <div class="datetime">
+        <div class="datetime ">
             <div class="time">
                 <span id="hour"></span>:<span id="minute"></span>:<span id="seconde"></span>
             </div>
             <div class="date">
-
+                
             </div>
         </div>
         <div class="user-header">
-
+            <button class="btn btn-primary"> 
+                <a href="{{ route('logout') }}" class="sidebar-link">
+                        <i class="la la-sign-out fs-4 mb-1"></i>
+                        <span>Se deconnecter</span>
+                </a>
+            </button>
+            
         </div>
     </header>
     

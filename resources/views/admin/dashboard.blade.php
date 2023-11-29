@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-12 col-lg-3">
-                    <div class="card card-dashboard bg-secondary">
+                    <div class="card card-dashboard bg-danger">
                         <div class="card-body">
                             <div class="text-dash box shadow3">
                                 <h3 class="text-white">Total du mois</h3>

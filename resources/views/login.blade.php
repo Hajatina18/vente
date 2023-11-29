@@ -35,54 +35,55 @@
         
         </main> --}}
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 mx-auto rounded shadow bg-white">
+        <div class="container ">
+            
+                <div class="col-md-10 mx-auto rounded shadow">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="m-5 text-center">
-                                <h1>Bienvenue</h1>
-                            </div>
-                                <form action="{{ route('check_login') }}" method="post" class="mb-5">
-                                    @csrf
-                    
-                                    @if(session('error'))
-                                        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
-                                            <i class="las la-exclamation-triangle me-2"></i>
-                                            <div>
-                                                {{ session('error') }}
+                            <div class="log">
+                                <div class="m-5 text-center">
+                                    <h1>Bienvenue</h1>
+                                </div>
+                                    <form action="{{ route('check_login') }}" method="post" class="mb-5">
+                                        @csrf
+                        
+                                        @if(session('error'))
+                                            <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+                                                <i class="las la-exclamation-triangle me-2"></i>
+                                                <div>
+                                                    {{ session('error') }}
+                                                </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                             </div>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        @endif
+                        
+                                        <div class="form-group mb-3">                                  
+                                            <label for="username" class="form-label">Nom d'utilisateur</label>
+                                            <input type="text" class="form-control" id="username" name="username" required>
                                         </div>
-                                    @endif
-                    
-                                    <div class="form-group mb-3">                                  
-                                        <label for="username" class="form-label">Nom d'utilisateur</label>
-                                        <input type="text" class="form-control" id="username" name="username" required>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="password" class="form-label">Mot de passe</label>
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                    </div>
-                                    <div class="row mb-3">
-                                       
-                                       
-                                    </div>
+                                        <div class="form-group mb-3">
+                                            <label for="password" class="form-label">Mot de passe</label>
+                                            <input type="password" class="form-control" id="password" name="password" required>
+                                        </div>
+                                        <div class="row mb-3">
+                                        
+                                        
+                                        </div>
 
-                                    <button type="submit" class="btn btn-outline-primary ">
-                                        Se connecter
-                                    </button>
-                                </form> 
-                            
-                        </div>
-                        <div class="col-md-6">
-                            <div>
-                                <img src="./login_img.svg" alt="login" class="img-fluid p-5">
+                                        <button type="submit" class="btn btn-outline-primary ">
+                                            Se connecter
+                                        </button>
+                                    </form> 
+                                </div>    
                             </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <img src="./login_img.svg" alt="login" class="img-fluid p-5">
+                                </div>
                         </div>
                     </div>
                 </div>
-            </div>
+           
         </div>
 
 

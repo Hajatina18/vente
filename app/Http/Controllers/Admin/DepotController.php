@@ -13,7 +13,6 @@ class DepotController extends Controller
 { 
         public function index()
         {
-        
             $frns = Fournisseur::all();
             $produits = Produit::where('fait_demande', true)->get();
             return view('admin.depot', ['produits' => $produits, 'fournisseurs' => $frns]);
