@@ -2,125 +2,126 @@
 
 @section('content')
     <div class="commande-content w-100">
-                <div class="border border-solid rounded">
+        <div class="border border-solid rounded">
+            
+            <form method="POST" id="formEntrer" class="row g-3">
 
-                        <form method="POST" id="formEntrer" class="row g-3">
-
-                            @csrf
-                            <h4 class="text-center">Formulaire Entrée</h4>
-                            <div class="row px-5  ">
-                                <div class="col-md-5">
-                                    <label for="date_facture" class="form-label">Code Article</label> <!-- new insert -->
-                                    <input type="text" class="form-control form-control-sm" id="code_art" name="code_art">
-                                </div>
-
-                                <div class="col-md-5">
-                                    <label for="ref_prod" class="form-label">Fournisseur</label>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <input type="text" class="form-control form-control-sm" id="frns" name="frns">
-                                        <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal"
-                                            data-bs-target="#modalFrns"><i class="las la-search"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row px-5 ">
-                                <div class="col-md-5">
-                                    <label for="reference_bl_frns" class="form-label">Réf bon de Livraison
-                                        Fournisseurs</label>
-                                    <input type="text" class="form-control form-control-sm" id="reference_bl_frns"
-                                        name="reference_bl_frns">
-                                </div>
-                                <div class="col-md-5">
-                                    <label for="date_facture" class="form-label">Date Facture</label>
-                                    <input type="date" class="form-control form-control-sm" id="date_facture" name="date_facture">
-                                </div>
-                            </div>
-                            <div class="row px-5 ">
-                                <div class="col-md-5">
-                                    <label for="num_facture" class="form-label">Numero Facture</label>
-                                    <input type="text" class="form-control form-control-sm" id="num_facture" name="num_facture">
-                                </div>
-                                <div class="col-md-5">
-                                    <label for="date_facture" class="form-label">PCB</label> <!-- new insert -->
-                                    <input type="text" class="form-control form-control-sm" id="pcb" name="pcb">
-                                </div>
-                            </div>
-
-                            <div class="row px-5 ">
-                                <div class="col-md-5">
-                                    <label for="num_bl" class="form-label">Bon de livraison</label>
-                                    <input type="text" class="form-control form-control-sm" id="num_bl" name="num_bl" required>
-                                </div>
-                                <div class="col-md-5">
-                                    <label for="prix_achat_ht" class="form-label">Prix d'Achat HT</label>
-                                    <input type="text" class="form-control form-control-sm" id="prix_achat_ht" name="prix_achat_ht"
-                                        required>
-                                </div>
-                            </div>
-                            <div class="row px-5 ">
-                                <div class="col-md-5">
-                                    <label for="prix_achat_ttc" class="form-label">Prix d'Achat TTC</label>
-                                    <input type="text" class="form-control form-control-sm" id="prix_achat_ttc" name="prix_achat_ttc"
-                                        required>
-                                </div>
-                                <div class="col-md-5">
-                                    <label for="cout_trans" class="form-label">Cout transport</label>
-                                    <input type="text" class="form-control form-control-sm" id="cout_trans" name="cout_trans" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 px-5">
-                                <label for="date_echeance" class="form-label">Date Echeance</label>
-                                <input type="date" class="form-control form-control-sm" id="date_echeance" name="date_echeance">
-                            </div>
-                            <div class="col-md-6 px-5 ">
-                                <table class="table table-striped table-hover" id="produits">
-                                    <thead>
-                                        <th width="50%">Produit</th>
-                                        <th width="25%">Unite</th>
-                                        <th width="20%">Qte</th>
-                                        <th width="5%"></th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <select name="produit" id="produit" class="form-select">
-                                                    <option value=""></option>
-                                                    @foreach ($produits as $produit)
-                                                        <option value="{{ $produit->ref_prod }}">{{ $produit->nom_prod }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="unite" id="unite" class="form-select">
-
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" name="qte" id="qte"
-                                                    class="form-control">
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-outline-secondary add">
-                                                    <i class="las la-plus-circle"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="px-5">
-                                <button type="submit" id="submitFormEntrer" class="btn btn-outline-primary">
-                                    Enregistrer
-                                </button>
-                            </div>
-
-
-                        </form>
-
-
+                @csrf
+                <h4 class="text-center">Formulaire Entrée</h4>
+                <div class="row px-5  ">
+                    <div class="col-md-5">
+                        <label for="date_facture" class="form-label">Code Article</label> <!-- new insert -->
+                        <input type="text" class="form-control form-control-sm" id="code_art" name="code_art">
                     </div>
+
+                    <div class="col-md-5">
+                        <label for="ref_prod" class="form-label">Fournisseur</label>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <input type="text" class="form-control form-control-sm" id="frns" name="frns">
+                            <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal"
+                                data-bs-target="#modalFrns"><i class="las la-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row px-5 ">
+                    <div class="col-md-5">
+                        <label for="reference_bl_frns" class="form-label">Réf bon de Livraison
+                            Fournisseurs</label>
+                        <input type="text" class="form-control form-control-sm" id="reference_bl_frns"
+                            name="reference_bl_frns">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="date_facture" class="form-label">Date Facture</label>
+                        <input type="date" class="form-control form-control-sm" id="date_facture" name="date_facture">
+                    </div>
+                </div>
+                <div class="row px-5 ">
+                    <div class="col-md-5">
+                        <label for="num_facture" class="form-label">Numero Facture</label>
+                        <input type="text" class="form-control form-control-sm" id="num_facture" name="num_facture">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="date_facture" class="form-label">PCB</label> <!-- new insert -->
+                        <input type="text" class="form-control form-control-sm" id="pcb" name="pcb">
+                    </div>
+                </div>
+
+                <div class="row px-5 ">
+                    <div class="col-md-5">
+                        <label for="num_bl" class="form-label">Bon de livraison</label>
+                        <input type="text" class="form-control form-control-sm" id="num_bl" name="num_bl" required>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="prix_achat_ht" class="form-label">Prix d'Achat HT</label>
+                        <input type="text" class="form-control form-control-sm" id="prix_achat_ht" name="prix_achat_ht"
+                            required>
+                    </div>
+                </div>
+                <div class="row px-5 ">
+                    <div class="col-md-5">
+                        <label for="prix_achat_ttc" class="form-label">Prix d'Achat TTC</label>
+                        <input type="text" class="form-control form-control-sm" id="prix_achat_ttc" name="prix_achat_ttc"
+                            required>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="cout_trans" class="form-label">Cout transport</label>
+                        <input type="text" class="form-control form-control-sm" id="cout_trans" name="cout_trans"
+                            required>
+                    </div>
+                </div>
+
+                <div class="col-md-4 px-5">
+                    <label for="date_echeance" class="form-label">Date Echeance</label>
+                    <input type="date" class="form-control form-control-sm" id="date_echeance" name="date_echeance">
+                </div>
+                <div class="col-md-6 px-5 ">
+                    <table class="table table-striped table-hover" id="produits">
+                        <thead>
+                            <th width="50%">Produit</th>
+                            <th width="25%">Unite</th>
+                            <th width="20%">Qte</th>
+                            <th width="5%"></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select name="produit" id="produit" class="form-select">
+                                        <option value=""></option>
+                                        @foreach ($produits as $produit)
+                                            <option value="{{ $produit->ref_prod }}">{{ $produit->nom_prod }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="unite" id="unite" class="form-select">
+
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" name="qte" id="qte" class="form-control">
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-secondary add">
+                                        <i class="las la-plus-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="px-5">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" id="submitFormEntrer" class="btn btn-outline-primary">Enregistrer</button>
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
         {{-- <div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

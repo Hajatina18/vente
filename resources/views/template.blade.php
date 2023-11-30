@@ -75,13 +75,14 @@
             </div>
         </div>
         <div class="user-header">
-            <button class="btn btn-primary"> 
-                <a href="{{ route('logout') }}" class="sidebar-link">
-                        <i class="la la-sign-out fs-4 mb-1"></i>
-                        <span>Se deconnecter</span>
-                </a>
-            </button>
-            
+            <div> 
+                <button class="btn btn-primary"> 
+                    <a href="{{ route('logout') }}" class="sidebar-link">
+                            <i class="la la-sign-out fs-4 mb-1"></i>
+                            <span>Se deconnecter</span>
+                    </a>
+                </button>
+            </div>
         </div>
     </header>
     

@@ -3,53 +3,58 @@
 @section('content')
     <div class="commande-content w-100">
         <div class="card card-commande bg-white">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 col-md-4 col-lg-4">
-                        <form method="POST" id="formDepot">
-                            @csrf
-                            <h4 class="text-center">Formulaire Depot </h4>
-                            <div class="mb-2">
-                                <label for="depot" class="form-label">Nom</label>
-                                <input type="text" class="form-control" id="nom_depot" name="nom_depot">
-                                <input type="hidden" class="form-control" id="id_depot" name="id_depot">
-                            </div>
-                            <div class="mb-2">
-                                <label for="depot" class="form-label">Localisation</label>
-                                <input type="text" class="form-control" id="localisation" name="localisation">
-                            </div>
-                            {{-- <div class="mb-0">
+
+            <div class="row">
+                <div class="d-flex justify-content-start mb-3"> <!-- Espace ajouté -->
+                    <div class="ms-5">
+                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <a href="{{ route('depot_admin') }}" >
+                                <span class="navi-icon"><i class="la la-long-arrow-alt-left mx-1"></i></span>
+                                <span class="navi-text">Retour</span>
+                            </a>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 col-lg-4 mb-md-0 mb-3"> <!-- Espace ajouté -->
+
+                    <form method="POST" id="formDepot">
+                        @csrf
+                        <h4 class="text-center">Formulaire Depot </h4>
+                        <div class="mb-3">
+                            <label for="depot" class="form-label">Nom</label>
+                            <input type="text" class="form-control" id="nom_depot" name="nom_depot">
+                            <input type="hidden" class="form-control" id="id_depot" name="id_depot">
+                        </div>
+                        <div class="mb-3">
+                            <label for="depot" class="form-label">Localisation</label>
+                            <input type="text" class="form-control" id="localisation" name="localisation">
+                        </div>
+                        {{-- <div class="mb-0">
                                 <label for="nom" class="form-label">Type depot</label>
                                 <input type="text" class="form-control" id="is_default" name="type">
                             </div> --}}
-                            
-                            <button type="submit" class="btn btn-outline-primary">
-                                Enregistrer
-                            </button>
-                            
-                            
-                            <button type="submit" class="btn btn-outline-primary">
-                                
-                            </button>
-                        </form>
-                    </div>
-                    <div class="col-12 col-md-8 col-lg-8">
-                        <h4 class="text-center">Liste des Utilisateurs</h4>
-                        <table class="table table-striped" id="liste">
-                            <thead>
-                                
-                                <th>Nom</th>
-                                <th>Localisation</th>
-                                <th>Type</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                            
-                            </tbody>
-                        </table>
-                    </div>
+
+                        <button type="submit" class="btn btn-outline-primary">
+                            Enregistrer
+                        </button>
+
+                    </form>
+                </div>
+                <div class="col-12 col-md-6 col-lg-8">
+                    <h4 class="text-center mb-2">Liste des Utilisateurs</h4>
+                    <table class="table table-striped" id="liste">
+                        <thead>
+                            <th>Nom</th>
+                            <th>Localisation</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
         </div>
     </div>
 @endsection
@@ -58,38 +63,43 @@
 @push('js')
     <script type="text/javascript">
         var table;
-        $("document").ready(function(){
+        $("document").ready(function() {
             table = $("#liste").DataTable({
-                "ajax" : {
-                    "url" : '{{  route("listedepot") }}',
-                    "dataSrc" : ''
+                "ajax": {
+                    "url": '{{ route('listedepot') }}',
+                    "dataSrc": ''
                 },
-                "columns" : [
-                    {data:"nom_depot"},
-                    {data:"localisation"},
-                    {data:"is_default"},
-                    {data:"action"}
+                "columns": [{
+                        data: "nom_depot"
+                    },
+                    {
+                        data: "localisation"
+                    },
+
+                    {
+                        data: "action"
+                    }
                 ]
-                "language" : {
+                "language": {
                     url: "{{ asset('datatable/french.json') }}"
                 }
             });
         });
-        $("#formDepot").on('submit', function(){
+        $("#formDepot").on('submit', function() {
             var form = $(this);
-            if($("#depot").val()){
+            if ($("#depot").val()) {
                 $.ajax({
-                    url : '{{ route("add_depot") }}',
-                    type : 'POST',
-                    data : form.serialize(),
-                    dataType : 'json',
-                    beforeSend: function () {
+                    url: '{{ route('add_depot') }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    dataType: 'json',
+                    beforeSend: function() {
                         $('#loader').removeClass('hidden')
                     },
-                    complete : function (){
-                        $('#loader',addClass('hidden'))
+                    complete: function() {
+                        $('#loader', addClass('hidden'))
                     },
-                    success: function(response){
+                    success: function(response) {
                         $("#formDepot")[0].reset();
                         $("#id_depot").val(null);
                         Swal.fire({
@@ -99,17 +109,13 @@
                         table.ajax.reload();
                     }
                 });
-            }else{
+            } else {
                 Swal.fire({
-                    icon : 'warning',
+                    icon: 'warning',
                     text: 'Veuillez renseigner le champ Depot pour completer l\'insertion, s\'il vous plait'
                 });
             }
             return false
         });
-
-
     </script>
-    
 @endpush
-
