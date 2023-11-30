@@ -123,8 +123,8 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::post('/liste',[DepotController::class, 'store'])->name('add_depot');
     });
 
-    Route::group(['prefix' => 'points-de-vente'],function (){
-        Route::get('/',[PointVenteController::class, 'index']);
+    Route::group(['prefix' => 'points_vente'],function (){
+        Route::get('/',[PointVenteController::class, 'index'])->name('points_vente');
         Route::post('/', [PointVenteController::class, 'store'])->name('add_point_vente');
         Route::get('/liste', [PointVenteController::class, 'liste'])->name('liste_point_vente');
         

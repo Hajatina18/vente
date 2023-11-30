@@ -120,10 +120,8 @@
                     {
                         data: "rcs_pdv"
                     },
-                    {
-                        data: "action"
-                    }
-                ]
+                  
+                ],
                 "language": {
                     url: "{{ asset('datatable/french.json') }}"
                 }
