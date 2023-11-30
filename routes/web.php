@@ -112,13 +112,12 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::post('/get', [ProduitController::class, 'getProduit'])->name('getProduct');
         Route::post('/update', [ProduitController::class, 'update'])->name('update_produit');
     });
-    // Route::get('/', [DepotController::class, 'index'])->name('depot_admin');
+   
     Route::group(['prefix' => 'depots'],function (){
         Route::get('/',[DepotController::class, 'index'])->name('depot_admin');
         Route::get('/second',[DepotController::class, 'indexSecond'])->name('depot_second');
         Route::get('/third',[DepotController::class, 'indexThird'])->name('depot_third');
         Route::get('/liste',[DepotController::class, 'liste'])->name('listedepot');
-      //  Route::post('/add',[DepotController::class, 'store'])->name('add_depot');
         Route::post('/liste',[DepotController::class, 'store'])->name('add_depot');
     });
 
@@ -130,9 +129,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
     Route::group(['prefix' => 'transfert'],function (){
         Route::get('/',[TransfertController::class, 'index'])->name('transfert_admin');
     });
-    // Route::get('/',function (){
-    //     return view'/admin' ('stock');
-    // });
+
     Route::group(['prefix' => 'commande'], function (){
         Route::get('/', [AdminCommandeController::class, 'index'])->name('commande_admin');
         Route::get('/liste', [AdminCommandeController::class, 'liste'])->name('liste_commande_admin');

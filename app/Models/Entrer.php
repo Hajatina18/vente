@@ -12,4 +12,6 @@ class Entrer extends Model
     protected $fillable = [
         "id_frns", "date_facture", "num_facture", "num_bl", "date_echeance"
     ];
+
+
 }

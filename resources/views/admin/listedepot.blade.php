@@ -49,6 +49,7 @@
                     <h4 class="text-center mb-2">Liste des Utilisateurs</h4>
                     <table class="table table-striped" id="liste">
                         <thead>
+                            <th>#</th>
                             <th>Nom</th>
                             <th>Localisation</th>
                             <th>Action</th>
@@ -59,6 +60,11 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $depot->nom_depot }}</td>
                                     <td>{{ $depot->localisation }}</td>   
+                                    <td>
+                                        <button type="submit" class="btn btn-secondary p-2">
+                                            Editer
+                                        </button>
+                                    </td>
                                 </tr>
                                 
                             @endforeach
