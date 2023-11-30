@@ -19,13 +19,20 @@ body {
 body {
     font-family: Arial, sans-serif;
 }
-
+a {
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
 
 a,
 a:hover {
     text-decoration: none;
     text-transform: none;
     color: inherit;
+}
+li {
+    list-style: none;
 }
 
 * {
@@ -40,7 +47,7 @@ a:hover {
 
 .main-header {
     width: 100%;
-    background: #00b5ff;
+    background: #16b4c3;
     /*min-height: 50px;*/
     height: 50px;
     display: flex;
@@ -51,7 +58,7 @@ a:hover {
 }
 
 .main-header .home-header {
-    font-size: 1.25rem;
+    font-size: 1.25rem; 
     font-weight: 600;
     letter-spacing: .1rem;
 }
@@ -64,9 +71,23 @@ a:hover {
     font-family: "Old English", sans-serif !important;
 }
 
+#sidebar a{
+    display: block;
+    width: 100;
+    color: white;
+    line-height: 20px;
+    border-bottom: 1px solid white;
+}
+.sidebar-item{
+    padding: 60px;
+}
 .datetime .time {
     font-size: 1.25rem;
     font-weight: 700;
+}
+
+#sidebar-position {
+    padding-top: 50px;
 }
 
 .sidebar-left {
@@ -110,7 +131,7 @@ a:hover {
 .sidebar-left .list-sidebar .sidebar-item.active,
 .sidebar-left .list-sidebar .sidebar-item:hover {
     color: white;
-    background-color: #2f8fdb;
+    background-color: #929598;
 }
 
 .sidebar-left .list-sidebar .sidebar-item .sidebar-link {
@@ -352,3 +373,5 @@ a:hover {
 .navi-text {
     color: white;
 }
+
+/* sidebar dynamique*/
