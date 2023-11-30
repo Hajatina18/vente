@@ -18,11 +18,19 @@
                                 </form>
                             </div>
                             <div class="d-flex"> 
-                                <div class="ms-3"> <!-- Bouton Caisse1 -->
+                                <div class="ms-3"> <!-- Bouton depot1 -->
+                                    <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <a href="{{ route('depot_second') }}" >
+                                            <span class="navi-icon"><i class="la la-user mx-1"></i></span>
+                                            <span class="navi-text">Dépôt 2</span>
+                                        </a>
+                                    </button>
+                                </div>
+                                <div class="ms-3"> <!-- Bouton Magasin -->
                                     <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         <a href="#" >
                                             <span class="navi-icon"><i class="la la-user mx-1"></i></span>
-                                            <span class="navi-text">Caisse 1</span>
+                                            <span class="navi-text">Magasin</span>
                                         </a>
                                     </button>
                                 </div>
