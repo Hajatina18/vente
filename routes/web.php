@@ -118,8 +118,8 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::get('/second',[DepotController::class, 'indexSecond'])->name('depot_second');
         Route::get('/third',[DepotController::class, 'indexThird'])->name('depot_third');
         Route::get('/liste',[DepotController::class, 'liste'])->name('listedepot');
-        // Route::post('/',[DepotController::class, 'addDepot'])->name('a_depot');
-        Route::post('/liste',[DepotController::class, 'create'])->name('add_depot');
+      //  Route::post('/add',[DepotController::class, 'store'])->name('add_depot');
+        Route::post('/liste',[DepotController::class, 'store'])->name('add_depot');
     });
 
     Route::group(['prefix' => 'depotSecond'],function (){

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\depot;
+use App\Models\Depot;
 use App\Models\Fournisseur;
 use App\Models\Produit;
+use Illuminate\Http\Request;
 use DateTime;
 
 
@@ -32,14 +33,17 @@ class DepotController extends Controller
             return view('admin.depotthird', ['produits' => $produits, 'fournisseurs' => $frns]);
            
         }
-        public function store()
+        public function store(Request $request)
         {
+           
             if($request->id_depot != NULL){
                 $depot = Depot::find($request->id_depot);
             }else{
                 $depot = new Depot;
             }
-            $depot->depots = $request->depots;
+            $depot->nom_depot = $request->nom_depot;
+            $depot->localisation = $request->localisation;
+            $depot->is_default = $request->is_default;
             if($depot->save()){
                 $array = array(
                     'icon' => "success",
@@ -55,14 +59,10 @@ class DepotController extends Controller
         }
         public function liste()
         {
-            $depots = depot::all();
+            $depots = Depot::all();
             return view('admin.listedepot', ['depots' => $depots]);
-          
         }
 
-        // public function create()
-        // {
-        //     return view('create_depot');
-        // }
+
 
 }
