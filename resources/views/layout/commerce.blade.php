@@ -30,11 +30,6 @@
                             <i class="las la-house-damage mb-2"></i>
                             <span>Depots</span>
                         </a>
-                        <ul class="dropdown-menu bg-secondary">
-                            <li class="sidebar-item "><a href="{{ route('depot_admin') }}" aria-current="true" class="sidebar-link">Principale</a></li>
-                            <li class="sidebar-item "><a href=""aria-current="true" class="sidebar-link">Deuxieme</a></li>
-                            <li class="sidebar-item "><a href="" class="sidebar-link">Magasin</a></li>
-                        </ul>
                     </li>
 
                     <li class=" sidebar-item">
@@ -51,11 +46,6 @@
                         </a>
                     </li>
                 
-                    <li class="sidebar-item">
-                        <a href="{{ route('logout') }}" class="sidebar-link">
-                            <i class="la la-sign-out mb-2"></i>
-                            <span>Se deconnecter</span>
-                        </a>
-                    </li>
+                    
                 </ul>
             

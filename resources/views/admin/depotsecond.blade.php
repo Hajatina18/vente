@@ -36,10 +36,40 @@
                         </div>
                     </div>
                 </div>
+                <!-- recherche entre deux date -->
+                <div class="d-flex justify-content-between align-items-center my-2">
+                    <div class="col-md-5">
+                        <form>
+                            <div class="container">
+                                <div class="row px-1">
+                                    <div class="input-group col-md-12">
+                                        <div class="form-group col-md-4">
+                                            <label for="startDate">Date de début :</label>
+                                            <input type="date" class="form-control" id="startDate">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="endDate">Date de fin :</label>
+                                            <input type="date" class="form-control" id="endDate">
+                                        </div>
+                                        <div class="col-md-4 my-4"> <!-- Espace entre les champs de date et le bouton -->
+                                            <button type="submit" class="btn btn-primary"><i class="la la-search"></i></button>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+                
+                
+                <!-- fin  -->
 
                 <!-- end add -->
                 <!-- start table -->
-                <div class="my-2 p-2 bg-body rounded shadow-sm">
+                <div class="my-1 p-2 bg-body rounded shadow-sm">
 
                     <h4 class="text-center">Dépôt Ampopoka</h4>
                     <table class="table table-striped" id="liste">

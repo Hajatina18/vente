@@ -3,40 +3,44 @@
 @section('content')
     <div class="commande-content w-100">
         <div class="card card-commande bg-white">
-            <div class="border-solid rounded" >
+            <div class="border-solid rounded">
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <!-- start modal -->
                         <div class="d-flex justify-content-between align-items-center">
-                            <div style="margin-right: 10px;" > <!-- Barre de recherche -->
+                            <div style="margin-right: 10px;"> <!-- Barre de recherche -->
                                 <form action="" class="form-inline">
                                     <div class="input-group">
                                         <input type="search" class="form-control me-2" placeholder="Rechercher...">
-                                        <button class="btn btn-primary" type="submit"><i class="la la-search"></i> 
+                                        <button class="btn btn-primary" type="submit"><i class="la la-search"></i>
                                         </button>
-                                    </div>                                 
+                                    </div>
                                 </form>
                             </div>
-                            <div class="d-flex"> 
+
+                            <div class="d-flex">
                                 <div class="ms-3"> <!-- Bouton depot1 -->
-                                    <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        <a href="{{ route('depot_second') }}" >
+                                    <button type="button" class="btn btn-info " data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        <a href="{{ route('depot_second') }}">
                                             <span class="navi-icon"><i class="la la-user mx-1"></i></span>
                                             <span class="navi-text">Dépôt 2</span>
                                         </a>
                                     </button>
                                 </div>
                                 <div class="ms-3"> <!-- Bouton Magasin -->
-                                    <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        <a href="#" >
+                                    <button type="button" class="btn btn-info " data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        <a href="#">
                                             <span class="navi-icon"><i class="la la-user mx-1"></i></span>
                                             <span class="navi-text">Magasin</span>
                                         </a>
                                     </button>
                                 </div>
                                 <div class="ms-3"> <!-- Bouton Ajout nouveau depot -->
-                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        <div class="navi"> 
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        <div class="navi">
                                             <a class="navi-link" href="{{ route('listedepot') }}">
                                                 <span class="navi-icon"><i class="la la-list-ul text-withe"></i></span>
                                                 <span class="navi-text">Ajout et listes </span>
@@ -50,12 +54,42 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- recherche entre deux date -->
+                        <div class="d-flex justify-content-between align-items-center my-2">
+                            <div class="col-md-5">
+                                <form>
+                                    <div class="container">
+                                        <div class="row px-1">
+                                            <div class="input-group col-md-12">
+                                                <div class="form-group col-md-4">
+                                                    <label for="startDate">Date de début :</label>
+                                                    <input type="date" class="form-control" id="startDate">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="endDate">Date de fin :</label>
+                                                    <input type="date" class="form-control" id="endDate">
+                                                </div>
+                                                <div class="col-md-4 my-4"> <!-- Espace entre les champs de date et le bouton -->
+                                                    <button type="submit" class="btn btn-primary"><i class="la la-search"></i></button>
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        <!-- fin  -->
                     </div>
                 </div>
 
                 <!-- end add -->
                 <!-- start table -->
-                <div class="my-2 p-2 bg-body rounded shadow-sm">
+                <div class="my-1 p-2 bg-body rounded shadow-sm">
 
                     <h4 class="text-center">Dépôt principale</h4>
                     <table class="table table-striped" id="liste">
@@ -104,19 +138,23 @@
                             <p class="m-0">Ref BL FRNS : <span id="" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Date d'enregistrement: <span id="dateModal" style="font-weight: 600"></span>
+                            <p class="m-0">Date d'enregistrement: <span id="dateModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Date facture : <span id="date_factureModal" style="font-weight: 600"></span>
+                            <p class="m-0">Date facture : <span id="date_factureModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Numero Facture : <span id="num_factureModal" style="font-weight: 600"></span>
+                            <p class="m-0">Numero Facture : <span id="num_factureModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Bon de livraison : <span id="num_blModal" style="font-weight: 600"></span></p>
+                            <p class="m-0">Bon de livraison : <span id="num_blModal" style="font-weight: 600"></span>
+                            </p>
                         </div>
                         <div class="col-12 mb-2">
                             <p class="m-0">P.A HT : <span id="" style="font-weight: 600"></span></p>
@@ -128,7 +166,8 @@
                             <p class="m-0">Coût Trans : <span id="num_blModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Date Echeance : <span id="date_echeanceModal" style="font-weight: 600"></span>
+                            <p class="m-0">Date Echeance : <span id="date_echeanceModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12">
