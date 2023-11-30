@@ -54,23 +54,30 @@
                               <a href="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                                   id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false" class="sidebar-link dropdown-toggle text-white">
                                   <i class=" la la-clipboard-list mb-2 text-white"></i>
-                                  <span class="text-white 25px">Depots et Transfert</span> <!-- modif dernier-->
+                                  <span class="text-white 25px">Stockage</span> <!-- modif dernier-->
                               </a>
                               <ul class="dropdown-menu text-small shadow " aria-labelledby="dropdownUser">
                                   <li class="sidebar-item">
                                       <a href="{{ route('depot_admin') }}" class="sidebar-link dropdown-item">
                                           <div class="sidebar">
                                               <i class="las la-house-damage mb-2"></i>
-                                              <span>Depots</span>
+                                              <span>Dépôts</span>
                                           </div>
                                       </a>
                                   </li>
-
+                                  <li class="sidebar-item">
+                                      <a href="{{ route('points_vente') }}" class="sidebar-link dropdown-item">
+                                          <div class="sidebar">
+                                              <i class="las la-house-damage mb-2"></i>
+                                              <span>Points de vente </span>
+                                          </div>
+                                      </a>
+                                  </li>
                                   <li class=" sidebar-item">
                                       <div class="sidebar">
                                           <a href="{{ route('transfert_admin') }}" class="sidebar-link dropdown-item ">
                                               <i class="las la-share-square mb-2"></i>
-                                              <span>Transfert</span>
+                                              <span>Transferts</span>
                                           </a>
                                       </div>
                                   </li>

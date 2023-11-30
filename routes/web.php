@@ -10,11 +10,13 @@ use App\Http\Controllers\Admin\UniteController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DepotController;
 use App\Http\Controllers\Admin\TransfertController;
+use App\Http\Controllers\Admin\PointVenteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\FondCaisseController;
 use App\Http\Controllers\PreCommandeController;
+
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -121,8 +123,10 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::post('/liste',[DepotController::class, 'store'])->name('add_depot');
     });
 
-    Route::group(['prefix' => 'depotSecond'],function (){
-        Route::get('/',[DepotSecondController::class, 'index'])->name('depotSecond_admin');
+    Route::group(['prefix' => 'points-de-vente'],function (){
+        Route::get('/',[PointVenteController::class, 'index']);
+        Route::post('/', [PointVenteController::class, 'store'])->name('add_point_vente');
+        Route::get('/liste', [PointVenteController::class, 'liste'])->name('liste_point_vente');
         
     });
 
