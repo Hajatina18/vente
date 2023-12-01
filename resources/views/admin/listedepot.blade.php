@@ -60,7 +60,12 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $depot->nom_depot }}</td>
-                                    <td>{{ $depot->localisation }}</td>
+                                    <td>{{ $depot->localisation }}</td>   
+                                    <td>
+                                        <button type="submit" class="btn btn-secondary p-2">
+                                            Editer
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

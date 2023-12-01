@@ -46,49 +46,55 @@
                                         <form method="POST" action="" id="formProduct" class="row g-3">
                                             @csrf
                                             <div class="row px-5">
-                                                <div class="col-md-5">
-                                                    <label for="ref_prod" class="form-label">Code Article</label>
-                                                    <select class="form-select" id="ref_prod" name="ref_prod" required>
-                                                        <option value="valeur1">Option 1</option>
-                                                        <option value="valeur2">Option 2</option>
-                                                        <!-- Ajoutez d'autres options si nécessaire -->
-                                                    </select>
-                                                </div>  
+                                                
                                             </div>
                                             <div class="row px-5">
                                                 <div class="col-md-5">
-                                                    <label for="ref_prod" class="form-label">Réference du produit</label>
-                                                    <input type="text" class="form-control" id="ref_prod"
-                                                        name="ref_prod" required>
+                                                    <label for="ref_prod" class="form-label">nom de produit</label>
+                                               
+
+                                                        <select class="form-select" id="ref_prod" name="ref_prod">
+                                                    @foreach ($produits as $produit)
+                                                    <option value="{{ $produit->ref_prod }}">{{ $produit->nom_prod }}</option>
+                                                    @endforeach
+                                                </select>
                                                 </div>                                                                                       
-                                                <div class="col-md-5">
-                                                    <label for="nom_prod" class="form-label">Designation</label>
-                                                    <input type="text" class="form-control" id="nom_prod" name="nom_prod"
-                                                        required>
-                                                </div>
-                                            </div>
-                                            <div class="row px-5">
+                                               
                                                 <div class="col-md-5">
                                                     <label for="quantite_demender" class="form-label">Quantité démandée</label>
                                                     <input type="text" class="form-control" id="quantite_demender"
-                                                        name="quantite_demender" required>
+                                                        name="quantité" required>
                                                 </div>                                                                     
-                                                <div class="col-md-5">
-                                                    <label for="quantite_approuver" class="form-label">Quantité Approuvée</label>
-                                                    <input type="text" class="form-control" id="quantite_approuver"
-                                                        name="quantite_approuver" required>
-                                                </div>
+                                                
+                                          
                                             </div>
+                                            <div class="row px-5 py-3">
+                                                <div class="col-md-5">
+                                                <input type="checkbox" checked data-toggle="toggle" data-size="normal" onclick="toggleOn()>
+                                             <label for="">Transfert entre Dépôt</label>
+                                                </div>                                                                     
+                                                
+                                            </div>
+
                                             <div class="row px-5">
                                                 <div class="col-md-5">
-                                                    <label for="demandeur" class="form-label">Demandeur</label>
-                                                    <input type="text" class="form-control" id="demandeur" name="demandeur"
-                                                        required>
+                                                    <label for="id_depot" class="form-label">Dépôt</label>
+                                                    <select class="form-select" id="id_depot" name="id_depot">
+                                                    <option  default disabled>Choix de Dépôt</option>
+                                                    @foreach ($depots as $depot)
+        
+                                                    <option value="{{ $depot->id_depot }}">{{ $depot->nom_depot }}</option>
+                                                    @endforeach
+                                                </select>
                                                 </div>                                   
                                                 <div class="col-md-5">
-                                                    <label for="approvisisionneur" class="form-label">Approvisioneur</label>
-                                                    <input type="text" class="form-control" id="approvisisionneur"
-                                                        name="approvisisionneur" required>
+                                                    <label for="id_pdv" class="form-label">Point de Vente</label>
+                                                    <select class="form-select" id="ref_prod" name="ref_prod">
+                                                        <option value="" disabled>Choix de point de Vente</option>
+                                                    @foreach ($pointVente as $points)
+                                                    <option value="{{ $points->id_pdv }}">{{ $points->nom_pdv }}</option>
+                                                    @endforeach
+                                                </select>
                                                 </div>
                                             </div>
                                     <div class="modal-footer">
@@ -240,5 +246,8 @@
             $(this).parents('tr').remove();
             i--;
         });
+        function toggleOn() {
+    $('#toggle-trigger').bootstrapToggle('on')
+  }
     </script>
 @endpush
