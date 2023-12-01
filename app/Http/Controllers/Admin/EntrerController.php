@@ -92,9 +92,7 @@ class EntrerController extends Controller
             $entrer->date_echeance = ($entrer->date_echeance == NULL) ? "" : date('d/m/Y', strtotime($entrer->date_echeance));
             $entrer->action = '<a href="javascript:void(0)" class="badge bg-primary p-2" onclick=\'getDetail("'.$entrer->id_entrer.'")\'>Détail</a>';
             $entrer->date = $date->format('d/m/Y H:i:s');
-            $entrer->depot = 1;
         }
-        dd($entrers);
         echo json_encode($entrers);
     }
 

@@ -8,7 +8,7 @@
                     <div class="col-12 col-md-12">
                         <!-- start modal -->
                         <div class="d-flex justify-content-between align-items-center">
-                            <div style="margin-right: 10px;"> <!-- Barre de recherche -->
+                            <!-- <div style="margin-right: 10px;" > 
                                 <form action="" class="form-inline">
                                     <div class="input-group">
                                         <input type="search" class="form-control me-2" placeholder="Rechercher...">
@@ -16,9 +16,8 @@
                                         </button>
                                     </div>
                                 </form>
-                            </div>
-
-                            <div class="d-flex">
+                            </div> -->
+                            <div class="d-flex"> 
                                 <div class="ms-3"> <!-- Bouton depot1 -->
                                     <button type="button" class="btn btn-info " data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">
@@ -47,10 +46,7 @@
                                             </a>
                                         </div>
                                     </button>
-                                    {{-- <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">
-                                        <a href="{{ route('listedepot') }}" class="btn btn-info">Ajout nouveau depot</a>
-                                    </button> --}}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -100,8 +96,8 @@
                             <th>Date Facture</th>
                             <th>Numero Facture</th>
                             <th>Bon de Livraison</th>
-                            <th>P A HT</th>
-                            <th>P A TTC</th>
+                            <th>PA HT</th>
+                            <th>PA TTC</th>
                             <th>C Trans</th>
                             <th>C Revient</th>
                             <th>CUMP</th>
@@ -160,7 +156,7 @@
                             <p class="m-0">P.A HT : <span id="" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">PA TTC : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">P.A TTC : <span id="" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
                             <p class="m-0">Coût Trans : <span id="num_blModal" style="font-weight: 600"></span></p>
@@ -293,12 +289,14 @@
                     {
                         data: "cout_trans"
                     },
+                    // {
+                    //     data: "C Revient"
+                    // },
+                    // {
+                    //     data: "CUMP"
+                    // } 
+                    // ,
                     {
-                        data: "C Revient"
-                    },
-                    {
-                        data: "CUMP"
-                    } {
                         data: "date_echeance"
                     },
                     {
