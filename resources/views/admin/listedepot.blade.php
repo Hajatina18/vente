@@ -7,8 +7,9 @@
             <div class="row">
                 <div class="d-flex justify-content-start mb-3"> <!-- Espace ajouté -->
                     <div class="ms-5">
-                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <a href="{{ route('depot_admin') }}" >
+                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            <a href="{{ route('depot_admin') }}">
                                 <span class="navi-icon"><i class="la la-long-arrow-alt-left mx-1"></i></span>
                                 <span class="navi-text">Retour</span>
                             </a>
@@ -29,15 +30,15 @@
                             <label for="depot" class="form-label">Localisation</label>
                             <input type="text" class="form-control" id="localisation" name="localisation">
                         </div>
-                     <div class="mb-0">
-                                <label for="nom" class="form-label">Type depot</label>
-                              
-                                <select class="form-select" id="is_default" name="is_default">
-                                                    <option default >Choix de dépôt</option>
-                                                    <option value="1">Dépôt principale</option>
-                                                    <option value="0">Dépôt péripherique</option>
-                                                </select>
-                            </div> 
+                        <div class="mb-0">
+                            <label for="nom" class="form-label">Type depot</label>
+
+                            <select class="form-select" id="is_default" name="is_default">
+                                <option default>Choix de dépôt</option>
+                                <option value="1">Dépôt principale</option>
+                                <option value="0">Dépôt péripherique</option>
+                            </select>
+                        </div>
 
                         <button type="submit" class="btn btn-outline-primary">
                             Enregistrer
@@ -49,20 +50,20 @@
                     <h4 class="text-center mb-2">Liste des Utilisateurs</h4>
                     <table class="table table-striped" id="liste">
                         <thead>
+                            <th>Id</th>
                             <th>Nom</th>
                             <th>Localisation</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
-                        @foreach ($depots as $depot)
+                            @foreach ($depots as $depot)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $depot->nom_depot }}</td>
-                                    <td>{{ $depot->localisation }}</td>   
+                                    <td>{{ $depot->localisation }}</td>
                                 </tr>
-                                
                             @endforeach
-                            </tbody>
+                        </tbody>
                         </tbody>
                     </table>
                 </div>
@@ -102,7 +103,7 @@
             var form = $(this);
             if ($("#depot").val()) {
                 $.ajax({
-                    url: '{{ route("add_depot") }}',
+                    url: '{{ route('add_depot') }}',
                     type: 'POST',
                     data: form.serialize(),
                     dataType: 'json',

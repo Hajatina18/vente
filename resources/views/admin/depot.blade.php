@@ -7,16 +7,27 @@
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <!-- start modal -->
-                        <div class="d-flex justify-content-between align-items-center">
-                            <!-- <div style="margin-right: 10px;" > 
-                                <form action="" class="form-inline">
-                                    <div class="input-group">
-                                        <input type="search" class="form-control me-2" placeholder="Rechercher...">
-                                        <button class="btn btn-primary" type="submit"><i class="la la-search"></i> 
-                                        </button>
-                                    </div>                                 
-                                </form>
-                            </div> -->
+                        <div class="d-flex justify-content-between align-items-center"> <!-- recherche entre deux date -->
+                                <div class="col-md-4">
+                                    <form>
+                                        <div class="row px-3">
+                                            <div class="input-group col-md-12">
+                                                <div class="form-group col-md-4">
+                                                    <label for="startDate">Date de début :</label>
+                                                    <input type="date" class="form-control" id="startDate">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="endDate">Date de fin :</label>
+                                                    <input type="date" class="form-control" id="endDate">
+                                                </div>
+                                                <div class="col-md-4 mt-4 d-flex justify-content-end"> <!-- Espace entre les champs de date et le bouton -->
+                                                    <button type="submit" class="btn btn-primary"><i class="la la-search"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                            </div>
+                            
                             <div class="d-flex"> 
                                 <div class="ms-3"> <!-- Bouton depot1 -->
                                     <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">

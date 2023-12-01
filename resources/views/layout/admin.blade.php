@@ -15,40 +15,39 @@
                           </a>
                       </li>
                       <div class="md-2">
-                          <div class="dropdown dropdown-menu-md py-3">
-                            
-                              <a href="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                  id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false" class="sidebar-link dropdown-toggle text-white">
-                                  <i class=" la la-clipboard-list mb-2 text-white"></i>
-                                  <span class="text-white 25px">Inventaire</span> <!-- modif dernier-->
-                              </a>
-                              <ul class="dropdown-menu text-small shadow " aria-labelledby="dropdownUser">
-                                  <li class="sidebar-item">
-                                      <a href="{{ route('produit_admin') }}" class="sidebar-link dropdown-item">
-                                          <div class="sidebar">
-                                              <i class="lab la-product-hunt mb-2"></i>
-                                              <span>Produit</span>
-                                          </div>
-                                      </a>
-                                    </li>
-                                    <li class="sidebar-item">
-                                      <a href="{{ route('entrer_admin') }}" class="sidebar-link dropdown-item">
-                                          <div class="sidebar">
-                                              <i class="las la-truck mb-2"></i>
-                                              <span>Entrée</span>
-                                          </div>
-                                      </a>
-                                    </li>
-                                  <li class="sidebar-item">
-                                      <a href="{{ route('commande_admin') }}" class="sidebar-link dropdown-item">
-                                          <div class="sidebar">
-                                              <i class="las la-shopping-bag mb-2"></i>
-                                              <span>Commande</span>
-                                          </div>
-                                      </a>
-                                  </li>
-                              </ul>
+                        <div class="dropdown dropdown-menu-md py-3">
+                            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="la la-clipboard-list mb-2 text-white"></i>
+                              <span class="text-white">Inventaire</span>
+                            </a>
+                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser">
+                              <li class="sidebar-item">
+                                <a href="{{ route('produit_admin') }}" class="sidebar-link dropdown-item">
+                                  <div class="sidebar">
+                                    <i class="lab la-product-hunt mb-2"></i>
+                                    <span>Produit</span>
+                                  </div>
+                                </a>
+                              </li>
+                              <li class="sidebar-item">
+                                <a href="{{ route('entrer_admin') }}" class="sidebar-link dropdown-item">
+                                  <div class="sidebar">
+                                    <i class="las la-truck mb-2"></i>
+                                    <span>Entrée</span>
+                                  </div>
+                                </a>
+                              </li>
+                              <li class="sidebar-item">
+                                <a href="{{ route('commande_admin') }}" class="sidebar-link dropdown-item">
+                                  <div class="sidebar">
+                                    <i class="las la-shopping-bag mb-2"></i>
+                                    <span>Commande</span>
+                                  </div>
+                                </a>
+                              </li>
+                            </ul>
                           </div>
+                          
 
                           <div class="dropdown dropdown-menu-md py-3">
                               <a href="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
