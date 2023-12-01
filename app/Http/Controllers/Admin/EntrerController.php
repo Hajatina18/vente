@@ -50,7 +50,7 @@ class EntrerController extends Controller
         $enter->num_bl = $request->num_bl;
         $enter->date_echeance = $request->date_echeance;
         if($enter->save()){
-            echo json_encode($enter);
+           return redirect('admin.depot');
         }else{
             echo json_encode(array(
                 'icon' => "error",
@@ -84,7 +84,7 @@ class EntrerController extends Controller
 
     public function liste()
     {
-        $entrers = Entrer::where('depot', 1)->get();
+        $entrers = Entrer::all();
         foreach ($entrers as $entrer) {
             $date = new DateTime($entrer->created_at);
             $entrer->nom_frns = Fournisseur::find($entrer->id_frns)->nom_frns;

@@ -10,11 +10,13 @@ use App\Http\Controllers\Admin\UniteController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DepotController;
 use App\Http\Controllers\Admin\TransfertController;
+use App\Http\Controllers\Admin\PointVenteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\FondCaisseController;
 use App\Http\Controllers\PreCommandeController;
+
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -112,27 +114,27 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::post('/get', [ProduitController::class, 'getProduit'])->name('getProduct');
         Route::post('/update', [ProduitController::class, 'update'])->name('update_produit');
     });
-    // Route::get('/', [DepotController::class, 'index'])->name('depot_admin');
+   
     Route::group(['prefix' => 'depots'],function (){
         Route::get('/',[DepotController::class, 'index'])->name('depot_admin');
-        Route::get('/second',[DepotController::class, 'indexSecond'])->name('depot_second');
-        Route::get('/third',[DepotController::class, 'indexThird'])->name('depot_third');
-        Route::get('/liste',[DepotController::class, 'liste'])->name('listedepot');
-      //  Route::post('/add',[DepotController::class, 'store'])->name('add_depot');
+        Route::get('/liste',[DepotController::class, 'create'])->name('list_depot');
+        Route::get('/get-all-depot',[DepotController::class, 'liste'])->name('getalldepot');
         Route::post('/liste',[DepotController::class, 'store'])->name('add_depot');
     });
 
-    Route::group(['prefix' => 'depotSecond'],function (){
-        Route::get('/',[DepotSecondController::class, 'index'])->name('depotSecond_admin');
+    Route::group(['prefix' => 'points_vente'],function (){
+        Route::get('/',[PointVenteController::class, 'index'])->name('points_vente');
+        Route::post('/', [PointVenteController::class, 'store'])->name('add_point_vente');
+        Route::get('/liste', [PointVenteController::class, 'liste'])->name('liste_point_vente');
         
     });
 
     Route::group(['prefix' => 'transfert'],function (){
         Route::get('/',[TransfertController::class, 'index'])->name('transfert_admin');
+        Route::post('/', [TransfertController::class, 'store'])->name('add_transfert');
+        Route::post('/liste' , [TransfertController::class, 'liste'])->name('liste_transfert');
     });
-    // Route::get('/',function (){
-    //     return view'/admin' ('stock');
-    // });
+
     Route::group(['prefix' => 'commande'], function (){
         Route::get('/', [AdminCommandeController::class, 'index'])->name('commande_admin');
         Route::get('/liste', [AdminCommandeController::class, 'liste'])->name('liste_commande_admin');
