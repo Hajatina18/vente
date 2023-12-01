@@ -120,6 +120,9 @@
                     {
                         data: "rcs_pdv"
                     },
+                    {
+                        data: "action"
+                    },
                   
                 ],
                 "language": {
@@ -135,20 +138,16 @@
                     type: 'POST',
                     data: form.serialize(),
                     dataType: 'json',
-                    beforeSend: function() {
-                        $('#loader').removeClass('hidden')
-                    },
-                    complete: function() {
-                        $('#loader', addClass('hidden'))
-                    },
+            
                     success: function(response) {
                         $("#formPointVente")[0].reset();
+                        $('#exampleModal').modal('hide');
                         $("#id_pdv").val(null);
                         Swal.fire({
                             icon: response.icon,
                             text: response.text
                         });
-                        table.ajax.reload();
+                    //    table.ajax.reload();
                     }
                 });
            

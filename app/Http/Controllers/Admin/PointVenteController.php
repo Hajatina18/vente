@@ -50,6 +50,8 @@ class PointVenteController extends Controller
     public function liste()
     {
         $pointVente = PointVente::all();
+        foreach ($pointVente as $pointvente) {
+            $pointvente->action = "<a href='#' class='btn btn-primary' onclick=\"getPoint('".$pointvente->id_pdv."')\">Modifier</a>";}
         echo json_encode($pointVente);
 
     }

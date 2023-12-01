@@ -8,38 +8,24 @@
                     <div class="col-12 col-md-12">
                         <!-- start modal -->
                         <div class="d-flex justify-content-between align-items-center">
-                            <!-- <div style="margin-right: 10px;" > 
-                                <form action="" class="form-inline">
-                                    <div class="input-group">
-                                        <input type="search" class="form-control me-2" placeholder="Rechercher...">
-                                        <button class="btn btn-primary" type="submit"><i class="la la-search"></i> 
-                                        </button>
-                                    </div>                                 
-                                </form>
-                            </div> -->
-                            <div class="d-flex"> 
-                                <div class="ms-3"> <!-- Bouton depot1 -->
-                                    <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        <a href="{{ route('depot_second') }}" >
-                                            <span class="navi-icon"><i class="la la-user mx-1"></i></span>
-                                            <span class="navi-text">Dépôt 2</span>
-                                        </a>
-                                    </button>
-                                </div>
-                                <div class="ms-3"> <!-- Bouton Magasin -->
+                       
+                            <!-- <div class="d-flex"> 
+                                
+                                <div class="ms-3">
+                                    
                                     <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         <a href="#" >
                                             <span class="navi-icon"><i class="la la-user mx-1"></i></span>
                                             <span class="navi-text">Magasin</span>
                                         </a>
                                     </button>
-                                </div>
-                                <div class="ms-3"> <!-- Bouton Ajout nouveau depot -->
+                                </div>  -->
+                                <div class="m-3">
                                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         <div class="navi"> 
-                                            <a class="navi-link" href="{{ route('listedepot') }}">
-                                                <span class="navi-icon"><i class="la la-list-ul text-withe"></i></span>
-                                                <span class="navi-text">Ajout et listes </span>
+                                            <a class="navi-link" href="{{ route('list_depot') }}">
+                                                <span class="navi-icon"><i class="la la-list-ul text-white"></i></span>
+                                                <span class="navi-text">Voir les listes dépôts</span>
                                             </a>
                                         </div>
                                     </button>
@@ -57,17 +43,15 @@
                     <h4 class="text-center">Dépôt principale</h4>
                     <table class="table table-striped" id="liste">
                         <thead>
-                            <th>Code Art</th> <!-- new insert -->
-                            <th>Réf Bl Frns</th> <!-- new insert -->
+                            <th>Code Art</th> 
+                            <th>Réf Bl Frns</th> 
                             <th>Fournisseur</th>
                             <th>Date Facture</th>
                             <th>Numero Facture</th>
                             <th>Bon de Livraison</th>
                             <th>PA HT</th>
                             <th>PA TTC</th>
-                            <th>C Trans</th>
-                            <th>C Revient</th>
-                            <th>CUMP</th>
+                         
                             <th>Date Echeance</th>
                             <th>Action</th>
                         </thead>
@@ -202,7 +186,7 @@
             });
             table = $("#liste").DataTable({
                 "ajax": {
-                    "url": '{{ route('liste_entrer') }}',
+                    "url": '{{ route("liste_entrer") }}',
                     "dataSrc": ''
                 },
                 "order": [
@@ -245,19 +229,10 @@
                     {
                         data: "prix_achat_ht"
                     },
-                    {
-                        data: "prix_achat_ttc"
-                    },
+                
                     {
                         data: "cout_trans"
                     },
-                    // {
-                    //     data: "C Revient"
-                    // },
-                    // {
-                    //     data: "CUMP"
-                    // } 
-                    // ,
                     {
                         data: "date_echeance"
                     },
@@ -391,7 +366,7 @@
         function getDetail(id) {
             if (id) {
                 $.ajax({
-                    url: '{{ route('getDetail') }}',
+                    url: '{{ route("getDetail") }}',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',

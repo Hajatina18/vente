@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Depot;
+use App\Models\Produit;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,8 +18,8 @@ class CreateStockersTable extends Migration
         Schema::create('stockers', function (Blueprint $table) {
             $table->id('id_stocker');
             $table->integer('qte_stocker')->nullable();
-            $table->string('ref_prod');
-            $table->string('id_depot');
+            $table->foreignIdFor(Produit::class);
+            $table->foreignIdFor(Depot::class);
             $table->timestamps();
         });
     }

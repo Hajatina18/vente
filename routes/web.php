@@ -117,9 +117,8 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
    
     Route::group(['prefix' => 'depots'],function (){
         Route::get('/',[DepotController::class, 'index'])->name('depot_admin');
-        Route::get('/second',[DepotController::class, 'indexSecond'])->name('depot_second');
-        Route::get('/third',[DepotController::class, 'indexThird'])->name('depot_third');
-        Route::get('/liste',[DepotController::class, 'liste'])->name('listedepot');
+        Route::get('/liste',[DepotController::class, 'create'])->name('list_depot');
+        Route::get('/get-all-depot',[DepotController::class, 'liste'])->name('getalldepot');
         Route::post('/liste',[DepotController::class, 'store'])->name('add_depot');
     });
 

@@ -49,26 +49,14 @@
                     <h4 class="text-center mb-2">Liste des Utilisateurs</h4>
                     <table class="table table-striped" id="liste">
                         <thead>
-                            <th>#</th>
+                            
                             <th>Nom</th>
                             <th>Localisation</th>
                             <th>Action</th>
                         </thead>
+                     
                         <tbody>
-                        @foreach ($depots as $depot)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $depot->nom_depot }}</td>
-                                    <td>{{ $depot->localisation }}</td>   
-                                    <td>
-                                        <button type="submit" class="btn btn-secondary p-2">
-                                            Editer
-                                        </button>
-                                    </td>
-                                </tr>
-                                
-                            @endforeach
-                            </tbody>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -85,7 +73,7 @@
         $("document").ready(function() {
             table = $("#liste").DataTable({
                 "ajax": {
-                    "url": '{{ route('listedepot') }}',
+                    "url": '{{ route("getalldepot") }}',
                     "dataSrc": ''
                 },
                 "columns": [{
@@ -98,7 +86,7 @@
                     {
                         data: "action"
                     }
-                ]
+                ],
                 "language": {
                     url: "{{ asset('datatable/french.json') }}"
                 }
@@ -106,7 +94,7 @@
         });
         $("#formDepot").on('submit', function() {
             var form = $(this);
-            if ($("#depot").val()) {
+           
                 $.ajax({
                     url: '{{ route("add_depot") }}',
                     type: 'POST',
@@ -128,13 +116,8 @@
                         table.ajax.reload();
                     }
                 });
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    text: 'Veuillez renseigner le champ Depot pour completer l\'insertion, s\'il vous plait'
-                });
-            }
-            return false
+
+        
         });
     </script>
 @endpush
