@@ -24,7 +24,7 @@
 <div class="panier-content border">
     <div class="row mx-0">
         <div class="col-12 mx-0 mb-2 p-0" id="panier">
-            <h5 class="text-center mt-2 mb-0">Panier</h5>
+            <h5 class="text-center mt-2 mb-0">Paniers</h5>
             <hr class="my-2">
             @if ($precommande && $precommande->paniers)
                 @foreach ($precommande->paniers as $panier)
