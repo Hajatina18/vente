@@ -131,6 +131,8 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
 
     Route::group(['prefix' => 'transfert'],function (){
         Route::get('/',[TransfertController::class, 'index'])->name('transfert_admin');
+        Route::post('/', [TransfertController::class, 'store'])->name('add_transfert');
+        Route::post('/liste' , [TransfertController::class, 'liste'])->name('liste_transfert');
     });
 
     Route::group(['prefix' => 'commande'], function (){

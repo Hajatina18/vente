@@ -46,7 +46,7 @@
                     </form>
                 </div>
                 <div class="col-12 col-md-6 col-lg-8">
-                    <h4 class="text-center mb-2">Liste des Utilisateurs</h4>
+                    <h4 class="text-center mb-2">Liste des Dépôts</h4>
                     <table class="table table-striped" id="liste">
                         <thead>
                             
@@ -56,7 +56,7 @@
                         </thead>
                      
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                 </div>
