@@ -68,7 +68,7 @@
 
                 <!-- end add -->
                 <!-- start table -->
-                <div class="my-1 p-2 bg-body rounded shadow-sm">
+                <div class="my-0 p-2 bg-body rounded shadow-sm">
 
                     <h4 class="text-center">Dépôt principale</h4>
                     <table class="table table-striped" id="liste">
@@ -103,16 +103,16 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12 mb-2">
-                            <p class="m-0">Code Art : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">Code Art : <span id="code_artModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">PCB : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">PCB : <span id="pcbModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
                             <p class="m-0">Fournisseur : <span id="frnsModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Ref BL FRNS : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">Ref BL FRNS : <span id="reference_bl_frnsModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
                             <p class="m-0">Date d'enregistrement: <span id="dateModal"
@@ -134,13 +134,13 @@
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">P.A HT : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">P.A HT : <span id="prix_achat_thModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">P.A TTC : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">P.A TTC : <span id="prix_achat_ttcModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Coût Trans : <span id="num_blModal" style="font-weight: 600"></span></p>
+                            <p class="m-0">Coût Trans : <span id="cout_transModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
                             <p class="m-0">Date Echeance : <span id="date_echeanceModal"
