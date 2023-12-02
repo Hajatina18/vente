@@ -50,13 +50,18 @@ class EntrerController extends Controller
         $enter->num_bl = $request->num_bl;
         $enter->date_echeance = $request->date_echeance;
         if($enter->save()){
-           return redirect('admin.depot');
+        //    return redirect('admin/depot');
+        $array = array(
+            'icon' => "succes",
+            'text' => "Bon entrée ajouté avec success"
+        );
         }else{
-            echo json_encode(array(
+            $array = (array(
                 'icon' => "error",
                 'text' => "Il existe un erreur interne, Veillez contacter l'administrateur"
             ));
         }
+        echo json_encode($array);
     }
     public function add_panier(Request $request)
     {
@@ -84,7 +89,7 @@ class EntrerController extends Controller
 
     public function liste()
     {
-        $entrers = Entrer::all();
+        $entrers = Entrer::orderByDesc('created_at')->get();
         foreach ($entrers as $entrer) {
             $date = new DateTime($entrer->created_at);
             $entrer->nom_frns = Fournisseur::find($entrer->id_frns)->nom_frns;
@@ -96,20 +101,7 @@ class EntrerController extends Controller
         echo json_encode($entrers);
     }
 
-    public function listeSecond()
-    {
-        $entrers = Entrer::where('depot', 2)->get();
-        foreach ($entrers as $entrer) {
-            $date = new DateTime($entrer->created_at);
-            $entrer->nom_frns = Fournisseur::find($entrer->id_frns)->nom_frns;
-            $entrer->date_facture = ($entrer->date_facture == NULL) ? "" : date('d/m/Y', strtotime($entrer->date_facture));
-            $entrer->date_echeance = ($entrer->date_echeance == NULL) ? "" : date('d/m/Y', strtotime($entrer->date_echeance));
-            $entrer->action = '<a href="javascript:void(0)" class="badge bg-primary p-2" onclick=\'getDetail("'.$entrer->id_entrer.'")\'>Détail</a>';
-            $entrer->date = $date->format('d/m/Y H:i:s');
-           
-        }
-        echo json_encode($entrers);
-    }
+
 
     public function getDetail(Request $request)
     {

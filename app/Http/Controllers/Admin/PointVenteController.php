@@ -51,7 +51,7 @@ class PointVenteController extends Controller
     {
         $pointVente = PointVente::all();
         foreach ($pointVente as $pointvente) {
-            $pointvente->action = "<a href='#' class='btn btn-primary' onclick=\"getPoint('".$pointvente->id_pdv."')\">Modifier</a>";}
+            $pointvente->action = "<a href='#' class='badge bg-primary p-2 ms-2 ' onclick=\"getPoint('".$pointvente->id_pdv."')\">Modifier</a><a href='javascript:void(0)' class='badge bg-danger p-2 ms-2 delete_poinvente' data-id='".$pointvente->id_pdv."'>Supprimer</a>";}
         echo json_encode($pointVente);
 
     }

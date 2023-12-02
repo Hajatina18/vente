@@ -138,7 +138,14 @@
                     type: 'POST',
                     data: form.serialize(),
                     dataType: 'json',
-            
+                    beforeSend: function() { 
+                        $('#loader').removeClass('hidden');
+                      
+                    },
+                    complete: function() { 
+                        $('#loader').addClass('hidden');
+                      
+                    },
                     success: function(response) {
                         $("#formPointVente")[0].reset();
                         $('#exampleModal').modal('hide');
@@ -147,7 +154,7 @@
                             icon: response.icon,
                             text: response.text
                         });
-                    //    table.ajax.reload();
+                     table.ajax.reload();
                     }
                 });
            
