@@ -23,6 +23,7 @@ class CreateTransfertTable extends Migration
             $table->foreign('id_demandeur')->references('id_depot')->on('depots');
             $table->foreign('id_approvisionneur')->references('id_depot')->on('depots');
             $table->timestamps();
+    
         });
     }
 

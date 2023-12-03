@@ -117,7 +117,7 @@
                     }
                 });
 
-        
+                return false
         });
     </script>
 @endpush

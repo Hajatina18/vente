@@ -221,6 +221,7 @@
                     }
                 });
                 if (!vide) {
+                    var route = "{{route('depot_admin')}}";
                     $.ajax({
                         type: "POST",
                         url: "{{ route('add_entrer') }}",
@@ -235,11 +236,14 @@
                             $("#submitFormEntrer").prop("disabled", false);
                         },
                         success: function(response) {
+                          
                             if (response.icon) {
                                 Swal.fire({
                                     icon: response.icon,
                                     text: response.text
                                 });
+                               
+
                             } else {
                                 var j = 0;
                                 $("#produits > tbody > tr").each(function() {
@@ -282,6 +286,8 @@
                                     });
                                 });
                             }
+
+                            window.location.href = route;
                         }
                     });
                 } else {
