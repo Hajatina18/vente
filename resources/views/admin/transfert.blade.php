@@ -9,21 +9,13 @@
 
                     <!-- Button trigger modal -->
                     <div class="d-flex justify-content-between align-items-center">
-                        <div style="margin-right: 10px;"> <!-- Barre de recherche -->
-                            <form action="" class="form-inline">
-                                <div class="input-group">
-                                    <input type="search" class="form-control me-2" placeholder="Rechercher...">
-                                    <button class="btn btn-primary" type="submit"><i class="la la-search"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                    
 
-                        <div class="ms-3"> <!-- Bouton Ajout transfert -->
+                        <div class="m-3"> <!-- Bouton Ajout transfert -->
                             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <div class="navi">
                                     <a class="navi-link" href="#">
-                                        <span class="navi-icon"><i class="la la-share-alt mx-1"></i></span>
+                                        <span class="navi-icon"><i class="la la-share-alt mx-1 text-white"></i></span>
                                         <span class="navi-text">Transferer des produits </span>
                                     </a>
                                 </div>
@@ -144,31 +136,31 @@
                             </div>
                         </div>
                     </div>
-
+                 
                 </div>
-                <div>
-                    <h4 class="text-center">Journal des transferts</h4>
-                    <div class="table-responsive">
-                        <table class="table table-striped" id="liste">
-                            <thead>
-                                <th>Code Art</th>
-                                <th>Bon de transfert</th>
-                                <th>Designation</th>
-                                <th>Quantité demandée</th>
-                                <th>Quantité approuvée </th>
-                                <th>Trans </th>
-                                <th>Status </th>
-                                <th>Date</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
+                
+            </div>
+            <div>
+                <h4 class="text-center">Journal des transferts</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="liste">
+                        <thead>
+                            <th>Code Art</th>
+                            <th>Bon de transfert</th>
+                            <th>Designation</th>
+                            <th>Quantité demandée</th>
+                            <th>Quantité approuvée </th>
+                            <th>Trans </th>
+                            <th>Status </th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
 
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

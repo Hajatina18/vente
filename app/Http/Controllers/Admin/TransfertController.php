@@ -7,6 +7,7 @@ use App\Models\Depot;
 use App\Models\PointVente;
 use App\Models\Produit;
 use App\Models\Transfert;
+use App\Models\Avoir;
 use Illuminate\Http\Request ;
 
 
@@ -40,6 +41,7 @@ class TransfertController extends Controller
     
     public function liste(){
         $transferts = Transfert::all();
+      
         echo json_encode($transferts);
     }
 

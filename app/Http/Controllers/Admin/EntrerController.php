@@ -50,11 +50,7 @@ class EntrerController extends Controller
         $enter->num_bl = $request->num_bl;
         $enter->date_echeance = $request->date_echeance;
         if($enter->save()){
-        //    return redirect('admin/depot');
-        $array = array(
-            'icon' => "succes",
-            'text' => "Bon entrée ajouté avec success"
-        );
+        $array = $enter;
         }else{
             $array = (array(
                 'icon' => "error",
