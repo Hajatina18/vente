@@ -73,7 +73,7 @@ class EntrerController extends Controller
             $produit->save();
             echo json_encode(array(
                 'icon' => "success",
-                'text' => "Entrer enregistée avec succès"
+                'text' => "Bon d'Entrée enregistée avec succès"
             ));
         }else{
             echo json_encode(array(

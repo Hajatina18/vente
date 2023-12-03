@@ -16,9 +16,7 @@ class CreateProduitsTable extends Migration
         Schema::create('produits', function (Blueprint $table) {
             $table->string('ref_prod');
             $table->string('nom_prod');
-            $table->double("qte_stock");
             $table->text("image_prod");
-            $table->boolean("fait_demande")->default(false);
             $table->timestamps();
             $table->primary('ref_prod');
         });
