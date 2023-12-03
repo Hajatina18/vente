@@ -38,7 +38,7 @@ Route::group(['middleware' => ["auth"]], function(){
         Route::get('/liste', [EntrerController::class, 'liste'])->name('liste_entrer');
        Route::get('/liste-second', [EntrerController::class, 'listeSecond'])->name('liste_entrer_second');
         Route::post('/', [EntrerController::class, 'addEntrer'])->name('add_entrer');
-        Route::post('/add_panier', [EntrerController::class, 'add_panier'])->name('add_panier_entrer');
+        Route::post('/add_panier_entrer', [EntrerController::class, 'add_panier'])->name('add_panier_entrer');
         Route::post('/get_unite', [EntrerController::class, 'getUnite'])->name('getUnite');
         Route::post('/get_detail', [EntrerController::class, 'getDetail'])->name('getDetail');
     });
@@ -132,7 +132,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
     Route::group(['prefix' => 'transfert'],function (){
         Route::get('/',[TransfertController::class, 'index'])->name('transfert_admin');
         Route::post('/', [TransfertController::class, 'store'])->name('add_transfert');
-        Route::post('/liste' , [TransfertController::class, 'liste'])->name('liste_transfert');
+        Route::get('/liste' , [TransfertController::class, 'liste'])->name('liste_transfert');
     });
 
     Route::group(['prefix' => 'commande'], function (){

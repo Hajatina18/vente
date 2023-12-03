@@ -214,14 +214,14 @@
             $("#formEntrer").on('submit', function() {
                 var form = $(this);
                 var vide = false;
+                var route = "{{route('depot_admin')}}";
                 $("#produits > tbody > tr").each(function() {
-                    if (!$(this).find("#produit").val() || !$(this).find("#unite").val() || !$(this).find(
-                            "#qte").val()) {
-                        vide = true;
-                    }
-                });
-                if (!vide) {
-                    var route = "{{route('depot_admin')}}";
+                if (!$(this).find("#produit").val() || !$(this).find("#unite").val() || !$(this).find(
+                        "#qte").val()) {
+                    vide = true;
+                }
+            });
+            if (!vide) {
                     $.ajax({
                         type: "POST",
                         url: "{{ route('add_entrer') }}",
@@ -243,7 +243,6 @@
                                     text: response.text
                                 });
                                
-
                             } else {
                                 var j = 0;
                                 $("#produits > tbody > tr").each(function() {

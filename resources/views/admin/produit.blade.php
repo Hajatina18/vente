@@ -64,7 +64,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="my-3">
+                        {{-- <div class="my-3">
                             <label for="" class="form-label me-3">Fait à la demande</label>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="fait_demande" value="true" id="demandeOui">
@@ -78,11 +78,11 @@
                                     Non
                                 </label>
                             </div>
-                        </div>
-                        <div class="mb-2">
+                        </div> --}}
+                        {{-- <div class="mb-2">
                             <label for="qte_stock" class="form-label">Quantité en stock</label>
                             <input type="text" class="form-control" id="qte_stock" name="qte_stock" required>
-                        </div>
+                        </div> --}}
                         <button type="submit" id="submitFormProduit" class="btn btn-outline-primary">
                             Enregistrer
                         </button>

@@ -50,11 +50,7 @@ class EntrerController extends Controller
         $enter->num_bl = $request->num_bl;
         $enter->date_echeance = $request->date_echeance;
         if($enter->save()){
-        //    return redirect('admin/depot');
-        $array = array(
-            'icon' => "succes",
-            'text' => "Bon entrée ajouté avec success"
-        );
+        $array = $enter;
         }else{
             $array = (array(
                 'icon' => "error",
@@ -77,7 +73,7 @@ class EntrerController extends Controller
             $produit->save();
             echo json_encode(array(
                 'icon' => "success",
-                'text' => "Entrer enregistée avec succès"
+                'text' => "Bon d'Entrée enregistée avec succès"
             ));
         }else{
             echo json_encode(array(
