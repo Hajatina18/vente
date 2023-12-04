@@ -17,6 +17,8 @@ class CreateProduitsTable extends Migration
             $table->string('ref_prod');
             $table->string('nom_prod');
             $table->text("image_prod");
+            $table->double("qte_stock")->default(0);
+            $table->boolean("fait_demande")->default(false);
             $table->timestamps();
             $table->primary('ref_prod');
         });

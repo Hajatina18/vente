@@ -14,7 +14,7 @@ class CreateDepotTable extends Migration
     public function up()
     {
         Schema::create('depots', function (Blueprint $table) {
-            $table->id('id_depot');
+            $table->integer('id_depot')->autoIncrement();
             $table->string('nom_depot');
             $table->string('localisation');
             $table->boolean("is_default")->default(false);

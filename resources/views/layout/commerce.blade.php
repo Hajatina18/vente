@@ -1,5 +1,11 @@
                 <ul class="list-sidebar">
-                   
+                   <li>
+                   <a style="padding: 1rem ;"
+                      class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                      <span><i class="la la-bars"></i></span>
+                      <span class="fs-4">Dashboard</span>
+                  </a>
+                   </li>
                     <li class="sidebar-item">
                         <a href="{{ route('produit_com') }}" class="sidebar-link">
                             <i class="lab la-product-hunt mb-2"></i>

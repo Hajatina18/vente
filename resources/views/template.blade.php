@@ -55,7 +55,7 @@
 </head>
 
 <body>
-    <div class="sidebar-left">
+    <div class="sidebar-left bg-layout">
         @if (auth()->user()->is_admin === 1)
             @include("layout.admin")      
         @elseif (auth()->user()->is_admin === 2)
@@ -64,7 +64,7 @@
             @include("layout.vente")
         @endif
     </div>
-    <header class="main-header">
+    <header class="main-header bg-layout">
         <a href="#" class="home-header"></a>
         <div class="datetime ">
             <div class="time">

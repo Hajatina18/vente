@@ -31,19 +31,12 @@ class ProduitController extends Controller
         $product = new Produit;
         $product->ref_prod = $request->ref_prod;
         $product->nom_prod = $request->nom_prod;
-        
-        if(boolval($request->fait_demande)){
-            $product->qte_stock = 0;
-        }else{
-            $product->qte_stock = str_replace(',', '.', $request->qte_stock);
-        }
         $product->image_prod = $image_final;
       
         if($product->save()){
             $stock = new Stock;
             $stock->week = (new DateTime())->format('W');
             $stock->ref_prod = $product->ref_prod;
-            $stock->stock = $product->qte_stock;
             $stock->save();
             $array = $product;
         }else{

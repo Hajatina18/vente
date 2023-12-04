@@ -11,7 +11,7 @@ class Produit extends Model
     protected $primaryKey = "ref_prod";
     public $incrementing = false;
     protected $fillable = [
-        'nom_prod', 'qte_stock', 'image_prod', "fait_demande"
+        'nom_prod',  'image_prod', 'qte_stock'
     ];
 
     public function prepaniers()

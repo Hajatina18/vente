@@ -17,8 +17,8 @@ class CreateTransfertTable extends Migration
             $table->id('id_transfert');
             $table->string('bon_de_transfert');
             $table->integer('quantite_transfert');
-            $table->bigInteger('id_demandeur')->unsigned()->index();
-            $table->bigInteger('id_approvisionneur')->unsigned()->index();
+            $table->integer('id_demandeur')->index();
+            $table->integer('id_approvisionneur')->index();
             $table->date('date_transfert');
             $table->foreign('id_demandeur')->references('id_depot')->on('depots');
             $table->foreign('id_approvisionneur')->references('id_depot')->on('depots');
