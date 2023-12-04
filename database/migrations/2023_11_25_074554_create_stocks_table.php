@@ -17,9 +17,9 @@ class CreateStocksTable extends Migration
             $table->id('id_stock');
             $table->integer("week");
             $table->string('ref_prod')->index();
-            $table->foreign('ref_prod')->references('ref_prod')->on('produits');
             $table->float('stock')->default(0);
-            $table->bigInteger('id_depot')->index()->nullable();
+            $table->integer('id_depot')->nullable();
+            $table->foreign('ref_prod')->references('ref_prod')->on('produits');
             $table->foreign('id_depot')->references('id_depot')->on('depots');
             $table->timestamps();
         });
