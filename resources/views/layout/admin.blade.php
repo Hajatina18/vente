@@ -3,7 +3,7 @@
                   <ul class="list-sidebar nav nav-pills flex-column mb-auto">
                     <li style="padding: 0.5rem ;"
                       class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                     <i class="la la-user-shield me-2"></i>
+                     <i class="la la-user-shield me-2 fs-4"></i>
                       <span class="fs-4">Admin</span>
                   </li>
                       <li class="sidebar-item">

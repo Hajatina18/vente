@@ -1,11 +1,9 @@
 <ul class="list-sidebar">
-    <li>
-    <a style="padding: 0.5rem ;"
+    <li style="padding: 0.5rem ;"
         class="d-flex align-items-center me-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        <span><i class="me-2 la la-bars"></i></span>
+        <span><i class="me-2 la la-store-alt fs-4"></i></span>
         <span class="fs-4">Caissier</span>
-    </a>
-    </li>
+   </li>
     <li class="sidebar-item">
         <a href="{{ route('commande') }}" class="sidebar-link">
             <i class="las la-shopping-bag me-2"></i>
