@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PointVente;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PointVenteController extends Controller
@@ -15,7 +16,9 @@ class PointVenteController extends Controller
      */
     public function index()
     {
-        return view('admin.liste-point-vente');
+        $caissier = PointVente::all('id_user')->first();
+        $users= User::all()->whereNotIn('id', $caissier);
+        return view('admin.liste-point-vente',compact('users'));
     }
 
  
@@ -33,6 +36,8 @@ class PointVenteController extends Controller
         $pointVente->nif_pdv = $request->nif_pdv;
         $pointVente->stat_pdv = $request->stat_pdv;
         $pointVente->rcs_pdv = $request->rcs_pdv;
+        $pointVente->id_user = $request->id_user;
+
         if($pointVente->save()){
             $array = array(
                 'icon' => "success",
@@ -49,9 +54,11 @@ class PointVenteController extends Controller
 
     public function liste()
     {
-        $pointVente = PointVente::all();
+        $pointVente = PointVente::join('users','point_ventes.id_user','=','users.id')->get();
         foreach ($pointVente as $pointvente) {
-            $pointvente->action = "<a href='#' class='badge bg-primary p-2 ms-2 ' onclick=\"getPoint('".$pointvente->id_pdv."')\">Modifier</a><a href='javascript:void(0)' class='badge bg-danger p-2 ms-2 delete_poinvente' data-id='".$pointvente->id_pdv."'>Supprimer</a>";}
+            $pointvente->action = "`<a href='#' class='badge bg-primary p-2 ms-2 ' onclick=\"getPoint('".$pointvente->id_pdv."')\">Modifier</a>
+                                    <a href='javascript:void(0)' class='badge bg-danger p-2 ms-2 delete_poinvente' data-id='".$pointvente->id_pdv."'>Supprimer</a>
+                                    <a href='/admin/points_vente/". $pointvente->id_pdv ."' class='badge bg-success p-2 ms-2 visit_depot' data-id='" . $pointvente->id_pdv . "'>Visiter</a>`";}
         echo json_encode($pointVente);
 
     }

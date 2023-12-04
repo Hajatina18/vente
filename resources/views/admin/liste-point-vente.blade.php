@@ -53,7 +53,15 @@
                                                 <label for="rcs_pdv" class="form-label">RCS</label> 
                                                 <input type="text" class="form-control" id="rcs_pdv" name="rcs_pdv">
                                             </div>
-                                         
+                                            <div class="mb-2">
+                                                <label for="id_user" class="form-label">Caissier(e)</label> 
+                                                <select class="form-select" id="id_user" name="id_user">
+                                                    <option >Choisir caissier(e)</option>
+                                                    @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->nom  }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                       
                                             <button type="submit" id="submitFormPointVente" class="btn btn-primary">
                                                 Sauvagarder
@@ -79,6 +87,7 @@
                             <th>Téléphone</th>
                             <th>NIF Stat</th>
                             <th>RCS</th>
+                            <th>Caissier(e)</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -119,6 +128,9 @@
                     },
                     {
                         data: "rcs_pdv"
+                    },
+                    {
+                        data: "nom"
                     },
                     {
                         data: "action"
