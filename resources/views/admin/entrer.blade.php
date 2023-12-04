@@ -227,11 +227,13 @@
                         url: "{{ route('add_entrer') }}",
                         data: form.serialize(),
                         dataType: "json",
-                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        beforeSend: function() { 
+                            
                             $('#loader').removeClass('hidden');
                             $("#submitFormEntrer").prop("disabled", true);
                         },
-                        complete: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        complete: function() { 
+                            
                             $('#loader').addClass('hidden');
                             $("#submitFormEntrer").prop("disabled", false);
                         },
@@ -259,10 +261,12 @@
                                             ref_prod: ref,
                                             qte: qte
                                         },
-                                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                                        beforeSend: function() { 
+                                            
                                             $('#loader').removeClass('hidden')
                                         },
-                                        complete: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                                        complete: function() { 
+                                            
                                             $('#loader').addClass('hidden')
                                         },
                                         dataType: "json",
@@ -307,10 +311,12 @@
                             _token: '{{ csrf_token() }}',
                             ref_prod: produit.val()
                         },
-                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        beforeSend: function() { 
+                            
                             $('#loader').removeClass('hidden')
                         },
-                        complete: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        complete: function() { 
+                            
                             $('#loader').addClass('hidden')
                         },
                         dataType: "json",
@@ -335,10 +341,12 @@
                             _token: '{{ csrf_token() }}',
                             id: id
                         },
-                        beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        beforeSend: function() { 
+                            
                             $('#loader').removeClass('hidden')
                         },
-                        complete: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        complete: function() { 
+                            
                             $('#loader').addClass('hidden')
                         },
                         dataType: 'json',
