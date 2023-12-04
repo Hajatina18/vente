@@ -122,8 +122,6 @@
                                                     </table>
                                                 </div>
                                             
-
-
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
                                                 <button type="submit" id="submitFormProduit" class="btn btn-outline-primary">Enregistrer</button>
@@ -262,6 +260,7 @@
                 }
             ]
         })
+    
     });
     $("table").on('click', '.add', function() {
         $(this).parents('tbody').append('<tr><td><select name="produit" id="produit" class="form-select">' +

@@ -5,8 +5,9 @@
     <div class="card bg-white">
         <div class="card-body">
             <div class="row mx-0">
-                <div class="col-12 mx-0 mb-2 d-flex align-items-center border-bottom border-dark justify-content-between">
-                    <h4>Produits</h4>
+                <div class="col-12  mb-4 d-flex align-items-center border-bottom border-dark justify-content-between">
+                    <h4>Touts Produits</h4>
+                    
                     <form action="#" id="formSearch">
                         <div class="form-group mb-2">
                             <input type="text" name="recherche" id="recherche" class="form-control">
@@ -14,10 +15,22 @@
                         </div>
                     </form>
                 </div>
+                <table class="table table-striped" id="liste">
+                    <thead>
+                        <th>Code Art</th> 
+                        <th>Designation</th> 
+                        <th>Quantite</th>
+                        <th>Prix</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                
+                {{-- <div id="product">
+                    @include('pages.partials.produits')
+                </div> --}}
             </div>
-            <div id="product">
-                @include('pages.partials.produits')
-            </div>
+            
         </div>
     </div>
 </div>

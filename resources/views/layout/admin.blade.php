@@ -1,5 +1,5 @@
               <div id="sidebar-position">
-                  <a href=""
+                <a
                       class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                       <span><i class="la la-bars"></i></span>
                       <span class="fs-4">Dashboard</span>

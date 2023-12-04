@@ -3,7 +3,7 @@
 @section('content')
     <div class="commande-content w-100">
         <div class="card card-commande bg-white">
-            <div class="border-solid rounded" >
+            <div class="border-solid rounded">
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <!-- start modal -->
@@ -33,12 +33,42 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- recherche entre deux date -->
+                        <div class="d-flex justify-content-between align-items-center my-2">
+                            <div class="col-md-5">
+                                <form>
+                                    <div class="container">
+                                        <div class="row px-1">
+                                            <div class="input-group col-md-12">
+                                                <div class="form-group col-md-4">
+                                                    <label for="startDate">Date de début :</label>
+                                                    <input type="date" class="form-control" id="startDate">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="endDate">Date de fin :</label>
+                                                    <input type="date" class="form-control" id="endDate">
+                                                </div>
+                                                <div class="col-md-4 my-4"> <!-- Espace entre les champs de date et le bouton -->
+                                                    <button type="submit" class="btn btn-primary"><i class="la la-search"></i></button>
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        <!-- fin  -->
                     </div>
                 </div>
 
                 <!-- end add -->
                 <!-- start table -->
-                <div class="my-2 p-2 bg-body rounded shadow-sm">
+                <div class="my-0 p-2 bg-body rounded shadow-sm">
 
                     <h4 class="text-center">Dépôt principale</h4>
                     <table class="table table-striped" id="liste">
@@ -73,43 +103,48 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12 mb-2">
-                            <p class="m-0">Code Art : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">Code Art : <span id="code_artModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">PCB : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">PCB : <span id="pcbModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
                             <p class="m-0">Fournisseur : <span id="frnsModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Ref BL FRNS : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">Ref BL FRNS : <span id="reference_bl_frnsModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Date d'enregistrement: <span id="dateModal" style="font-weight: 600"></span>
+                            <p class="m-0">Date d'enregistrement: <span id="dateModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Date facture : <span id="date_factureModal" style="font-weight: 600"></span>
+                            <p class="m-0">Date facture : <span id="date_factureModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Numero Facture : <span id="num_factureModal" style="font-weight: 600"></span>
+                            <p class="m-0">Numero Facture : <span id="num_factureModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Bon de livraison : <span id="num_blModal" style="font-weight: 600"></span></p>
+                            <p class="m-0">Bon de livraison : <span id="num_blModal" style="font-weight: 600"></span>
+                            </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">P.A HT : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">P.A HT : <span id="prix_achat_thModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">P.A TTC : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">P.A TTC : <span id="prix_achat_ttcModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Coût Trans : <span id="num_blModal" style="font-weight: 600"></span></p>
+                            <p class="m-0">Coût Trans : <span id="cout_transModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Date Echeance : <span id="date_echeanceModal" style="font-weight: 600"></span>
+                            <p class="m-0">Date Echeance : <span id="date_echeanceModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12">
