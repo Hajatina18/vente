@@ -104,7 +104,7 @@
                         $('#loader').removeClass('hidden')
                     },
                     complete: function() {
-                        $('#loader', addClass('hidden'))
+                        $('#loader').addClass('hidden')
                     },
                     success: function(response) {
                         $("#formDepot")[0].reset();

@@ -15,10 +15,11 @@ class CreateEntrerProduitsTable extends Migration
     {
         Schema::create('entrer_produits', function (Blueprint $table) {
             $table->id('id_entre');
-            $table->bigInteger('id_entrer');
+            $table->integer('id_entrer')->unsigned();
             $table->string('ref_prod');
             $table->bigInteger('id_unite');
             $table->float('qte_entrer');
+            $table->foreign('id_entrer')->references('id_entrer')->on('entrers');
             $table->timestamps();
         });
     }

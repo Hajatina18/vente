@@ -85,7 +85,8 @@ class EntrerController extends Controller
 
     public function liste()
     {
-        $entrers = Entrer::orderByDesc('created_at')->get();
+        $entrers = Entrer::orderByDesc('created_at')->with('entrer_produits')->get();
+        dd($entrers);
         foreach ($entrers as $entrer) {
             $date = new DateTime($entrer->created_at);
             $entrer->nom_frns = Fournisseur::find($entrer->id_frns)->nom_frns;
@@ -94,6 +95,8 @@ class EntrerController extends Controller
             $entrer->action = '<a href="javascript:void(0)" class="badge bg-primary p-2" onclick=\'getDetail("'.$entrer->id_entrer.'")\'>Détail</a>';
             $entrer->date = $date->format('d/m/Y H:i:s');
         }
+     
+
         echo json_encode($entrers);
     }
 
