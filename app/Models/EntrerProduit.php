@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class EntrerProduit extends Model
 {
     use HasFactory;
-    protected $primaryKey = "id_entre";
+    
     protected $fillable = [
         'id_entrer', 'ref_prod', 'id_unite', 'qte_entrer'
     ];
