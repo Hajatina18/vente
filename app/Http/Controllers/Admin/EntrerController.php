@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Avoir;
+use App\Models\Depot;
 use App\Models\Entrer;
 use App\Models\EntrerProduit;
 use App\Models\Fournisseur;
 use App\Models\Produit;
+use App\Models\Stock;
 use DateTime;
 use Illuminate\Http\Request;
 
@@ -62,6 +64,9 @@ class EntrerController extends Controller
     public function add_panier(Request $request)
     {
         $entrerProduit = new EntrerProduit;
+        $stock = Stock::find($request->ref_prod);
+        $depot = Depot::where('is_default', 1);
+        $stock->update(['stock'=> $stock->qte_entrer, 'id_depot'=> $depot->id_depot]);
         $entrerProduit->id_entrer = $request->id;
         $entrerProduit->ref_prod = $request->ref_prod;
         $entrerProduit->id_unite = $request->unite;
@@ -85,8 +90,7 @@ class EntrerController extends Controller
 
     public function liste()
     {
-        $entrers = Entrer::orderByDesc('created_at')->with('entrer_produits')->get();
-        dd($entrers);
+        $entrers = Entrer::orderByDesc('created_at')->get();
         foreach ($entrers as $entrer) {
             $date = new DateTime($entrer->created_at);
             $entrer->nom_frns = Fournisseur::find($entrer->id_frns)->nom_frns;
@@ -94,9 +98,12 @@ class EntrerController extends Controller
             $entrer->date_echeance = ($entrer->date_echeance == NULL) ? "" : date('d/m/Y', strtotime($entrer->date_echeance));
             $entrer->action = '<a href="javascript:void(0)" class="badge bg-primary p-2" onclick=\'getDetail("'.$entrer->id_entrer.'")\'>Détail</a>';
             $entrer->date = $date->format('d/m/Y H:i:s');
+            $entrer->panier = EntrerProduit::join('produits', 'produits.ref_prod', '=', 'entrer_produits.ref_prod')
+                                ->join('unite_mesures', 'unite_mesures.id_unite', '=', 'entrer_produits.id_unite')
+                                ->where('id_entrer', $entrer->id_entrer)
+                                ->get();
         }
      
-
         echo json_encode($entrers);
     }
 

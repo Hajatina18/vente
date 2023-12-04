@@ -73,15 +73,13 @@
                     <h4 class="text-center">Dépôt principale</h4>
                     <table class="table table-striped" id="liste">
                         <thead>
-                            <th>Code Art</th> 
+                           
                             <th>Réf Bl Frns</th> 
                             <th>Fournisseur</th>
-                            <th>Date Facture</th>
+                         
                             <th>Numero Facture</th>
                             <th>Bon de Livraison</th>
-                            <th>PA HT</th>
-                            <th>PA TTC</th>
-                         
+                            <th style="width: 25%">Produits</th>                     
                             <th>Date Echeance</th>
                             <th>Action</th>
                         </thead>
@@ -243,18 +241,14 @@
                 "language": {
                     url: "{{ asset('datatable/french.json') }}"
                 },
-                "columns": [{
-                        data: "code_art"
-                    },
+                "columns": [
                     {
                         data: "reference_bl_frns"
                     },
                     {
                         data: "nom_frns"
                     },
-                    {
-                        data: "date_facture"
-                    },
+                
                     {
                         data: "num_facture"
                     },
@@ -262,12 +256,25 @@
                         data: "num_bl"
                     },
                     {
-                        data: "prix_achat_ht"
+                        data: "panier",
+                        render: function (data, type, row) {
+                            if (type === 'display' && Array.isArray(data)) {
+                    let panierHtml = '<ul>';
+                        const maxLines = 3;
+                        for (let i = 0; i < Math.min(maxLines, data.length); i++) {
+                            const produit = data[i];
+                        panierHtml += '<li>' + produit.nom_prod + ' - ' + produit.qte_stock + ' ' + produit.unite + '</li>';
+                    };
+                    if (data.length > maxLines) {
+                        panierHtml += '<li>...</li>';
+                    }
+                    panierHtml += '</ul>';
+                    return panierHtml;
+                }
+                return data;
+            }
                     },
                 
-                    {
-                        data: "cout_trans"
-                    },
                     {
                         data: "date_echeance"
                     },
@@ -291,7 +298,7 @@
         $("#formEntrer").on('submit', function() {
             var form = $(this);
             var vide = false;
-            $("#produits > tbody > tr").each(function() {
+            $("#produits > tbody > tr").each(function() {getDetail
                 if (!$(this).find("#produit").val() || !$(this).find("#unite").val() || !$(this).find(
                         "#qte").val()) {
                     vide = true;
