@@ -12,21 +12,21 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{{ route('commande_admin') }}" class="sidebar-link">
+                    <a href="{{ route('commande_com') }}" class="sidebar-link">
                         <i class="las la-shopping-bag mb-2"></i>
                         <span>Commande</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="{{ route('caisse') }}" class="sidebar-link">
+                    <a href="#" class="sidebar-link">
                         <i class="las la-cash-register mb-2"></i>
                         <span>Caisse</span>
                     </a>
                 </li>
 
-                <li class="dropdown sidebar-item">
-                    <a href="#" class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link ">
                         <i class="las la-house-damage mb-2"></i>
                         <span>Depots</span>
                     </a>
