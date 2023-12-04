@@ -31,37 +31,18 @@
                         </a>
                     </li>
 
-                <li class="dropdown sidebar-item">
-                        <a href="#" class="sidebar-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="las la-house-damage mb-2"></i>
-                            <span>Depots</span>
-                        </a>
-                        <ul class="dropdown-menu bg-secondary">
-                            <li class="sidebar-item "><a href="{{ route('depot_admin') }}" aria-current="true" class="sidebar-link">Principale</a></li>
-                            <li class="sidebar-item "><a href=""aria-current="true" class="sidebar-link">Deuxieme</a></li>
-                            <li class="sidebar-item "><a href="" class="sidebar-link">Magasin</a></li>
-                        </ul>
-                    </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link ">
+                        <i class="las la-house-damage mb-2"></i>
+                        <span>Depots</span>
+                    </a>
+                </li>
 
-                    <li class=" sidebar-item">
-                        <a href="{{ route('transfert_admin') }}" class="sidebar-link " >
-                            <i class="las la-share-square mb-2"></i>
-                            <span>Transfert</span>
-                        </a>
-                    </li>  
-                
-                    <li class="sidebar-item">
-                        <a href="{{route('fond_caisse')}}" class="sidebar-link">
-                            <i class="las la-cash-register mb-2"></i>
-                            <span>Fond de caisse</span>
-                        </a>
-                    </li>
-                
-                    <li class="sidebar-item">
-                        <a href="{{ route('logout') }}" class="sidebar-link">
-                            <i class="la la-sign-out mb-2"></i>
-                            <span>Se deconnecter</span>
-                        </a>
-                    </li>
-                </ul>
-            
+                <li class="sidebar-item">
+                    <a href="{{ route('fond_caisse') }}" class="sidebar-link">
+                        <i class="las la-cash-register mb-2"></i>
+                        <span>Fond de caisse</span>
+                    </a>
+                </li>
+            </ul>
+        </div>

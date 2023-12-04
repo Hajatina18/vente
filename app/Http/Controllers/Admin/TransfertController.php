@@ -23,12 +23,12 @@ class TransfertController extends Controller
     }
 
     public function store(Request $request) {
-        $request-> validate([
+       
+        $request->validate([
             'bon_de_transfert' => 'required',
-            'quantite_transfert'=> 'required',
             'date_transfert' => 'required',
             'id_demandeur' => 'required',
-            'id_approvissionner' => 'required',
+            'id_approvisionneur' => 'required',
 
         ]);
        Transfert::create($request->all());

@@ -37,11 +37,11 @@
                                     <form method="POST" action="" id="formTransfert" class="row">
                                         @csrf
                                         <div class="row px-5">
-                                            <label for="id_depot" class="form-label " style="font-weight:bold">Approvisionneur </label>
+                                            <label for="id_approvisionneur" class="form-label " style="font-weight:bold">Approvisionneur </label>
                                             <div class="col-md-6">
 
-                                                <label for="id_depot" class="form-label">Dépôts </label>
-                                                <select class="form-select" id="id_depot" name="id_depot">
+                                                <label for="id_approvisionneur" class="form-label">Dépôts </label>
+                                                <select class="form-select" id="id_approvisionneur" name="id_approvisionneur">
                                                     <option default disabled>Choix de Dépôt</option>
                                                     @foreach ($depots as $depot)
 
@@ -54,10 +54,10 @@
 
 
                                         <div class="row px-5 mt-3">
-                                            <label for="id_depot" class="form-label " style="font-weight:bold">Demandeur </label>
+                                            <label for="id_demandeur" class="form-label " style="font-weight:bold">Demandeur </label>
                                             <div class="col-md-6">
-                                                <label for="id_depot" class="form-label">Dépôt</label>
-                                                <select class="form-select" id="id_depot" name="id_depot">
+                                                <label for="id_demandeur" class="form-label">Dépôt</label>
+                                                <select class="form-select" id="id_demandeur" name="id_demandeur">
                                                     <option default disabled>Choix de Dépôt</option>
                                                     @foreach ($depots as $depot)
 
@@ -82,9 +82,13 @@
 
                                                 <input type="date" class="form-control" name="date_transfert" id="date_transfert">
                                             </div>
+                                            <div class="col-md-6">
+                                                <label for="ref_prod" class="form-label">Bon de transfert</label>
+                                                <input type="text" class="form-control" name="bon_de_transfert" id="bon_de_transfert">
+                                            </div>
                                          <div>
                                                 <div class="row px-5 mt-3">
-                                                    <label for="id_depot" class="form-label " style="font-weight:bold">Les produits en stock </label>
+                                                    <label for="produits" class="form-label " style="font-weight:bold">Les produits en stock </label>
 
                                                     <table class="table table-striped table-hover" id="produits">
                                                         <thead>
@@ -122,8 +126,6 @@
                                                     </table>
                                                 </div>
                                             
-
-
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
                                                 <button type="submit" id="submitFormProduit" class="btn btn-outline-primary">Enregistrer</button>
@@ -145,14 +147,11 @@
                 <div class="table-responsive">
                     <table class="table table-striped" id="liste">
                         <thead>
-                            <th>Code Art</th>
                             <th>Bon de transfert</th>
-                            <th>Designation</th>
-                            <th>Quantité demandée</th>
-                            <th>Quantité approuvée </th>
-                            <th>Trans </th>
-                            <th>Status </th>
-                            <th>Date</th>
+                            <th>Produit</th>
+                            <th>Approvisionneur </th>
+                            <th>Demandeur </th>
+                            <th>Date de transfert</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -245,7 +244,7 @@
                     data: "bon_de_transfert"
                 },
                 {
-                    data: "quantite_transfert"
+                    data: "panier"
                 },
 
                 {
@@ -262,6 +261,7 @@
                 }
             ]
         })
+    
     });
     $("table").on('click', '.add', function() {
         $(this).parents('tbody').append('<tr><td><select name="produit" id="produit" class="form-select">' +

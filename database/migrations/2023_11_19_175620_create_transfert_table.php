@@ -14,9 +14,8 @@ class CreateTransfertTable extends Migration
     public function up()
     {
         Schema::create('transferts', function (Blueprint $table) {
-            $table->id('id_transfert');
+            $table->bigInteger('id_transfert')->autoIncrement();
             $table->string('bon_de_transfert');
-            $table->integer('quantite_transfert');
             $table->integer('id_demandeur')->index();
             $table->integer('id_approvisionneur')->index();
             $table->date('date_transfert');

@@ -16,6 +16,7 @@ use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\FondCaisseController;
 use App\Http\Controllers\PreCommandeController;
+use App\Http\Controllers\CommandecomController;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -83,12 +84,11 @@ Route::get('/logout', function(){
 // });
 
 Route::group(['middleware' => ['vente:2'], 'prefix' => 'commercial'], function () {
-    Route::get('/', 'App\Http\Controllers\CommercialController@index')->name('produit_com');
-    Route::get('/liste', 'App\Http\Controllers\Admin\ProduitController@liste')->name('liste_produit');
+    Route::get('/', 'App\Http\Controllers\ProduitcomController@index')->name('produit_com');
+    
     Route::post('/ajouter', 'App\Http\Controllers\Admin\ProduitController@ajouter')->name('ajouter_produit');
     Route::post('/modifier/{id}', 'App\Http\Controllers\Admin\ProduitController@modifier')->name('modifier_produit');
 });
-
 
 
 Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
@@ -159,4 +159,8 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
     });
     Route::get('/config', [ConfigController::class, 'index'])->name('config');
     Route::post('/config_add', [ConfigController::class, 'create'])->name("add_config");
+});
+
+Route::group(['prefix' => 'commandecom'], function(){
+    Route::get('/', [CommandecomController::class, 'index'])->name('commande_com');
 });

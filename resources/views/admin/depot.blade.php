@@ -3,7 +3,7 @@
 @section('content')
     <div class="commande-content w-100">
         <div class="card card-commande bg-white">
-            <div class="border-solid rounded" >
+            <div class="border-solid rounded">
                 <div class="row">
                     <div class="col-12 col-md-12">
                         <!-- start modal -->
@@ -33,25 +33,53 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- recherche entre deux date -->
+                        <div class="d-flex justify-content-between align-items-center my-2">
+                            <div class="col-md-5">
+                                <form>
+                                    <div class="container">
+                                        <div class="row px-1">
+                                            <div class="input-group col-md-12">
+                                                <div class="form-group col-md-4">
+                                                    <label for="startDate">Date de début :</label>
+                                                    <input type="date" class="form-control" id="startDate">
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="endDate">Date de fin :</label>
+                                                    <input type="date" class="form-control" id="endDate">
+                                                </div>
+                                                <div class="col-md-4 my-4"> <!-- Espace entre les champs de date et le bouton -->
+                                                    <button type="submit" class="btn btn-primary"><i class="la la-search"></i></button>
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        <!-- fin  -->
                     </div>
                 </div>
 
                 <!-- end add -->
                 <!-- start table -->
-                <div class="my-2 p-2 bg-body rounded shadow-sm">
+                <div class="my-0 p-2 bg-body rounded shadow-sm">
 
                     <h4 class="text-center">Dépôt principale</h4>
                     <table class="table table-striped" id="liste">
                         <thead>
-                            <th>Code Art</th> 
+                           
                             <th>Réf Bl Frns</th> 
                             <th>Fournisseur</th>
-                            <th>Date Facture</th>
+                         
                             <th>Numero Facture</th>
                             <th>Bon de Livraison</th>
-                            <th>PA HT</th>
-                            <th>PA TTC</th>
-                         
+                            <th style="width: 25%">Produits</th>                     
                             <th>Date Echeance</th>
                             <th>Action</th>
                         </thead>
@@ -73,43 +101,48 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12 mb-2">
-                            <p class="m-0">Code Art : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">Code Art : <span id="code_artModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">PCB : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">PCB : <span id="pcbModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
                             <p class="m-0">Fournisseur : <span id="frnsModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Ref BL FRNS : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">Ref BL FRNS : <span id="reference_bl_frnsModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Date d'enregistrement: <span id="dateModal" style="font-weight: 600"></span>
+                            <p class="m-0">Date d'enregistrement: <span id="dateModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Date facture : <span id="date_factureModal" style="font-weight: 600"></span>
+                            <p class="m-0">Date facture : <span id="date_factureModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Numero Facture : <span id="num_factureModal" style="font-weight: 600"></span>
+                            <p class="m-0">Numero Facture : <span id="num_factureModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Bon de livraison : <span id="num_blModal" style="font-weight: 600"></span></p>
+                            <p class="m-0">Bon de livraison : <span id="num_blModal" style="font-weight: 600"></span>
+                            </p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">P.A HT : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">P.A HT : <span id="prix_achat_thModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">P.A TTC : <span id="" style="font-weight: 600"></span></p>
+                            <p class="m-0">P.A TTC : <span id="prix_achat_ttcModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Coût Trans : <span id="num_blModal" style="font-weight: 600"></span></p>
+                            <p class="m-0">Coût Trans : <span id="cout_transModal" style="font-weight: 600"></span></p>
                         </div>
                         <div class="col-12 mb-2">
-                            <p class="m-0">Date Echeance : <span id="date_echeanceModal" style="font-weight: 600"></span>
+                            <p class="m-0">Date Echeance : <span id="date_echeanceModal"
+                                    style="font-weight: 600"></span>
                             </p>
                         </div>
                         <div class="col-12">
@@ -208,18 +241,14 @@
                 "language": {
                     url: "{{ asset('datatable/french.json') }}"
                 },
-                "columns": [{
-                        data: "code_art"
-                    },
+                "columns": [
                     {
                         data: "reference_bl_frns"
                     },
                     {
                         data: "nom_frns"
                     },
-                    {
-                        data: "date_facture"
-                    },
+                
                     {
                         data: "num_facture"
                     },
@@ -227,12 +256,25 @@
                         data: "num_bl"
                     },
                     {
-                        data: "prix_achat_ht"
+                        data: "panier",
+                        render: function (data, type, row) {
+                            if (type === 'display' && Array.isArray(data)) {
+                    let panierHtml = '<ul>';
+                        const maxLines = 3;
+                        for (let i = 0; i < Math.min(maxLines, data.length); i++) {
+                            const produit = data[i];
+                        panierHtml += '<li>' + produit.nom_prod + ' - ' + produit.qte_stock + ' ' + produit.unite + '</li>';
+                    };
+                    if (data.length > maxLines) {
+                        panierHtml += '<li>...</li>';
+                    }
+                    panierHtml += '</ul>';
+                    return panierHtml;
+                }
+                return data;
+            }
                     },
                 
-                    {
-                        data: "cout_trans"
-                    },
                     {
                         data: "date_echeance"
                     },
@@ -256,7 +298,7 @@
         $("#formEntrer").on('submit', function() {
             var form = $(this);
             var vide = false;
-            $("#produits > tbody > tr").each(function() {
+            $("#produits > tbody > tr").each(function() {getDetail
                 if (!$(this).find("#produit").val() || !$(this).find("#unite").val() || !$(this).find(
                         "#qte").val()) {
                     vide = true;

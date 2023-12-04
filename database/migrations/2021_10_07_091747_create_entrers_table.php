@@ -14,7 +14,7 @@ class CreateEntrersTable extends Migration
     public function up()
     {
         Schema::create('entrers', function (Blueprint $table) {
-            $table->id('id_entrer');
+            $table->unsignedInteger('id_entrer')->autoIncrement();
             $table->string('code_art');
             $table->string('pcb');
             $table->bigInteger('id_frns', false, true);
