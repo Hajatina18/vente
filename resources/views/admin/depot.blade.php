@@ -92,10 +92,10 @@
     </div>
 
     <div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail de l'entrer</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Détail d'un Bon d'Entrée</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -161,9 +161,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
-        </div>
+      
     </div>
 
     <div class="modal fade" id="modalFrns" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -422,11 +420,17 @@
                     },
                     dataType: 'json',
                     success: function(response) {
+                        $("#modalDetail").find('#pcbModal').text(response.entrer.pcb);
+                        $("#modalDetail").find('#code_artModal').text(response.entrer.code_art);  
                         $("#modalDetail").find('#frnsModal').text(response.entrer.nom_frns);
+                        $("#modalDetail").find('#reference_bl_frnsModal').text(response.entrer.reference_bl_frns);
                         $("#modalDetail").find('#dateModal').text(response.entrer.date);
                         $("#modalDetail").find('#date_factureModal').text(response.entrer.date_facture);
                         $("#modalDetail").find('#num_factureModal').text(response.entrer.num_facture);
                         $("#modalDetail").find('#num_blModal').text(response.entrer.num_bl);
+                        $("#modalDetail").find('#prix_achat_thModal').text(response.entrer.prix_achat_ht);
+                        $("#modalDetail").find('#prix_achat_ttcModal').text(response.entrer.prix_achat_ttc);
+                        $("#modalDetail").find('#cout_transModal').text(response.entrer.cout_trans);
                         $("#modalDetail").find('#date_echeanceModal').text(response.entrer.date_echeance);
                         $("#listePaniers > tbody").empty();
                         response.paniers.forEach(panier => {

@@ -44,10 +44,10 @@
                                                 <select class="form-select" id="id_approvisionneur" name="id_approvisionneur">
                                                     <option default disabled>Choix de Dépôt</option>
                                                     @foreach ($depots as $depot)
-                                                        @foreach ($depot->principale as $principale)
-                                                            <option value="{{$principale->id_depot }}">{{ $depot->nom_depot }}</option>
-                                                        @endforeach
-                                                    @endforeach
+                                                    @if($depot->is_default == 1)
+                                                    <option value="{{ $depot->id_depot }}">{{ $depot->nom_depot }}</option>
+                                                    @endif
+                                             @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -61,9 +61,10 @@
                                                 <select class="form-select" id="id_demandeur" name="id_demandeur">
                                                     <option default disabled>Choix de Dépôt</option>
                                                     @foreach ($depots as $depot)
-
+                                                        @if($depot->is_default == 0)
                                                     <option value="{{ $depot->id_depot }}">{{ $depot->nom_depot }}</option>
-                                                    @endforeach
+                                                        @endif
+                                                 @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-5">
@@ -277,7 +278,13 @@
     });
     $("#formTransfert").on('submit', function() {
         var form = $(this);
-
+        var vide = false;
+        $("#produits > tbody > tr").each(function() {
+        if (!$(this).find("#produit").val() || !$(this).find("#unite").val() || !$(this).find(
+                "#qte").val()) {
+            vide = true;
+        }
+        if (!vide) {
         $.ajax({
             url: '{{ route("add_transfert") }}',
             type: 'POST',
@@ -292,14 +299,66 @@
             success: function(response) {
                 $("#formTransfert")[0].reset();
                 $('#exampleModal').modal('hide');
+                if (response.icon) {
                 Swal.fire({
                     icon: response.icon,
                     text: response.text
                 });
+            } else {
+                var j = 0;
+                                $("#produits > tbody > tr").each(function() {
+                                    var unite = $(this).find("#unite").val();
+                                    var qte = $(this).find("#qte").val();
+                                    var ref = $(this).find("#produit").val();
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('add_panier_transfert') }}",
+                                        data: {
+                                            id: response.id_transfert,
+                                            _token: '{{ csrf_token() }}',
+                                            unite: unite,
+                                            ref_prod: ref,
+                                            qte: qte
+                                        },
+                                        beforeSend: function() { 
+                                            
+                                            $('#loader').removeClass('hidden')
+                                        },
+                                        complete: function() { 
+                                            
+                                            $('#loader').addClass('hidden')
+                                        },
+                                        dataType: "json",
+                                        success: function(response) {
+                                            j++;
+                                            if (i == j) {
+                                                $("#produits > tbody").html(
+                                                    '<tr><td><select name="produit" id="produit" class="form-select">' +
+                                                    prod +
+                                                    '</select></td><td><select name="unite" id="unite" class="form-select"></select></td><td><input type="text" name="qte" id="qte" class="form-control"></td><td><button type="button" class="btn btn-outline-secondary add"><i class="las la-plus-circle"></i></button></td></tr>'
+                                                )
+                                                $("#formEntrer")[0].reset();
+                                                Swal.fire({
+                                                    icon: response.icon,
+                                                    text: response.text
+                                                });
+                                                table.ajax.reload();
+                                            }
+                                        }
+                                    });
+                                });
+            }
                 table.ajax.reload();
             }
         });
 
+    } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        text: "Veuillez renseigner les informations concernant le produit, comme le produit, l'unité ou le quantité"
+                    });
+                }
+                return false;
 
     });
     $("#produits").on('change', '#produit', function() {
