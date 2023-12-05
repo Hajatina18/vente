@@ -6,7 +6,7 @@
                      <i class="la la-user-shield me-2 fs-4"></i>
                       <span class="fs-4">Admin</span>
                   </li>
-                      <li class="sidebar-item">
+                      <li class="sidebar-item" style=" border-top: 1px solid white;">
                           <a href="{{ route('admin') }}" class="sidebar-link">
                               <div class="sidebar">
                                   <i class="las la-chart-line me-2"></i>
@@ -137,7 +137,7 @@
                       
                      </div>
                     
-                      <li class="sidebar-item">
+                      <li class="sidebar-item"  style=" border-top: 1px solid white;">
                           <a href="{{ route('fond_caisse') }}" class="sidebar-link">
                               <div class="sidebar">
                                   <i class="las la-cash-register me-2"></i>

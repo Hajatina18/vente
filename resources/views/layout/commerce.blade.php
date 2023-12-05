@@ -4,20 +4,20 @@
                       <span><i class="la la-biking fs-5"></i></span>
                       <span class="fs-4">Commercial</span>
                   </li>
-                    <li class="sidebar-item">
+                    <li class="sidebar-item"  style=" border-top: 1px solid white;">
                         <a href="{{ route('produit_com') }}" class="sidebar-link">
                             <i class="lab la-product-hunt me-2"></i>
                             <span>Produit</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="{{ route('commande_admin') }}" class="sidebar-link">
+                        <a href="{{ route('commande_commercial') }}" class="sidebar-link">
                             <i class="las la-shopping-bag me-2"></i>
                             <span>Commande</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="{{ route('precommande.index') }}" class="sidebar-link">
+                        <a href="{{ route('precommande') }}" class="sidebar-link">
                             <i class="las la-list-alt me-2"></i>
                             <span>Pre-commande</span>
                         </a>

@@ -85,7 +85,8 @@ Route::get('/logout', function(){
 
 Route::group(['middleware' => ['vente:2'], 'prefix' => 'commercial'], function () {
     Route::get('/', 'App\Http\Controllers\ProduitcomController@index')->name('produit_com');
-    
+    Route::get('/commande', [CommandecomController::class, 'index'])->name('commande_commercial');
+    Route::get("/precommande", [PreCommandeController::class, "index"])->name("precommande");
     Route::post('/ajouter', 'App\Http\Controllers\Admin\ProduitController@ajouter')->name('ajouter_produit');
     Route::post('/modifier/{id}', 'App\Http\Controllers\Admin\ProduitController@modifier')->name('modifier_produit');
 });
@@ -161,6 +162,6 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
     Route::post('/config_add', [ConfigController::class, 'create'])->name("add_config");
 });
 
-Route::group(['prefix' => 'commandecom'], function(){
-    Route::get('/', [CommandecomController::class, 'index'])->name('commande_com');
-});
+// Route::group(['prefix' => 'commandecom'], function(){
+//     Route::get('/', [CommandecomController::class, 'index'])->name('commande_com');
+// });
