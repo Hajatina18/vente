@@ -17,7 +17,7 @@ class PointVenteController extends Controller
     public function index()
     {
         $caissier = PointVente::all('id_user')->first();
-        $users= User::all()->whereNotIn('id', $caissier);
+        $users= User::all()->whereNotIn('id', $caissier)->where('is_admin',0);
         return view('admin.liste-point-vente',compact('users'));
     }
 
