@@ -138,7 +138,7 @@ li {
     height: calc(100vh);
     padding: 0 0;
     margin: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .sidebar-left .list-sidebar:hover {
@@ -150,7 +150,7 @@ li {
     text-align: center;
     width: 100%;
     padding: 1rem 0;
-    border: 1px solid white;
+    border-bottom: 1px solid white;
     border-right: 0;
     border-left: 0;
     transition: all .5s ease-in-out;
