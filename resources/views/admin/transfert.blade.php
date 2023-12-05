@@ -44,8 +44,9 @@
                                                 <select class="form-select" id="id_approvisionneur" name="id_approvisionneur">
                                                     <option default disabled>Choix de Dépôt</option>
                                                     @foreach ($depots as $depot)
-
-                                                    <option value="{{ $depot->id_depot }}">{{ $depot->nom_depot }}</option>
+                                                        @foreach ($depot->principale as $principale)
+                                                            <option value="{{$principale->id_depot }}">{{ $depot->nom_depot }}</option>
+                                                        @endforeach
                                                     @endforeach
                                                 </select>
                                             </div>

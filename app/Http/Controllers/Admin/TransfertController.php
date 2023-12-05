@@ -18,6 +18,10 @@ class TransfertController extends Controller
     {
         $produits = Produit::all();
         $depots = Depot::all();
+        foreach($depots as $depot){
+            $depot->principale = Depot::where('is_default',1)->get();
+            $depot->peripherique = Depot::where('is_default', 0)->get();
+        }
         $pointVente = PointVente::all();
         return view('admin.transfert', ['produits' => $produits, 'depots' => $depots, 'pointVente'=> $pointVente]);
     }
