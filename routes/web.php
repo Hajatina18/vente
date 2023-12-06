@@ -130,7 +130,8 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::get('/',[PointVenteController::class, 'index'])->name('points_vente');
         Route::post('/', [PointVenteController::class, 'store'])->name('add_point_vente');
         Route::get('/liste', [PointVenteController::class, 'liste'])->name('liste_point_vente');
-        
+        Route::get('/{id}', [PointVenteController::class, 'show'])->name('detail_point_vente');
+        Route::get('/{id}/stock', [PointVenteController::class, 'stock'])->name('stock_point_vente');
     });
 
     Route::group(['prefix' => 'transfert'],function (){
