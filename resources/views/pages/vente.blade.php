@@ -15,7 +15,7 @@
                         </div>
                     </form>
                 </div>
-                <table class="table table-striped" id="liste">
+               {{--  <table class="table table-striped" id="liste">
                     <thead>
                         <th>Code Art</th> 
                         <th>Designation</th> 
@@ -24,11 +24,11 @@
                         <th>Action</th>
                     </thead>
                     <tbody></tbody>
-                </table>
+                </table>--}}
                 
-                {{-- <div id="product">
+                <div id="product">
                     @include('pages.partials.produits')
-                </div> --}}
+                </div> 
             </div>
             
         </div>

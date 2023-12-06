@@ -6,8 +6,8 @@
 
             <div class="row">
                 <div class="d-flex justify-content-start mb-3"> <!-- Espace ajouté -->
-                    <div class="ms-5">
-                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <div class="ms-3">
+                        <button type="button" class="btn btn-info btn-sm my-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <a href="{{ route('depot_admin') }}" >
                                 <span class="navi-icon"><i class="la la-long-arrow-alt-left mx-1"></i></span>
                                 <span class="navi-text">Retour</span>
@@ -31,7 +31,6 @@
                         </div>
                      <div class="mb-0">
                                 <label for="nom" class="form-label">Type depot</label>
-                              
                                 <select class="form-select" id="is_default" name="is_default">
                                                     <option default >Choix de dépôt</option>
                                                     <option value="1">Dépôt principale</option>
@@ -39,7 +38,7 @@
                                                 </select>
                             </div> 
 
-                        <button type="submit" class="btn btn-outline-primary">
+                        <button type="submit" class="btn btn-outline-primary mt-2">
                             Enregistrer
                         </button>
 
@@ -92,6 +91,16 @@
                 }
             });
         });
+
+        $('table').on('click', '.edit_depot', function(){
+
+            $("#id_depot").val($(this).data('id_depot'));
+            $("#is_default").val($(this).data('is_default'));
+            $("#nom_depot").val($(this).parents('tr').find('td:eq(0)').text());
+            $("#localisation").val($(this).parents('tr').find('td:eq(1)').text());
+
+        });
+
         $("#formDepot").on('submit', function() {
             var form = $(this);
            
