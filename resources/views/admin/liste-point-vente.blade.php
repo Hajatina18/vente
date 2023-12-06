@@ -4,7 +4,7 @@
     <div class="commande-content w-100">
         <div class="card card-commande bg-white">
 
-            <div class="row">
+            <div class="row p-4">
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-12">
                     <!-- start modal -->
@@ -53,16 +53,8 @@
                                                 <label for="rcs_pdv" class="form-label">RCS</label> 
                                                 <input type="text" class="form-control" id="rcs_pdv" name="rcs_pdv">
                                             </div>
-                                            <div class="mb-2">
-                                                <label for="id_user" class="form-label">Caissier(e)</label> 
-                                                <select class="form-select" id="id_user" name="id_user">
-                                                    <option >Choisir caissier(e)</option>
-                                                    @foreach ($users as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->nom  }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                      
+                                            
+                                    
                                             <button type="submit" id="submitFormPointVente" class="btn btn-primary">
                                                 Sauvagarder
                                             </button>
@@ -87,7 +79,7 @@
                             <th>Téléphone</th>
                             <th>NIF Stat</th>
                             <th>RCS</th>
-                            <th>Caissier(e)</th>
+                            <!-- <th>Caissier(e)</th> -->
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -129,9 +121,9 @@
                     {
                         data: "rcs_pdv"
                     },
-                    {
-                        data: "nom"
-                    },
+                    // {
+                    //     data: "nom"
+                    // },
                     {
                         data: "action"
                     },

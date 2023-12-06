@@ -21,7 +21,6 @@ class CreatePointVentesTable extends Migration
             $table->string('nif_pdv');
             $table->string('stat_pdv');
             $table->string('rcs_pdv');
-           $table->foreignId("id_user")->constrained("users");
             $table->timestamps();
         });
     }

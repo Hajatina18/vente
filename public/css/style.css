@@ -44,7 +44,9 @@ li {
     padding: 0;
     margin: 0;
 }
-
+input[type="radio"]{
+    cursor: pointer;
+}
 .bg-layout{
     background: #16b4c3;
 }

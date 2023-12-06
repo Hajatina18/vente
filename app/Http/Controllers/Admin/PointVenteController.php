@@ -16,9 +16,8 @@ class PointVenteController extends Controller
      */
     public function index()
     {
-        $caissier = PointVente::all('id_user')->first();
-        $users= User::all()->whereNotIn('id', $caissier)->where('is_admin',0);
-        return view('admin.liste-point-vente',compact('users'));
+    //    $users= User::all()->whereNotIn('id', $caissier)->where('is_admin',0);
+        return view('admin.liste-point-vente');
     }
 
  
@@ -36,7 +35,6 @@ class PointVenteController extends Controller
         $pointVente->nif_pdv = $request->nif_pdv;
         $pointVente->stat_pdv = $request->stat_pdv;
         $pointVente->rcs_pdv = $request->rcs_pdv;
-        $pointVente->id_user = $request->id_user;
 
         if($pointVente->save()){
             $array = array(
@@ -54,7 +52,7 @@ class PointVenteController extends Controller
 
     public function liste()
     {
-        $pointVente = PointVente::join('users','point_ventes.id_user','=','users.id')->get();
+        $pointVente = PointVente::all();
         foreach ($pointVente as $pointvente) {
             $pointvente->action = "`<a href='#' class='badge bg-primary p-2 ms-2 ' onclick=\"getPoint('".$pointvente->id_pdv."')\">Modifier</a>
                                     <a href='javascript:void(0)' class='badge bg-danger p-2 ms-2 delete_poinvente' data-id='".$pointvente->id_pdv."'>Supprimer</a>

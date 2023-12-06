@@ -27,18 +27,48 @@
                             </div>
                             <div class="mb-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_admin" id="user" value="0" checked>
+                                    <input class="form-check-input type_user" type="radio" name="is_admin" id="user" value="0" checked>
                                     <label class="form-check-label" for="user">Vendeur(se)</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_admin" id="admin" value="1">
+                                    <input class="form-check-input type_user" type="radio" name="is_admin" id="admin" value="1">
                                     <label class="form-check-label" for="admin">Administrateur</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="is_admin" id="commerce" value="2">
+                                    <input class="form-check-input type_user" type="radio" name="is_admin" id="commerce" value="2">
                                     <label class="form-check-label" for="commerce">Commercial</label>
                                 </div>
                             </div>
+                           
+                           <div class="row type_caisse">
+                             <div class="mb-0 col-12">
+                                <label for="nom" class="form-label">Type de caisse</label>
+                            </div>
+                            <div class="mb-2 col-6">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="caisse" id="caisse" value="magasin">
+                                    <label for="id_pdv" class="form-label">Point de vente</label> 
+                                </div>
+                                <select class="form-select  ms-3" id="id_pdv" name="id_pdv">
+                                    <option >Choisir point de vente</option>
+                                    @foreach ($magasins as $magasin)
+                                    <option value="{{ $magasin->id_pdv }}">{{ $magasin->nom_pdv  }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-2  col-6">
+                               <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="caisse" id="caisse" value="depot">
+                                <label for="id_depot" class="form-label">Dépot</label> 
+                                </div>
+                                <select class="form-select ms-3 "  id="id_depot" name="id_depot">
+                                    <option >Choisir dépot</option>
+                                    @foreach ($depots as $depot)
+                                    <option value="{{ $depot->id_depot }}">{{ $depot->nom_depot  }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                             <button type="submit" class="btn btn-outline-primary">
                                 Enregistrer
                             </button>
@@ -123,6 +153,7 @@
                 }
             });
         }
+
         $('table').on('click', '.edit', function(){
             $("#id_user").val($(this).data('id'));
             $("#nom").val($(this).parents('tr').find('td:eq(0)').text());
@@ -134,6 +165,7 @@
                 $("#user").prop('checked', true);
             }
         });
+
         $('table').on('click', '.delete_user', function(){
             let id = $(this).data('id');
             if (id) {
@@ -176,5 +208,30 @@
                 })
             }
         });
+        $('.type_user').on('change',function(){
+            var value = $('input[name=is_admin]:checked').val();
+           if(value==0){
+               $('.type_caisse').removeClass('d-none')
+            }
+            else{
+                $('.type_caisse').addClass('d-none')
+
+            }
+           
+        })
+        $('input[name=caisse]').on('change',function(){
+          var notChecked =  $('input[name=caisse]').not(':checked').val()
+          if(notChecked==="depot"){
+            $('#id_depot').val('Choisir dépot')
+            $('#id_depot').prop('disabled',true)
+            $('#id_pdv').prop('disabled',false)
+
+          }else{
+            $('#id_pdv').val('Choisir point de vente')
+            $('#id_pdv').prop('disabled',true)
+            $('#id_depot').prop('disabled',false)
+          }
+          
+        })
     </script>
 @endpush
