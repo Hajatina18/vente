@@ -136,13 +136,13 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
 
     Route::group(['prefix' => 'transfert'],function (){
         Route::get('/',[TransfertController::class, 'index'])->name('transfert_admin');
-        Route::post('/', [TransfertController::class, 'store'])->name('add_transfert');
+        Route::post('/', [TransfertController::class, 'store'])->name('add_transferts');
         Route::get('/liste' , [TransfertController::class, 'liste'])->name('liste_transfert');
-        Route::post('/add_panier', [TransfertController::class, 'add_panier_transfert'])->name('add_panier_transfert');
+        Route::post('/add_panier_transfert', [TransfertController::class, 'add_panier_transfert'])->name('add_panier_transfert');
     });
 
     Route::group(['prefix' => 'commande'], function (){
-        Route::get('/', [AdminCommandeController::class, 'index'])->name('commande_admin');
+        Route::get('/', [AdmiaddProductnCommandeController::class, 'index'])->name('commande_admin');
         Route::get('/liste', [AdminCommandeController::class, 'liste'])->name('liste_commande_admin');
         Route::post('/getDetail', [AdminCommandeController::class, 'getDetail'])->name('admin_getDetail_commande');
     });

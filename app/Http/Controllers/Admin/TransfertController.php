@@ -33,12 +33,22 @@ class TransfertController extends Controller
             'id_approvisionneur' => 'required',
 
         ]);
-       Transfert::create($request->all());
-       $array = array(
-        'icon' => "success",
-        'text' => "Transfert enregistré"
-    );
-    echo json_encode($array);
+       $transferts = new Transfert;
+       $transferts->bon_de_transfert = $request->bon_de_transfert;
+       $transferts->date_transfert = $request->date_transfert;
+        $transferts->id_demandeur = $request->id_demandeur;
+       $transferts->id_approvisionneur = $request->id_approvisionneur;
+       if($transferts->save()){
+        $array = $transferts;
+        }
+        else{
+            $array = (array(
+                'icon' => "error",
+                'text' => "Votre transfert est echoué"
+            ));
+        }
+        echo json_encode($array);
+
     }
     
     public function liste(){
@@ -54,10 +64,11 @@ class TransfertController extends Controller
     }
 
     public function add_panier_transfert(Request $request){
+
         $panier_transfert = new  TransfertProduit;
-        $panier_transfert->id_transfert = $request->id_transfert;
+        $panier_transfert->id_transfert = $request->id;
         $panier_transfert->ref_prod = $request->ref_prod;
-        $panier_transfert->id_unite = $request->id_unite;
+        $panier_transfert->id_unite = $request->unite;
         $panier_transfert->qte_transfert = $request->qte;
         if($panier_transfert->save()){
             $stock = Stock::where('ref_prod',$request->ref_prod)->first();
