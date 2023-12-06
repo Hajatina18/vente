@@ -282,6 +282,8 @@
                 ]
             })
         });
+
+        
         $("table").on('click', '.add', function() {
             $(this).parents('tbody').append('<tr><td><select name="produit" id="produit" class="form-select">' +
                 prod +
@@ -444,6 +446,7 @@
                 });
             }
         }
+
         $(".addFrns").on('click', function() {
             $("#frns").val($(this).data('nom'));
             $("#modalFrns").modal('hide');

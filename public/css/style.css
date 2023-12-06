@@ -252,7 +252,7 @@ input[type="radio"]{
 }
 
 .panier-content {
-    width: 29.9%;
+    width: 28.9%;
     height: calc(100vh - 140px);
     display: block;
     margin: 0 auto;

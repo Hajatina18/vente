@@ -8,18 +8,6 @@
                     <div class="col-12 col-md-12">
                         <!-- start modal -->
                         <div class="d-flex justify-content-between align-items-center">
-                       
-                            <!-- <div class="d-flex"> 
-                                
-                                <div class="ms-3">
-                                    
-                                    <button type="button" class="btn btn-info " data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        <a href="#" >
-                                            <span class="navi-icon"><i class="la la-user mx-1"></i></span>
-                                            <span class="navi-text">Magasin</span>
-                                        </a>
-                                    </button>
-                                </div>  -->
                                 <div class="m-3">
                                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         <div class="navi"> 
