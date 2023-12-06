@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Transfert extends Model
 {
     use HasFactory;
-    protected $primrayKey = 'id_transfert';
-    protected $guarded = [];
+    protected $primaryKey = 'id_transfert';
+    protected $fillable = [
+        'bon_de_transfert', 'date_transfert', 'id_demandeur', 'id_approvisionneur'
+    ];
 }
