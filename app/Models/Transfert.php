@@ -10,6 +10,6 @@ class Transfert extends Model
     use HasFactory;
     protected $primaryKey = 'id_transfert';
     protected $fillable = [
-        'bon_de_transfert', 'date_transfert', 'id_demandeur', 'id_approvisionneur'
+        'bon_de_transfert', 'date_transfert', 'id_demandeur', 'id_approvisionneur', 'is_depot'
     ];
 }

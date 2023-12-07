@@ -58,8 +58,8 @@
                                             </div>
                                             <div class="row px-5 mt-3">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                                <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                                <input class="form-check-input" type="checkbox" id="is_depot" name="is_depot">
+                                                <label class="form-check-label" for="is_depot"></label>
                                               </div>
                                             </div>
                                             <div class="row px-5 mt-3">
@@ -286,7 +286,7 @@
                       
                         for (let i = 0; i <  data.length; i++) {
                             const produit = data[i];
-                        panierHtml += '<li>' + produit.nom_depot + '</li>';
+                        panierHtml += '<li>' + produit.nom + '</li>';
                     };
 
                     panierHtml += '</ul>';
@@ -459,7 +459,7 @@ $("document").ready(function(){
     $("#depotDiv").show();
     $("#pointVenteDiv").hide();
     $(".form-check-label").text("Transfert vers un autre dépôt");
-    $("#flexSwitchCheckDefault").change(function () {
+    $("#is_depot").change(function () {
             if (this.checked) {
                 
                 $("#depotDiv").hide();
