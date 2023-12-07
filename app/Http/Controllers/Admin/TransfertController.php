@@ -9,6 +9,7 @@ use App\Models\Produit;
 use App\Models\Transfert;
 use App\Models\Avoir;
 use App\Models\Stock;
+use App\Models\StockPointVente;
 use App\Models\TransfertProduit;
 use Illuminate\Http\Request ;
 use DateTime;
@@ -29,17 +30,19 @@ class TransfertController extends Controller
         $request->validate([
             'bon_de_transfert' => 'required',
             'date_transfert' => 'required',
-            'id_demandeur' => 'required',
             'id_approvisionneur' => 'required',
         ]);
        $transferts = new Transfert;
        $transferts->bon_de_transfert = $request->bon_de_transfert;
        $transferts->date_transfert = $request->date_transfert;
-        $transferts->id_demandeur = $request->id_demandeur;
        $transferts->id_approvisionneur = $request->id_approvisionneur;
-       if($request->is_depot === null){
-        $transferts->is_depot = false;
-       } else  $transferts->is_depot = true; 
+       if($request->is_depot === "on"){
+        $transferts->is_depot = true;
+        $transferts->id_demandeur = $request->id_pdv;
+       } else {
+        $transferts->id_demandeur = $request->id_depot;
+        $transferts->is_depot = false; 
+       } 
        if($transferts->save()){
         $array = $transferts;
         }
@@ -54,13 +57,13 @@ class TransfertController extends Controller
     
     public function liste(){
         $transferts = Transfert::all();
-      foreach($transferts as $transfert){
+        foreach($transferts as $transfert){
         $date = new DateTime($transfert->created_at);
         $date_transfert = new DateTime($transfert->date_transfert);
-        if($transfert->is_depot === true){
-            $transfert->demandeur = DB::table('point_ventes  as nom')->select('nom_pdv')->where('id_pdv', $transfert->id_demandeur)->get();
+        if($transfert->is_depot == true){
+            $transfert->demandeur = DB::table('point_ventes')->select('nom_pdv as nom')->where('id_pdv', $transfert->id_demandeur)->get();
         }else {
-            $transfert->demandeur = DB::table('depots as nom')->select('nom_depot')->where('id_depot', $transfert->id_demandeur)->get();
+            $transfert->demandeur = DB::table('depots')->select('nom_depot as nom')->where('id_depot', $transfert->id_demandeur)->get();
         } 
         $transfert->approvisionneur = DB::table('depots')->select('nom_depot')->where('id_depot', $transfert->id_approvisionneur)->get();
         $transfert->produits = TransfertProduit::join('produits', 'produits.ref_prod', '=', 'transfert_produits.ref_prod')
@@ -70,8 +73,8 @@ class TransfertController extends Controller
         $transfert->date_transfert = $date_transfert->format('d/m/Y');
         $transfert->date = $date->format('d/m/Y H:i:s');
       }
-         return dd($transferts);
-        echo json_encode($transferts);
+       
+         echo json_encode($transferts);
     }
 
     public function getUnite(Request $request)
@@ -87,13 +90,21 @@ class TransfertController extends Controller
         $panier_transfert->id_unite = $request->unite;
         $panier_transfert->qte_transfert = $request->qte;
         if($panier_transfert->save()){
-           
-            $stock = new Stock;
-            $stock->ref_prod = $request->ref_prod;
-            $stock->stock=$request->qte; 
-            $stock->id_depot=$request->demandeur;
-            $stock->week = (new DateTime())->format('W');
-            $stock->save();
+            if($request->is_depot == true){
+                $stock= new StockPointVente;
+                $stock->ref_prod = $request->ref_prod;
+                $stock->stock=$request->qte;
+                $stock->id_pdv = $request->demandeur;
+                $stock->week = (new DateTime())->format('W');
+                $stock->save();
+            } else{
+                $stock = new Stock;
+                $stock->ref_prod = $request->ref_prod;
+                $stock->stock=$request->qte; 
+                $stock->id_depot=$request->demandeur;
+                $stock->week = (new DateTime())->format('W');
+                $stock->save();
+            }
             // $produit = Produit::find($request->ref_prod);
             // $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
             // $produit->qte_stock += ($unite->qte_unite * floatval($request->qte));

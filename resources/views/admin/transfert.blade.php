@@ -63,11 +63,11 @@
                                               </div>
                                             </div>
                                             <div class="row px-5 mt-3">
-                                                <label for="id_demandeur" class="form-label"
+                                                <label for="id_depot" class="form-label"
                                                     style="font-weight:bold">Demandeur </label>
                                                 <div class="col-md-6" id="depotDiv">
-                                                    <label for="id_demandeur" class="form-label">Dépôt</label>
-                                                    <select class="form-select" id="id_demandeur" name="id_demandeur">
+                                                    <label for="id_depot" class="form-label">Dépôt</label>
+                                                    <select class="form-select" id="id_depot" name="id_depot">
                                                         <option default disabled>Choix de Dépôt</option>
                                                         @foreach ($depots as $depot)
                                                             @if ($depot->is_default == 0)
@@ -79,7 +79,7 @@
                                                 </div>
                                                 <div class="col-md-5" id="pointVenteDiv">
                                                     <label for="id_pdv" class="form-label">Point de Vente</label>
-                                                    <select class="form-select" id="ref_prod" name="ref_prod">
+                                                    <select class="form-select" id="id_pdv" name="id_pdv">
                                                         <option value="" disabled>Choix de point de Vente</option>
                                                         @foreach ($pointVente as $points)
                                                             <option value="{{ $points->id_pdv }}">{{ $points->nom_pdv }}
@@ -361,7 +361,6 @@
                     $("#submitFormTransfert").prop("disabled", false);
                 },
                 success: function(response) {
-                  alert(response.id_transfert);
                     if (response.icon) {
                         Swal.fire({
                             icon: response.icon,
@@ -383,7 +382,8 @@
                                     unite: unite,
                                     ref_prod: ref,
                                     qte: qte,
-                                    demandeur: response.id_demandeur
+                                    demandeur: response.id_demandeur,
+                                    is_depot: response.is_depot
                                 },
                                 beforeSend: function() { 
                                     

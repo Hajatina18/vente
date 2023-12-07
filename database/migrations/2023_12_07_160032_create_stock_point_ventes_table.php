@@ -14,7 +14,7 @@ class CreateStockPointVentesTable extends Migration
     public function up()
     {
         Schema::create('stock_point_ventes', function (Blueprint $table) {
-            $table->id("id_stock_pdv");
+            $table->integer("id_stock_pdv")->autoIncrement();
             $table->integer("week");
             $table->string('ref_prod')->index();
             $table->float('stock')->default(0);
