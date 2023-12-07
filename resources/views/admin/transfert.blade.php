@@ -172,7 +172,7 @@
                                 <th>Approvisionneur </th>
                                 <th>Demandeur </th>
                                 <th>Date de transfert</th>
-                                <th>Action</th>
+                                <th>Fait le</th>
                             </thead>
                             <tbody>
 
@@ -196,7 +196,7 @@
 
                         <div class="mb-2">
                             <label for="modif_nom" class="form-label">Designation</label>
-                            <input type="text" class="form-control" id="modif_nom" name="nom_prod" required>
+                            <input tytransfert-pe="text" class="form-control" id="modif_nom" name="nom_prod" required>
                         </div>
 
                         <div class="mb-3">
@@ -257,19 +257,64 @@
                     data: "bon_de_transfert"
                 },
                 {
+                        data: "produits",
+                        render: function (data, type, row) {
+                            if (type === 'display' && Array.isArray(data)) {
+                    let panierHtml = '<ul>';
+                        const maxLines = 3;
+                        for (let i = 0; i < Math.min(maxLines, data.length); i++) {
+                            const produit = data[i];
+                        panierHtml += '<li>' + produit.nom_prod + ' - ' + produit.qte_stock + ' ' + produit.unite + '</li>';
+                    };
+                    if (data.length > maxLines) {
+                        panierHtml += '<li>...</li>';
+                    }
+                    panierHtml += '</ul>';
+                    return panierHtml;
+                }
+                return data;
+            }
+                    },
+                {
+                    data: "demandeur",
+                    render: function (data, type, row) {
+                            if (type === 'display' && Array.isArray(data)) {
+                    let panierHtml = '<ul>';
+                      
+                        for (let i = 0; i <  data.length; i++) {
+                            const produit = data[i];
+                        panierHtml += '<li>' + produit.nom_depot + '</li>';
+                    };
+
+                    panierHtml += '</ul>';
+                    return panierHtml;
+                }
+                return data;
+            }
+
+                },
+                {
+                    data: "approvisionneur",
+                    render: function (data, type, row) {
+                            if (type === 'display' && Array.isArray(data)) {
+                    let panierHtml = '<ul>';
+                      
+                        for (let i = 0; i <  data.length; i++) {
+                            const produit = data[i];
+                        panierHtml += produit.nom_depot;
+                    };
+
+                    panierHtml += '</ul>';
+                    return panierHtml;
+                }
+                return data;
+            }
+                },
+                {
                     data: "date_transfert"
                 },
                 {
-                    data: "id_demandeur"
-                },
-                {
-                    data: "id_approvisionneur"
-                },
-                {
-                    data: "created_at"
-                },
-                {
-                    data: "created_at"
+                    data: "date"
                 },
                
             ]
@@ -334,7 +379,8 @@
                                     _token: '{{ csrf_token() }}',
                                     unite: unite,
                                     ref_prod: ref,
-                                    qte: qte
+                                    qte: qte,
+                                    demandeur: response.id_demandeur
                                 },
                                 beforeSend: function() { 
                                     

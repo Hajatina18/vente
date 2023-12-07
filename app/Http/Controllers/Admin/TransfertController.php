@@ -11,8 +11,9 @@ use App\Models\Avoir;
 use App\Models\Stock;
 use App\Models\TransfertProduit;
 use Illuminate\Http\Request ;
-
-
+use DateTime;
+use Illuminate\Support\Facades\DB;
+use Mpdf\Tag\Tr;
 
 class TransfertController extends Controller
 {
@@ -53,7 +54,19 @@ class TransfertController extends Controller
     
     public function liste(){
         $transferts = Transfert::all();
-      
+      foreach($transferts as $transfert){
+        $date = new DateTime($transfert->created_at);
+        $date_transfert = new DateTime($transfert->date_transfert);
+        $transfert->approvisionneur = DB::table('depots')->select('nom_depot')->where('id_depot', $transfert->id_approvisionneur)->get();
+        $transfert->demandeur = DB::table('depots')->select('nom_depot')->where('id_depot', $transfert->id_demandeur)->get();
+        $transfert->produits = TransfertProduit::join('produits', 'produits.ref_prod', '=', 'transfert_produits.ref_prod')
+        ->join('unite_mesures', 'unite_mesures.id_unite', '=', 'transfert_produits.id_unite')
+        ->where('id_transfert', $transfert->id_transfert)
+        ->get();
+        $transfert->date_transfert = $date_transfert->format('d/m/Y');
+        $transfert->date = $date->format('d/m/Y H:i:s');
+      }
+
         echo json_encode($transferts);
     }
 
@@ -71,13 +84,17 @@ class TransfertController extends Controller
         $panier_transfert->id_unite = $request->unite;
         $panier_transfert->qte_transfert = $request->qte;
         if($panier_transfert->save()){
-            $stock = Stock::where('ref_prod',$request->ref_prod)->first();
-            $depot = Depot::where('is_default', 1)->first();
-            $stock->update(['stock'=>$request->qte, 'id_depot'=>$depot->id_depot]);
-            $produit = Produit::find($request->ref_prod);
-            $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
-            $produit->qte_stock += ($unite->qte_unite * floatval($request->qte));
-            $produit->save();
+           
+            $stock = new Stock;
+            $stock->ref_prod = $request->ref_prod;
+            $stock->stock=$request->qte; 
+            $stock->id_depot=$request->demandeur;
+            $stock->week = (new DateTime())->format('W');
+            $stock->save();
+            // $produit = Produit::find($request->ref_prod);
+            // $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
+            // $produit->qte_stock += ($unite->qte_unite * floatval($request->qte));
+            // $produit->save();
             echo json_encode(array(
                 'icon' => "success",
                 'text' => "Transfert enregistée avec succès"
