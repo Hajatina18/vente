@@ -263,11 +263,11 @@
                         data: "produits",
                         render: function (data, type, row) {
                             if (type === 'display' && Array.isArray(data)) {
-                    let panierHtml = '<ul>';
+                    let panierHtml = '<ul style="margin-left:-20px" >';
                         const maxLines = 3;
                         for (let i = 0; i < Math.min(maxLines, data.length); i++) {
                             const produit = data[i];
-                        panierHtml += '<li>' + produit.nom_prod + ' - ' + produit.qte_stock + ' ' + produit.unite + '</li>';
+                        panierHtml += '<li>' + produit.nom_prod + ' - ' + produit.qte_transfert + ' ' + produit.unite + '</li>';
                     };
                     if (data.length > maxLines) {
                         panierHtml += '<li>...</li>';
