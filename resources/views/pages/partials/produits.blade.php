@@ -5,6 +5,7 @@
                     <th>Réference</th>
                     <th>Image</th>
                     <th width="30%">Designation</th>
+                    <th width="25%">Quantité en stock</th>
                     <th width="35%">Prix par unité</th>
                 </thead>
                 <tbody></tbody>

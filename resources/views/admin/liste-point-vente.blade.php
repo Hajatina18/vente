@@ -74,13 +74,12 @@
                     <h4 class="text-center mb-2">Liste des points des ventes</h4>
                     <table class="table table-striped col-12" id="liste">
                         <thead>
-                            <th>#</th>
-                            <th>Nom</th>
+                           <th>Nom</th>
                             <th>Addresse</th>
                             <th>Téléphone</th>
-                            <th>NIF Stat</th>
-                            <th>RCS</th>
-                            <!-- <th>Caissier(e)</th> -->
+                            <th >NIF Stat</th>
+                            <th></th>
+                             <th>RCS</th>
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -114,21 +113,19 @@
                         data: "telephone_pdv"
                     },
                     {
-                        data: "nif_pdv"
+                        data: "nif_pdv",
+                      
                     },
                     {
-                        data: "stat_pdv"
+                        data: "stat_pdv",
                     },
                     {
                         data: "rcs_pdv"
                     },
-                    // {
-                    //     data: "nom"
-                    // },
                     {
                         data: "action"
                     },
-                  
+                   
                 ],
                 "language": {
                     url: "{{ asset('datatable/french.json') }}"
