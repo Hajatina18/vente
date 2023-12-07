@@ -29,6 +29,7 @@
                                             <div class="mb-2">
                                                 <label for="nom_pdv" class="form-label">Nom</label> 
                                                 <input type="text" class="form-control" id="nom_pdv" name="nom_pdv">
+                                                <input type="hidden" class="form-control" id="id_pdv" name="id_pdv">
                                             </div>
                                             
                                             <div class="mb-2">
@@ -71,7 +72,7 @@
                 </div>
                 <div class="col-12 col-md-12 col-lg-12">
                     <h4 class="text-center mb-2">Liste des points des ventes</h4>
-                    <table class="table table-striped" id="liste">
+                    <table class="table table-striped col-12" id="liste">
                         <thead>
                             <th>#</th>
                             <th>Nom</th>
@@ -164,5 +165,16 @@
            
             return false
         });
+        $('table').on('click', '.edit', function() {
+             $("#exampleModal").find('#id_pdv').val($(this).data('id'));
+            $("#exampleModal").find('#nom_pdv').val($(this).parents('tr').find('td:eq(0)').text());
+            $("#exampleModal").find('#address_pdv').val($(this).parents('tr').find('td:eq(1)').text());  
+            $("#exampleModal").find('#telephone_pdv').val($(this).parents('tr').find('td:eq(2)').text());
+            $("#exampleModal").find('#nif_pdv').val($(this).parents('tr').find('td:eq(3)').text());
+            $("#exampleModal").find('#stat_pdv').val($(this).parents('tr').find('td:eq(4)').text());
+            $("#exampleModal").find('#rcs_pdv').val($(this).parents('tr').find('td:eq(5)').text());
+            $("#exampleModal").modal('show');
+           
+        })
     </script>
 @endpush

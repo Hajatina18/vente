@@ -50,8 +50,8 @@ class PointVenteController extends Controller
 
     public function store(Request $request)
     {
-        if($request->id_pdv != NULL){
-            $pointVente = PointVente::find($request->id_pdv);
+       if($request->id_pdv != NULL){
+            $pointVente = PointVente::where('id_pdv',$request->id_pdv)->first();
         }else{
             $pointVente = new PointVente;
         }
@@ -81,7 +81,7 @@ class PointVenteController extends Controller
     {
         $pointVente = PointVente::all();
         foreach ($pointVente as $pointvente) {
-            $pointvente->action = "`<a href='#' class='badge bg-primary p-2 ms-2 ' onclick=\"getPoint('".$pointvente->id_pdv."')\">Modifier</a>
+            $pointvente->action = "`<a href='#' class='badge bg-primary p-2 ms-2 edit' data-bs-toggle='modal' data-bs-target='#exampleModal' data-id='".$pointvente->id_pdv."' >Modifier</a>
                                     <a href='javascript:void(0)' class='badge bg-danger p-2 ms-2 delete_poinvente' data-id='".$pointvente->id_pdv."'>Supprimer</a>
                                     <a href='/admin/points_vente/". $pointvente->id_pdv ."' class='badge bg-success p-2 ms-2 visit_depot' data-id='" . $pointvente->id_pdv . "'>Visiter</a>`";}
         echo json_encode($pointVente);
