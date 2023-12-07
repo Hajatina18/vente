@@ -354,6 +354,11 @@
                 $("#product").html(data);
             });
         });
+        $(".add").on('click', function(){
+            alert("azert")
+            // $("#clientName").val($(this).data('id'));
+            // $("#modalClient").modal('hide');
+        })
 
         function sendCommande() {
             if(i > 0){
@@ -583,9 +588,6 @@
             }
         }
         
-        $(".addClient").on('click', function(){
-            $("#clientName").val($(this).data('nom'));
-            $("#modalClient").modal('hide');
-        })
+      
     </script>
 @endpush

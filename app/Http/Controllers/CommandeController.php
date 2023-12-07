@@ -101,9 +101,9 @@ class CommandeController extends Controller
     {
         $clients = Client::all();
         foreach ($clients as $client) {
-            $client->action = '<button class="btn btn-sm btn-secondary addClient" data-nom="'.$client->nom_client.'">
-                <i class="las la-plus-circle"></i>
-            </button>';
+            $client->action = '<a class="btn btn-sm btn-secondary " data-id="'.$client->nom_client.'">
+                <i class="las la-plus-circle add"></i>
+            </a>';
         }
         echo json_encode($clients);
     }
@@ -168,8 +168,10 @@ class CommandeController extends Controller
     }
     public function caisse()
     {
+        $user = auth()->user(); 
         $caisse = FondCaisse::where(DB::raw('date(created_at)'), date('Y-m-d'))->select(DB::raw('SUM(montant) as total'))->first();
-        $jour = DB::table('commandes')
+        $command = $user->is_admin ===1 ? DB::table('commandes') : DB::table('commandes')->where('id_user',$user->id);
+        $jour =  $command
                     ->where(DB::raw('date(commandes.created_at)'), '=' , date('Y-m-d'))
                     ->join('paniers', 'commandes.id_commande', '=', 'paniers.id_commande')
                     ->select(DB::raw('SUM(qte_commande * prix_produit) as total'))

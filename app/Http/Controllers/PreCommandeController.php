@@ -18,8 +18,14 @@ class PreCommandeController extends Controller
 {
     public function index(Request $request)
     {
+        $user= auth()->user();
+
         setlocale(LC_ALL, 'fr_FR.utf8', 'FRA');
-        $precommandes = PreCommande::with("paniers")->get();
+        $Precomm = PreCommande::with("paniers");
+        $precommandes =$user->is_admin===1 ? $Precomm->get() : $Precomm->where('id_user',$user->id)->get(
+            
+        )  ;
+
         $modes = ModePaiement::all();
         return view("pages.precommande", compact('precommandes', "modes"));
     }

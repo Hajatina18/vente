@@ -46,26 +46,14 @@ Route::group(['middleware' => ["auth"]], function(){
 });
 Route::group(['middleware' => ['vente:0']], function(){
     Route::get('/{id?}', [CommandeController::class, 'index'])->where("id", '[0-9]+')->name('commande');
-    Route::get('/getProduit', [CommandeController::class, 'getProduit'])->name('getProduit');
     Route::post('/', [CommandeController::class, 'searchProduct'])->name('search_product');
     Route::post('/commande', [CommandeController::class, 'save_commande'])->name('save_commande');
     Route::post('/add_panier', [CommandeController::class, 'add_panier'])->name('add_panier');
     Route::get('/ticket', [CommandeController::class, 'ticket'])->name('ticket');
     Route::get('/facture', [CommandeController::class, 'facture'])->name('facture');
-    Route::post('/verify-stock', [CommandeController::class, 'stock'])->name('verify-stock');
     Route::post('/getDetail', [CommandeController::class, 'getDetail'])->name('getDetail_commande');
-    Route::get('/caisse', [CommandeController::class, 'caisse'])->name('caisse');
-    Route::get('/getClient', [CommandeController::class, 'getClient'])->name('getClient_commande');
-
-    Route::group(["prefix" => "precommande", "as" => "precommande."], function(){
-        Route::get("/", [PreCommandeController::class, "index"])->name("index");
-        Route::post("/", [PreCommandeController::class, "save"])->name("save");
-        Route::post("/add_prepanier", [PreCommandeController::class, "panier"])->name("panier");
-        Route::post('update_panier', [PreCommandeController::class, "updatePanier"])->name("updatePanier");
-        Route::post('delete', [PreCommandeController::class, "delete"])->name("delete");
-        Route::post('deletePanier', [PreCommandeController::class, "deletePanier"])->name("deletePanier");
-        Route::post('transfert', [PreCommandeController::class, "transfert"])->name("transfert_commande");
-    });
+    
+   
 });
 
 Route::get('/login', [AuthController::class, "index"])->name('login');
@@ -131,6 +119,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::post('/', [PointVenteController::class, 'store'])->name('add_point_vente');
         Route::get('/liste', [PointVenteController::class, 'liste'])->name('liste_point_vente');
         Route::get('/{id}', [PointVenteController::class, 'show'])->name('detail_point_vente');
+        Route::get('/edit/{id}', [PointVenteController::class, 'getDetail'])->name('edit_point_vente');
         Route::get('/{id}/stock', [PointVenteController::class, 'stock'])->name('stock_point_vente');
     });
 
@@ -146,6 +135,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::get('/liste', [AdminCommandeController::class, 'liste'])->name('liste_commande_admin');
         Route::post('/getDetail', [AdminCommandeController::class, 'getDetail'])->name('admin_getDetail_commande');
     });
+
     Route::group(['prefix' => 'balance'], function(){
         Route::get("/", [BalanceController::class, 'index'])->name('balance');
         Route::get("/getWeek/{week?}", [BalanceController::class, 'getWeek'])->name('getWeek');
@@ -157,6 +147,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::get('/liste', [FondCaisseController::class, 'liste'])->name('liste_fond');
         Route::post('/delete', [FondCaisseController::class, 'delete'])->name('delete_fond');
     });
+
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', [UserController::class, 'index'])->name('user_admin');
         Route::get('/liste', [UserController::class, 'liste'])->name('liste_users');
@@ -167,6 +158,20 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
     Route::post('/config_add', [ConfigController::class, 'create'])->name("add_config");
 });
 
-// Route::group(['prefix' => 'commandecom'], function(){
-//     Route::get('/', [CommandecomController::class, 'index'])->name('commande_com');
-// });
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    Route::get('/getProduit', [CommandeController::class, 'getProduit'])->name('getProduit');
+    Route::post('/verify-stock', [CommandeController::class, 'stock'])->name('verify-stock');
+    Route::get('/getClient', [CommandeController::class, 'getClient'])->name('getClient_commande');
+    Route::get('/caisse', [CommandeController::class, 'caisse'])->name('caisse');
+
+    
+    Route::group(["prefix" => "precommande", "as" => "precommande."], function(){
+        Route::get("/", [PreCommandeController::class, "index"])->name("index");
+        Route::post("/", [PreCommandeController::class, "save"])->name("save");
+        Route::post("/add_prepanier", [PreCommandeController::class, "panier"])->name("panier");
+        Route::post('update_panier', [PreCommandeController::class, "updatePanier"])->name("updatePanier");
+        Route::post('delete', [PreCommandeController::class, "delete"])->name("delete");
+        Route::post('deletePanier', [PreCommandeController::class, "deletePanier"])->name("deletePanier");
+        Route::post('transfert', [PreCommandeController::class, "transfert"])->name("transfert_commande");
+    });
+});
