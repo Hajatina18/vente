@@ -172,8 +172,8 @@
                             <thead>
                                 <th>Bon de transfert</th>
                                 <th>Produit</th>
-                                <th>Approvisionneur </th>
                                 <th>Demandeur </th>
+                                <th>Approvisionneur </th>
                                 <th>Date de transfert</th>
                                 <th>Fait le</th>
                             </thead>

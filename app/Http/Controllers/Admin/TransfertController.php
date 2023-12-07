@@ -70,6 +70,7 @@ class TransfertController extends Controller
         $transfert->date_transfert = $date_transfert->format('d/m/Y');
         $transfert->date = $date->format('d/m/Y H:i:s');
       }
+         return dd($transferts);
         echo json_encode($transferts);
     }
 
