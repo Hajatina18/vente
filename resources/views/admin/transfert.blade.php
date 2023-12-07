@@ -56,13 +56,16 @@
                                                     </select>
                                                 </div>
                                             </div>
-
-
-
                                             <div class="row px-5 mt-3">
-                                                <label for="id_demandeur" class="form-label "
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                              </div>
+                                            </div>
+                                            <div class="row px-5 mt-3">
+                                                <label for="id_demandeur" class="form-label"
                                                     style="font-weight:bold">Demandeur </label>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6" id="depotDiv">
                                                     <label for="id_demandeur" class="form-label">Dépôt</label>
                                                     <select class="form-select" id="id_demandeur" name="id_demandeur">
                                                         <option default disabled>Choix de Dépôt</option>
@@ -74,7 +77,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-5">
+                                                <div class="col-md-5" id="pointVenteDiv">
                                                     <label for="id_pdv" class="form-label">Point de Vente</label>
                                                     <select class="form-select" id="ref_prod" name="ref_prod">
                                                         <option value="" disabled>Choix de point de Vente</option>
@@ -452,7 +455,24 @@
             });
         }
     })
-
+$("document").ready(function(){
+    $("#depotDiv").show();
+    $("#pointVenteDiv").hide();
+    $(".form-check-label").text("Transfert vers un autre dépôt");
+    $("#flexSwitchCheckDefault").change(function () {
+            if (this.checked) {
+                
+                $("#depotDiv").hide();
+                $("#pointVenteDiv").show();
+                $(".form-check-label").text("Transfert vers un point de vente");
+            } else {
+                
+                $("#depotDiv").show();
+                $("#pointVenteDiv").hide();
+                $(".form-check-label").text("Transfert vers un autre dépôt");
+            }
+        });
+});
 
 </script>
 @endpush
