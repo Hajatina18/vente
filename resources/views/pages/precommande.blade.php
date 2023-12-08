@@ -10,7 +10,7 @@
         padding: 15px 10px;
     }
 </style>
-<div class="commande-content w-100">
+<!--<div class="commande-content w-100">
     <div class="card card-commande bg-white">
         <div class="card-body">
             <h4 class="text-center">Liste des commandes non validés</h4>
@@ -57,7 +57,66 @@
             </div>
         </div>
     </div>
+</div>-->
+<div class="commande-content  w-100">
+    <div class="card card-commande bg-white">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12">
+                    <h3 class="text-center m-0">Liste des précommandes</h3>
+                    <hr style="height: 2px">
+                    <table class=" col-12 table table-stripped w-100" id="liste">
+                        <thead class="text-center">
+                             <th>#</th>
+                            <th>Date Precommande</th>
+                             <th>Vendeur</th>
+                            <th>Total precommande</th>
+                            <th>Action</th>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail de la commande</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <p class="m-0">Client : <span id="clientModal"></span></p>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <p class="m-0">Date : <span id="dateModal"></span></p>
+                    </div>
+                    <div class="col-12">
+                        <hr style="height: 3px; width : 100%">
+                        <h4 class="text-center">Liste des produits</h4>
+                        <table class="table table-striped" id="listePaniers">
+                            <thead>
+                                <th>Image</th>
+                                <th>Nom Produit</th>
+                                <th>Prix</th>
+                                <th>Quantité</th>
+                                <th>Prix Total</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="validateCommande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -105,8 +164,72 @@
 
 @push('js')
     <script>
-        $(function(){
-            $('.edit_precommande').off().on('click', function(e){
+       
+        function format(d) {
+            console.log(d)
+       return(
+                `<table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th width="60%">Designation</th>
+                                        <th>Quantité</th>
+                                        <th>Prix Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`+
+                            d.paniers.map(panier=> `<tr>
+                                            <td>`+panier.nom_prod+`</td>
+                                            <td>`+panier.qte_commande + ` </td>
+                                            <td class=" text-end">`+ panier.qte_commande * panier.prix_produit+`Ar</td>
+                                        </tr>` )
+                                +`</tbody>
+                            </table>`
+            )
+            
+        }
+        
+         $("document").ready(function(){
+            table = $("#liste").DataTable({
+                "ajax" : {
+                    "url" : '/precommande/liste',
+                    "dataSrc" : ''
+                },
+                "order": [[ 0, "desc" ]], //or asc 
+                "columnDefs" : [
+                    {"targets":0, "type":"date-euro"}
+                ],
+                "columns" : [
+                    {
+                        className: 'dt-control',
+                        orderable: false,
+                        data: null,
+                        defaultContent: ''
+                    },
+                    {data:"date"},
+                    {data:"user"},
+                    {data:"total", className: "text-end"},
+                    {data:"action"}
+                ],
+                "language": {
+                    url: "{{ asset('datatable/french.json') }}"
+                }
+            });
+            
+        table.on('click', 'td.dt-control', function (e) {
+            let tr = e.target.closest('tr');
+            let row = table.row(tr);
+        
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+            }
+        });
+
+        $('table').on('click','.edit_precommande', function(e){
                 window.location.href = `{{ route("commande") }}/${$(this).data('id')}`;
             });
             $(".validate_commande").off().on('click', function(e){
@@ -165,6 +288,36 @@
                     );
                 }
             });
-        })
+        });
+        function getDetail(id) {
+            if(id){
+                $.ajax({
+                    url : '{{ route("admin_getDetail_commande") }}',
+                    type : 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id : id
+                    },
+                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        $('#loader').removeClass('hidden')
+                    },
+                    complete : function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                        $('#loader').addClass('hidden')
+                    },
+                    dataType : 'json',
+                    success: function(response){
+                        $("#modalDetail").find('#clientModal').text(response.commande.nom_client);
+                        $("#modalDetail").find('#dateModal').text(response.commande.date);
+                        $("#listePaniers > tbody").empty();
+                        response.paniers.forEach(panier => {
+                            $("#listePaniers > tbody").append("<tr><td><img src='{{ url('/') }}/"+panier.image_prod+"' style='width: 60px'></td><td>"+panier.nom_prod+"</td><td class='text-end'>"+panier.prix_produit+"</td><td class='text-end'>"+panier.qte_commande+" "+panier.unite+"</td><td class='text-end'>"+panier.total+"</td></tr>");
+                        });
+                        $("#modalDetail").modal('show');
+                    }
+                });
+            }
+        }
+        
+        
     </script>
 @endpush

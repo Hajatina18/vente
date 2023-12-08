@@ -4,8 +4,14 @@
         <span><i class="me-2 la la-store-alt fs-4"></i></span>
         <span class="fs-4">Caissier</span>
    </li>
-    <li class="sidebar-item" style=" border-top: 1px solid white;">
+   <li class="sidebar-item"  style=" border-top: 1px solid white;">
         <a href="{{ route('commande') }}" class="sidebar-link">
+            <i class="lab la-product-hunt me-2"></i>
+            <span>Produit</span>
+        </a>
+    </li>
+    <li class="sidebar-item" style=" border-top: 1px solid white;">
+        <a href="{{ route('commande_liste') }}" class="sidebar-link">
             <i class="las la-shopping-bag me-2"></i>
             <span>Commande</span>
         </a>

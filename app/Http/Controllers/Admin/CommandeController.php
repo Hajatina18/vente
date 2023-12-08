@@ -16,9 +16,12 @@ class CommandeController extends Controller
     {
         return view('admin.commande');
     }
+
     public function liste()
     {
-        $commandes = Commande::all();
+        $user = auth()->user();
+
+        $commandes = $user->is_admin === 1 ? Commande::all() : Commande::where('id_user',$user->id)->get();
         foreach ($commandes as $commande) {
             $total = DB::table('paniers')
                         ->where('id_commande', $commande->id_commande)

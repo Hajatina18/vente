@@ -29,6 +29,7 @@ class CommandeController extends Controller
         $precommande = PreCommande::withSum(['paniers' => fn ($query) => $query->select(DB::raw("sum(prix_produit*qte_commande)"))], '')->where("id_pre_commande", $id)->first();
         return view('pages.commande', array("precommande" => $precommande,'modes' => $modes, "parametres" => $id));
     }
+
     public function searchProduct(Request $request)
     {
         $word = $request->search;
@@ -166,8 +167,8 @@ class CommandeController extends Controller
         // $produit = StockPointVente::where('ref_prod',$ref_prod)->where('id_pdv',$user->id_pdv)->first();
         $avoir = Avoir::where('ref_prod', $ref_prod)->where('avoirs.id_unite', $unite)->join('unite_mesures', 'avoirs.id_unite', '=', 'unite_mesures.id_unite')->select('*')->first();
         
-       if(($avoir->qte_unite * $qte) > $produit->stock){
-            $produit->stock /= $avoir->qte_unite;
+       if(($avoir->qte_unite * $qte) > $produit->qte_stock){
+            $produit->qte_stock /= $avoir->qte_unite;
             $produit->unite = $avoir->unite;
             echo json_encode($produit);
         }else{
