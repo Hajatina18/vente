@@ -125,9 +125,9 @@ class DepotController extends Controller
     {
         $depots = Depot::orderByDesc('created_at')->get();
         foreach ($depots as $depot) {
-            $depot->action = "`<a href='javascript:void(0)' class='badge bg-primary p-2 ms-2  edit_depot'>Modifier</a>
+            $depot->action = "<a href='javascript:void(0)' class='badge bg-primary p-2 ms-2  edit_depot'>Modifier</a>
                                 <a href='javascript:void(0)' class='badge bg-danger p-2 ms-2 delete_depot' data-id='" . $depot->id_depot . "'>Supprimer</a>
-                                <a href='/admin/depots/" . $depot->id_depot . "' class='badge bg-success p-2 ms-2 visit_depot' data-id='" . $depot->id_depot . "'>Visiter</a>`";
+                                <a href='/admin/depots/" . $depot->id_depot . "' class='badge bg-success p-2 ms-2 visit_depot' data-id='" . $depot->id_depot . "'>Visiter</a>";
         }
         echo json_encode($depots);
     }

@@ -283,14 +283,14 @@
                                                     icon: response.icon,
                                                     text: response.text
                                                 });
-                                                table.ajax.reload();
+                                               table.ajax.reload();
                                             }
                                         }
                                     });
                                 });
                             }
 
-                           window.location.href = route;
+                         window.location.href = route;
                         }
                     });
                 } else {

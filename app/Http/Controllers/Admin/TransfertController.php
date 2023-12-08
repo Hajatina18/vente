@@ -94,11 +94,17 @@ class TransfertController extends Controller
                 $stock= new StockPointVente;
                 $stock->ref_prod = $request->ref_prod;
                 $stock->stock=$request->qte;
-                
                 $stock->id_pdv = $request->demandeur;
                 $stock->week = (new DateTime())->format('W');
                 $stock->save();
             } else{
+                // $depots = Stock::where('ref_prod', $)
+                // if(){
+
+                // }
+                // else {
+
+                // }
                 $stock = new Stock;
                 $stock->ref_prod = $request->ref_prod;
                 $stock->stock=$request->qte; 
@@ -123,17 +129,8 @@ class TransfertController extends Controller
     }
     public function getQuantité(Request $request)
     {
-      
-        $depot = DB::table('stocks')
-    ->join('produits', 'stocks.ref_prod', '=', 'produits.ref_prod')
-    ->join('avoirs', 'avoirs.ref_prod', '=', 'produits.ref_prod')
-    ->where('avoirs.id_unite', $request->unite)
-    ->where('stocks.ref_prod', $request->ref_prod)
-    ->where('id_depot', $request->depot)
-    ->select('stocks.stock')
-    ->get();
-    return dd($depot);
-        if($depot >= $request->qte){
+        $stock = Stock::where('ref_prod', $request->ref_prod)->where('id_depot', $request->id_depot)->value('value');
+        if($stock >= $request->qte){
           $array = array(
                 'icon' => "success",
                 'text' => "Quantité suffisante"

@@ -18,11 +18,11 @@ class CreateStocksTable extends Migration
             $table->integer("week");
             $table->string('ref_prod')->index();
             $table->float('stock')->default(0);
-            $table->integer('id_unite')->index();
+            // $table->integer('id_unite')->index();
             $table->integer('id_depot')->nullable();
             $table->foreign('ref_prod')->references('ref_prod')->on('produits');
             $table->foreign('id_depot')->references('id_depot')->on('depots');
-            $table->foreign('id_unite')->references('id_unite')->on('unite_mesures');
+            // $table->foreign('id_unite')->references('id_unite')->on('unite_mesures');
             $table->timestamps();
         });
     }

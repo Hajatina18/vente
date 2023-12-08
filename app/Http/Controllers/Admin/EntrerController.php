@@ -81,7 +81,8 @@ class EntrerController extends Controller
         if($entrerProduit->save()){
             $stock = Stock::where('ref_prod',$request->ref_prod)->first();
             $depot = Depot::where('is_default', 1)->first();
-            $stock->update(['stock'=>$request->qte, 'id_depot'=>$depot->id_depot]);
+            $stock->stock  += $request->qte;
+            $stock->update(['stock'=>$stock->stock, 'id_depot'=>$depot->id_depot]);
             $produit = Produit::find($request->ref_prod);
             $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
             $produit->qte_stock += ($unite->qte_unite * floatval($request->qte));
