@@ -44,7 +44,7 @@
                                 <div class="m-5 text-center">
                                     <h1>Bienvenue</h1>
                                 </div>
-                                    <form action="{{ route('check_login') }}" method="post" class="mb-5">
+                                    <form action="{{ route('check_login') }}" method="post" class="mb-5 ">
                                         @csrf
                         
                                         @if(session('error'))
@@ -59,7 +59,8 @@
                         
                                         <div class="form-group mb-3">                                  
                                             <label for="username" class="form-label">Nom d'utilisateur</label>
-                                            <input type="text" class="form-control" id="username" name="username" required>
+                                            <input type="text" class="form-control " id="username" name="username" required>
+                                            
                                         </div>
                                         <div class="form-group mb-3">
                                             <label for="password" class="form-label">Mot de passe</label>

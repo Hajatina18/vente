@@ -17,17 +17,19 @@
                 </div>
                 <div class="col-12 col-md-4 col-lg-4 mb-md-0 mb-3"> <!-- Espace ajouté -->
 
-                    <form method="POST" id="formDepot">
+                    <form method="POST" id="formDepot" >
                         @csrf
                         <h4 class="text-center">Formulaire Dépôt </h4>
                         <div class="mb-3">
                             <label for="depot" class="form-label">Nom</label>
-                            <input type="text" class="form-control" id="nom_depot" name="nom_depot">
-                            <input type="hidden" class="form-control" id="id_depot" name="id_depot">
+                            <input type="text" class="form-control " id="nom_depot" name="nom_depot" >
+                            <input type="hidden" class="form-control " id="id_depot" name="id_depot">
+                    
                         </div>
                         <div class="mb-3">
                             <label for="depot" class="form-label">Localisation</label>
                             <input type="text" class="form-control" id="localisation" name="localisation">
+                            
                         </div>
                      <div class="mb-0">
                                 <label for="nom" class="form-label">Type depot</label>
@@ -35,6 +37,7 @@
                                                     <option default >Choix de dépôt</option>
                                                     <option value="1">Dépôt principale</option>
                                                     <option value="0">Dépôt péripherique</option>
+
                                                 </select>
                             </div> 
 
@@ -103,7 +106,7 @@
 
         $("#formDepot").on('submit', function() {
             var form = $(this);
-           
+            if($("#id_depot").val()){ 
                 $.ajax({
                     url: '{{ route("add_depot") }}',
                     type: 'POST',
@@ -125,7 +128,46 @@
                         table.ajax.reload();
                     }
                 });
+            }else{
+                Swal.fire({
+                    icon: 'warning',
+                    text: 'Veuillez renseigner le champ Nom depot pour completerl\'insertion,s\'il vous plait!'
+                });
+            }
+                return false
+        });
 
+        //localisation (champ invalide)
+        $("#formDepot").on('submit', function() {
+            var form = $(this);
+            if($("#localisation").val()){ 
+                $.ajax({
+                    url: '{{ route("add_depot") }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('#loader').removeClass('hidden')
+                    },
+                    complete: function() {
+                        $('#loader').addClass('hidden')
+                    },
+                    success: function(response) {
+                        $("#formDepot")[0].reset();
+                        $("#id_depot").val(null);
+                        Swal.fire({
+                            icon: response.icon,
+                            text: response.text
+                        });
+                        table.ajax.reload();
+                    }
+                });
+            }else{
+                Swal.fire({
+                    icon: 'warning',
+                    text: 'Veuillez renseigner le champ Nom depot pour completerl\'insertion,s\'il vous plait!'
+                });
+            }
                 return false
         });
     </script>

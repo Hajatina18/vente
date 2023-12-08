@@ -465,7 +465,7 @@
                     $("document").ready(function() {
                         $("#depotDiv").show();
                         $("#pointVenteDiv").hide();
-                        $(".form-check-label").text("Transfert versid_approvisionneur un autre dépôt");
+                        $(".form-check-label").text("Transfert vers un autre dépôt");
                         $("#is_depot").change(function() {
                             if (this.checked) {
 
