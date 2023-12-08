@@ -7,7 +7,6 @@
                     <th width="30%">Designation</th>
                     <th>Quantité en stock</th>
                     <th width="25%">Prix par unité</th>
-                    <th>Action</th>
                 </thead>
                 <tbody></tbody>
             </table>

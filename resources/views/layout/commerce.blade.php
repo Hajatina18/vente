@@ -11,7 +11,7 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="{{ route('commande_commercial') }}" class="sidebar-link">
+                        <a href="{{ route('commande_liste') }}" class="sidebar-link">
                             <i class="las la-shopping-bag me-2"></i>
                             <span>Commande</span>
                         </a>

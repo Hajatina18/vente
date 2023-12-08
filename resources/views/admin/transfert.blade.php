@@ -167,11 +167,11 @@
                 </div>
                 <div>
                     <h4 class="text-center">Journal des transferts</h4>
-                    <div class="table-responsive">
+                    <div class="table-responsive ps-3 pe-4">
                         <table class="table table-striped" id="liste">
                             <thead>
                                 <th>Bon de transfert</th>
-                                <th>Produit</th>
+                                <th width="30%">Produit</th>
                                 <th>Demandeur </th>
                                 <th>Approvisionneur </th>
                                 <th>Date de transfert</th>

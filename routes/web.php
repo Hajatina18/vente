@@ -64,17 +64,9 @@ Route::get('/logout', function(){
 })->middleware(['auth'])->name('logout');
 
 
-//Commercial
-// Route::group(['middleware' => ['vente:2'], 'prefix' => 'commercial'], function () {
-//     Route::get('/', [CommercialController::class, 'index'])->name('produit_com');
-//     // Ajoutez d'autres routes spécifiques pour les utilisateurs commerciaux
-//     // Assurez-vous d'avoir les actions nécessaires définies dans votre CommercialController
-// });
 
 Route::group(['middleware' => ['vente:2'], 'prefix' => 'commercial'], function () {
-    Route::get('/', [CommandecomController::class, 'produit'])->name('produit_com');
-    Route::get('/commande', [CommandecomController::class, 'index'])->name('commande_commercial');
-    Route::get("/precommande", [PreCommandeController::class, "index"])->name("precommande");
+     Route::get("/precommande", [PreCommandeController::class, "index"])->name("precommande");
     Route::post('/ajouter', 'App\Http\Controllers\Admin\ProduitController@ajouter')->name('ajouter_produit');
     Route::post('/modifier/{id}', 'App\Http\Controllers\Admin\ProduitController@modifier')->name('modifier_produit');
 });
@@ -82,6 +74,7 @@ Route::group(['middleware' => ['vente:2'], 'prefix' => 'commercial'], function (
 
 Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
     Route::get('/', [Dashboard::class, 'index'])->name("admin");
+   
     Route::group(['prefix' => 'unite'], function(){
         Route::get('/', [UniteController::class, 'index'])->name('unite_admin');
         Route::post('/', [UniteController::class, 'create'])->name('add_unite');
@@ -136,12 +129,6 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
 
     });
 
-    Route::group(['prefix' => 'commande'], function (){
-        Route::get('/', [AdmiaddProductnCommandeController::class, 'index'])->name('commande_admin');
-        Route::get('/liste', [AdminCommandeController::class, 'liste'])->name('liste_commande_admin');
-        Route::post('/getDetail', [AdminCommandeController::class, 'getDetail'])->name('admin_getDetail_commande');
-    });
-
     Route::group(['prefix' => 'balance'], function(){
         Route::get("/", [BalanceController::class, 'index'])->name('balance');
         Route::get("/getWeek/{week?}", [BalanceController::class, 'getWeek'])->name('getWeek');
@@ -169,10 +156,17 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('/verify-stock', [CommandeController::class, 'stock'])->name('verify-stock');
     Route::get('/getClient', [CommandeController::class, 'getClient'])->name('getClient_commande');
     Route::get('/caisse', [CommandeController::class, 'caisse'])->name('caisse');
-
+    
+     Route::group(['prefix' => 'commande'], function (){
+        // Route::get('/', [CommandecomController::class, 'produit'])->name('produit_com');
+        Route::get('/liste', [AdminCommandeController::class, 'index'])->name('commande_liste');
+        Route::get('/list', [AdminCommandeController::class, 'liste'])->name('liste_commande');
+        Route::post('/getDetail', [AdminCommandeController::class, 'getDetail'])->name('admin_getDetail_commande');
+    });
     
     Route::group(["prefix" => "precommande", "as" => "precommande."], function(){
         Route::get("/", [PreCommandeController::class, "index"])->name("index");
+        Route::get("/liste", [PreCommandeController::class, "liste"])->name("precommande_liste");
         Route::post("/", [PreCommandeController::class, "save"])->name("save");
         Route::post("/add_prepanier", [PreCommandeController::class, "panier"])->name("panier");
         Route::post('update_panier', [PreCommandeController::class, "updatePanier"])->name("updatePanier");

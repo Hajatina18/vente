@@ -77,7 +77,7 @@
                                       </a>
                                     </li>
                                   <li class="sidebar-item">
-                                      <a href="{{ route('commande_admin') }}" class="sidebar-link ">
+                                      <a href="{{ route('commande_liste') }}" class="sidebar-link ">
                                           <div class="">
                                               <i class="las la-shopping-bag me-2"></i>
                                               <span>Commande</span>

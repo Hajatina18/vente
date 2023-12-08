@@ -10,8 +10,10 @@ use App\Models\Panier;
 use App\Models\PreCommande;
 use App\Models\PrePaniers;
 use App\Models\Produit;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 class PreCommandeController extends Controller
@@ -22,13 +24,32 @@ class PreCommandeController extends Controller
 
         setlocale(LC_ALL, 'fr_FR.utf8', 'FRA');
         $Precomm = PreCommande::with("paniers");
-        $precommandes =$user->is_admin===1 ? $Precomm->get() : $Precomm->where('id_user',$user->id)->get(
-            
-        )  ;
+        $precommandes =$user->is_admin===1 ? $Precomm->get() : $Precomm->where('id_user',$user->id)->get()  ;
 
         $modes = ModePaiement::all();
         return view("pages.precommande", compact('precommandes', "modes"));
     }
+
+    public function liste(){
+        $user= auth()->user();
+ 
+        $Precomm = PreCommande::with("paniers");
+        $precommandes =$user->is_admin===1 ? $Precomm->get() : $Precomm->where('id_user',$user->id)->get();
+        foreach ($precommandes as $precommande) {
+            $total = DB::table('pre_paniers')
+                        ->where('id_pre_commande', $precommande->id_pre_commande)
+                        ->select(DB::raw('SUM(qte_commande * prix_produit) as total'))
+                        ->first();
+            $precommande->date = date('d/m/Y H:i:s', strtotime($precommande->created_at));
+            $precommande->user = User::find($precommande->id_user)->nom;
+            $precommande->total = number_format($total->total, 2, ',', ' ').' Ar';
+             $precommande->action = '` <a class="btn btn-primary edit_precommande" data-id="'.$precommande->id_pre_commande .'">Modifier</a>
+                                     <a class="btn btn-success validate_commande" data-id="'. $precommande->id_pre_commande .'">Valider</a>`';
+            
+        }
+        echo json_encode($precommandes);
+    }
+
     public function save(Request $request)
     {
         $precommande = new PreCommande;

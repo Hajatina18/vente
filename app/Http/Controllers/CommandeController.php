@@ -13,6 +13,7 @@ use App\Models\PreCommande;
 use App\Models\PrePaniers;
 use App\Models\Produit;
 use App\Models\Stock;
+use App\Models\StockPointVente;
 use App\Models\UniteMesure;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class CommandeController extends Controller
         $precommande = PreCommande::withSum(['paniers' => fn ($query) => $query->select(DB::raw("sum(prix_produit*qte_commande)"))], '')->where("id_pre_commande", $id)->first();
         return view('pages.commande', array("precommande" => $precommande,'modes' => $modes, "parametres" => $id));
     }
+
     public function searchProduct(Request $request)
     {
         $word = $request->search;
@@ -153,12 +155,19 @@ class CommandeController extends Controller
 
     public function stock(Request $request)
     {
+        $user = auth()->user();
+
         $ref_prod = $request->ref_prod;
         $qte = $request->qte;
         $unite = $request->unite;
         $produit = Produit::find($ref_prod);
+        // $produit = $user->is_admin === 0 && $user->id_depot ? 
+        //           Stock::where('ref_prod',$ref_prod)->where('id_depot',$user->id_depot)->first() 
+        //         : 
+        // $produit = StockPointVente::where('ref_prod',$ref_prod)->where('id_pdv',$user->id_pdv)->first();
         $avoir = Avoir::where('ref_prod', $ref_prod)->where('avoirs.id_unite', $unite)->join('unite_mesures', 'avoirs.id_unite', '=', 'unite_mesures.id_unite')->select('*')->first();
-        if(($avoir->qte_unite * $qte) > $produit->qte_stock){
+        
+       if(($avoir->qte_unite * $qte) > $produit->qte_stock){
             $produit->qte_stock /= $avoir->qte_unite;
             $produit->unite = $avoir->unite;
             echo json_encode($produit);
@@ -226,7 +235,10 @@ class CommandeController extends Controller
  
         $produits = $commercial ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->get() 
                                 : ($id_depot ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')
-                                               ->where('id_depot',$id_depot)->get() : "");
+                                               ->where('id_depot',$id_depot)->get() 
+                                             : StockPointVente::join('produits','produits.ref_prod','=','stock_point_ventes.ref_prod')
+                                                ->where('stock','>',0)
+                                                ->where('id_pdv',$id_pdv)->get());
         foreach ($produits as $product) {
         //     $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
             $unites = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.id_unite","unite_mesures.unite", "avoirs.prix")->get();
@@ -236,14 +248,13 @@ class CommandeController extends Controller
                                 <span>".$value->unite." : ".number_format($value->prix, 2, ',' , ' ')." Ar</span>
                                 <i style='cursor:pointer;' class='las text-primary la-plus-circle fs-2 me-2' onclick=\"addPanier('$product->ref_prod','$product->nom_prod','$value->prix','$value->id_unite','$value->unite','url($product->image_prod) ')\" ></i>  
                             </div>";
+
             }
             $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
             $product->unite = $unite;
-            if(boolval($product->fait_demande)){
-                $product->qte_stock = "Fait à la demande";
-            }else{
-                $product->qte_stock = number_format($product->qte_stock, 0, ',', ' ').' '.($product->qte_stock > 1 ? $base->unite.'s' : $base->unite);
-            }
+           
+            $product->qte_stock = number_format($product->stock, 0, ',', ' ').' '.($product->stock > 1 ? $base->unite.'s' : $base->unite);
+           
             $product->image_prod = "<img src='".url($product->image_prod)."' style='width: 60px'>";
         }
         echo json_encode($produits);

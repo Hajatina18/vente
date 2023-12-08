@@ -62,7 +62,6 @@
                    {data:'nom_prod'},
                     {data:'qte_stock'},
                     {data:'unite'},
-                    {data:'action'}
                 ],
                 "language": {
                     url: "{{ asset('datatable/french.json') }}"

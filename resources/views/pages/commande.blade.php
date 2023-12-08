@@ -15,17 +15,7 @@
                         </div>
                     </form>
                 </div>
-               {{--  <table class="table table-striped" id="liste">
-                    <thead>
-                        <th>Code Art</th> 
-                        <th>Designation</th> 
-                        <th>Quantite</th>
-                        <th>Prix</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody></tbody>
-                </table>--}}
-                
+               
                 <div id="product">
                     @include('pages.partials.produits')
                 </div> 
@@ -137,7 +127,7 @@
                     {data:'ref_prod'},
                      {data:'image_prod'},
                    {data:'nom_prod'},
-                    // {data:'qte_stock'},
+                    {data:'qte_stock'},
                     {data:'unite'},
                     // {data:'action'}
                 ],

@@ -67,7 +67,7 @@
     $("document").ready(function(){
             table = $("#liste").DataTable({
                 "ajax" : {
-                    "url" : '{{ route("liste_commande_admin") }}',
+                    "url" : '{{ route("liste_commande") }}',
                     "dataSrc" : ''
                 },
                 "order": [[ 0, "desc" ]], //or asc 

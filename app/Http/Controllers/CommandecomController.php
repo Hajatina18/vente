@@ -13,9 +13,7 @@ class CommandecomController extends Controller
 {
     public function index()
     {
-        // Votre logique de contrôleur ici
-        
-        return view("commandecom");
+        return view("liste-commande");
     } 
     public function produit($id = null){
         $modes = ModePaiement::all();
