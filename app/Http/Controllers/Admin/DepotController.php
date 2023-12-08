@@ -20,7 +20,7 @@ class DepotController extends Controller
         $fournisseurs = Fournisseur::all();
         $produits = Produit::all();
        
-        if($depot && !$depot->is_default){
+        if($depot ){
             return view('admin.detail-stock',  compact('produits','depot'));
         }else {
          return view('admin.depot',  compact('fournisseurs', 'produits'));

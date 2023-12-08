@@ -158,7 +158,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/caisse', [CommandeController::class, 'caisse'])->name('caisse');
     
      Route::group(['prefix' => 'commande'], function (){
-        // Route::get('/', [CommandecomController::class, 'produit'])->name('produit_com');
+        Route::get('/', [CommandecomController::class, 'produit'])->name('produit_com');
         Route::get('/liste', [AdminCommandeController::class, 'index'])->name('commande_liste');
         Route::get('/list', [AdminCommandeController::class, 'liste'])->name('liste_commande');
         Route::post('/getDetail', [AdminCommandeController::class, 'getDetail'])->name('admin_getDetail_commande');

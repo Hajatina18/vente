@@ -15,6 +15,7 @@ class CommandecomController extends Controller
     {
         return view("liste-commande");
     } 
+    
     public function produit($id = null){
         $modes = ModePaiement::all();
         $precommande = PreCommande::withSum(['paniers' => fn ($query) => $query->select(DB::raw("sum(prix_produit*qte_commande)"))], '')->where("id_pre_commande", $id)->first();
