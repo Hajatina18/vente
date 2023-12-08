@@ -383,14 +383,15 @@
                                     ref_prod: ref,
                                     qte: qte,
                                     demandeur: response.id_demandeur,
+                                    approvisionneur: response.id_approvisionneur,
                                     is_depot: response.is_depot
                                 },
                                 beforeSend: function() { 
-                                    
+                                    $("#exampleModal").modal('hide');
                                     $('#loader').removeClass('hidden')
                                 },
                                 complete: function() { 
-                                    
+                                    $("#exampleModal").modal('hide');
                                     $('#loader').addClass('hidden')
                                 },
                                 dataType: "json",
@@ -415,6 +416,7 @@
                         });
                     }
                     table.ajax.reload();
+                    $("#exampleModal").modal('hide');
                 }
             });
         } else {
@@ -486,6 +488,7 @@
                             icon: response.icon,
                             text: response.text
                         });
+                        
                 }
             });
         }
