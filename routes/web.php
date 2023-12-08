@@ -111,7 +111,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::post('/liste',[DepotController::class, 'store'])->name('add_depot');
         Route::get('/{id}',[DepotController::class, 'index'])->name('detail_depot');
         Route::get('/{id}/stock',[DepotController::class, 'stock'])->name('stock_depot');
-
+        
     });
 
     Route::group(['prefix' => 'points_vente'],function (){
@@ -128,6 +128,8 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::post('/', [TransfertController::class, 'store'])->name('add_transferts');
         Route::get('/liste' , [TransfertController::class, 'liste'])->name('liste_transfert');
         Route::post('/add_panier_transfert', [TransfertController::class, 'add_panier_transfert'])->name('add_panier_transfert');
+        Route::post('/get-quantite', [TransfertController::class, 'getQuantité'])->name('get_quantite');
+
     });
 
     Route::group(['prefix' => 'commande'], function (){

@@ -123,4 +123,6 @@ class DepotController extends Controller
         }
         echo json_encode($depots);
     }
+
+   
 }

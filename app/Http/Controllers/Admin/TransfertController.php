@@ -120,4 +120,22 @@ class TransfertController extends Controller
             ));
         }
     }
+    public function getQuantité(Request $request)
+    {
+        $depot = Stock::where('ref_prod', $request->ref_prod)->where('id_unite', $request->id_unite, 'id_depot', $request->depot)->value('qte_stock');
+
+        if($depot >= $request->qte){
+          $array = array(
+                'icon' => "success",
+                'text' => "Quantité suffisante"
+            );
+        }
+        else {
+            $array = array(
+                'icon' => "error",
+                'text' => "Quantité insuffisante"
+            );
+        }
+        echo json_encode($array);
+    }
 }
