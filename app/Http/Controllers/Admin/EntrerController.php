@@ -62,17 +62,16 @@ class EntrerController extends Controller
         echo json_encode($array);
     }
     public function add_panier(Request $request)
-    {
-        $entrerProduit = new EntrerProduit;
-        
+    { 
+        $entrerProduit = new EntrerProduit;  
         $entrerProduit->id_entrer = $request->id;
         $entrerProduit->ref_prod = $request->ref_prod;
         $entrerProduit->id_unite = $request->unite;
         $entrerProduit->qte_entrer = $request->qte;
         if($entrerProduit->save()){
-            // $stock = Stock::where('ref_prod',$request->ref_prod)->get();
-            // $depot = Depot::where('is_default', 1)->get();
-            // $stock->update(['stock'=> $request->qte, 'id_depot'=> $depot->id_depot]);
+            $stock = Stock::where('ref_prod',$request->ref_prod)->first();
+            $depot = Depot::where('is_default', 1)->first();
+            $stock->update(['stock'=>$request->qte, 'id_depot'=>$depot->id_depot]);
             $produit = Produit::find($request->ref_prod);
             $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
             $produit->qte_stock += ($unite->qte_unite * floatval($request->qte));

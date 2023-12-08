@@ -14,14 +14,13 @@ class CreatePointVentesTable extends Migration
     public function up()
     {
         Schema::create('point_ventes', function (Blueprint $table) {
-            $table->id('id_pdv');
+            $table->integer('id_pdv')->autoIncrement();
             $table->string('nom_pdv');
             $table->string('address_pdv');
             $table->string('telephone_pdv');
             $table->string('nif_pdv');
             $table->string('stat_pdv');
             $table->string('rcs_pdv');
-           $table->foreignId("id_user")->constrained("users");
             $table->timestamps();
         });
     }

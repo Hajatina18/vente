@@ -19,8 +19,8 @@ class CreateTransfertTable extends Migration
             $table->integer('id_demandeur')->index();
             $table->integer('id_approvisionneur')->index();
             $table->date('date_transfert');
-            $table->foreign('id_demandeur')->references('id_depot')->on('depots');
-            $table->foreign('id_approvisionneur')->references('id_depot')->on('depots');
+            $table->boolean("is_depot")->default(false);
+            $table->foreign('id_approvisionneur')->references('id_depot')->on('depots');  
             $table->timestamps();
     
         });

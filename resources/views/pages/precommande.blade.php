@@ -20,7 +20,7 @@
                     <div class="precommande">
                         <div class="row d-flex align-items-center">
                             <div class="col-4 date_commande">
-                                <h4>{{ ucfirst(strftime("%d %B %Y %H:%I:%S", strtotime($item->date_pre_commande))) }}</h4>
+                                <h4>{{ utf8_encode(strftime("%d %B %Y", strtotime($item->date_pre_commande)).utf8_decode(' à ').strftime("%H:%M:%S", strtotime($item->created_at))) }}</h4>
                             </div>
                             <div class="col-4">
                                 <h3 class=" text-end">{{ number_format($item->sums(), 0, ',', ' ') }} Ar</h3>
