@@ -23,7 +23,7 @@
                         <th>Prix</th>
                         <th>Action</th>
                     </thead>
-                    <tbody></tbody>
+                    <tbody> </tbody>
                 </table>
                 
                 {{-- <div id="product">

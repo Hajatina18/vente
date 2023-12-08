@@ -276,7 +276,7 @@
     });
     $("#formTransfert").on('submit', function() {
         var form = $(this);
-
+        if($("#bon_de_transfert").val()){ 
         $.ajax({
             url: '{{ route("add_transfert") }}',
             type: 'POST',
@@ -298,9 +298,81 @@
                 table.ajax.reload();
             }
         });
-
-
+    }else{
+        Swal.fire({
+            icon: 'warning',
+            text: 'Veuillez renseigner le champ Transfert pour completer l\'insertion, s\'il vous plait '
+        });
+    }
+    return false;
     });
+    //unité mesure
+    $("#formTransfert").on('submit', function() {
+        var form = $(this);
+        if($("#unite").val()){ 
+        $.ajax({
+            url: '{{ route("add_transfert") }}',
+            type: 'POST',
+            data: form.serialize(),
+            dataType: 'json',
+            beforeSend: function() {
+                $('#loader').removeClass('hidden')
+            },
+            complete: function() {
+                $('#loader', addClass('hidden'))
+            },
+            success: function(response) {
+                $("#formTransfert")[0].reset();
+                $('#exampleModal').modal('hide');
+                Swal.fire({
+                    icon: response.icon,
+                    text: response.text
+                });
+                table.ajax.reload();
+            }
+        });
+    }else{
+        Swal.fire({
+            icon: 'warning',
+            text: 'Veuillez renseigner le champ Transfert pour completer l\'insertion, s\'il vous plait '
+        });
+    }
+    return false;
+    });
+    //quantite
+    $("#formTransfert").on('submit', function() {
+        var form = $(this);
+        if($("#qte").val()){ 
+        $.ajax({
+            url: '{{ route("add_transfert") }}',
+            type: 'POST',
+            data: form.serialize(),
+            dataType: 'json',
+            beforeSend: function() {
+                $('#loader').removeClass('hidden')
+            },
+            complete: function() {
+                $('#loader', addClass('hidden'))
+            },
+            success: function(response) {
+                $("#formTransfert")[0].reset();
+                $('#exampleModal').modal('hide');
+                Swal.fire({
+                    icon: response.icon,
+                    text: response.text
+                });
+                table.ajax.reload();
+            }
+        });
+    }else{
+        Swal.fire({
+            icon: 'warning',
+            text: 'Veuillez renseigner le champ Transfert pour completer l\'insertion, s\'il vous plait '
+        });
+    }
+    return false;
+    });
+
     $("#produits").on('change', '#produit', function() {
                 var produit = $(this);
                 if (produit.val()) {
