@@ -37,7 +37,7 @@ class DepotController extends Controller
             foreach ($unites as $value) {
                 $unite .= "<span>".$value->unite." : ".number_format($value->prix, 2, ',' , ' ')." Ar</span><br>";
             }
-            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
+            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.unite")->first();
             $product->unite = $unite;
             // if(boolval($product->fait_demande)){
             //     $product->qte_stock = "Fait à la demande";

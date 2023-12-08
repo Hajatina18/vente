@@ -156,7 +156,6 @@ class CommandeController extends Controller
     public function stock(Request $request)
     {
         $user = auth()->user();
-
         $ref_prod = $request->ref_prod;
         $qte = $request->qte;
         $unite = $request->unite;
@@ -250,7 +249,7 @@ class CommandeController extends Controller
                             </div>";
 
             }
-            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
+            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.unite")->first();
             $product->unite = $unite;
            
             $product->qte_stock = number_format($product->stock, 0, ',', ' ').' '.($product->stock > 1 ? $base->unite.'s' : $base->unite);
