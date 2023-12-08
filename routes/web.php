@@ -109,9 +109,13 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
         Route::get('/liste',[DepotController::class, 'create'])->name('list_depot');
         Route::get('/get-all-depot',[DepotController::class, 'liste'])->name('getalldepot');
         Route::post('/liste',[DepotController::class, 'store'])->name('add_depot');
+
         Route::get('/{id}',[DepotController::class, 'index'])->name('detail_depot');
         Route::get('/{id}/stock',[DepotController::class, 'stock'])->name('stock_depot');
         
+
+        Route::post('/delete', [DepotController::class, 'delete'])->name('delete_depot');
+
     });
 
     Route::group(['prefix' => 'points_vente'],function (){

@@ -131,7 +131,7 @@
             }else{
                 Swal.fire({
                     icon: 'warning',
-                    text: 'Veuillez renseigner le champ Nom depot pour completerl\'insertion,s\'il vous plait!'
+                    text: 'Veuillez renseigner le champ Nom depot pour completer l\'insertion,s\'il vous plait!'
                 });
             }
                 return false
@@ -165,10 +165,57 @@
             }else{
                 Swal.fire({
                     icon: 'warning',
-                    text: 'Veuillez renseigner le champ Nom depot pour completerl\'insertion,s\'il vous plait!'
+                    text: 'Veuillez renseigner le champ localisation pour completer l\'insertion,s\'il vous plait!'
                 });
             }
                 return false
+        });
+        $('table').on('click', '.edit', function(){
+            $("#id_depot").val($(this).data('id'));
+            $("#nom_depot").val($(this).parents('tr').find('td:eq(0)').text());
+        });
+        //delete depot
+        $('table').on('click', '.delete_depot', function(){
+            let id = $(this).data('id');
+            if (id) {
+                Swal.fire({
+                    title: 'Vous êtes sur',
+                    text: "La suppression d'un dépôt est irreversible",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Oui, Supprimer',
+                    cancelmButtonText: 'Annuler'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ route('delete_depot') }}",
+                            data: {
+                                _token : '{{ csrf_token() }}',
+                                id: id
+                            },
+                            beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                                $('#loader').removeClass('hidden')
+                            },
+                            complete : function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                                $('#loader').addClass('hidden')
+                            },
+                            dataType: "json",
+                            success: function (response) {
+                                table.ajax.reload();
+                                $("#formDepot")[0].reset();
+                                $("#id_depot").val(null);
+                                Swal.fire({
+                                    icon: response.icon,
+                                    text: response.text
+                                });
+                            }
+                        });
+                    }
+                })
+            }
         });
     </script>
 @endpush

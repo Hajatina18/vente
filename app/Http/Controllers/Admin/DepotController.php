@@ -88,12 +88,20 @@ class DepotController extends Controller
             ->with('success', 'Depot modifier succes !');
     }
 
-    public function destroy($id_depot)
+    public function delete(Request $request)
     {
-        $depot = Depot::find($id_depot);
-        $depot->delete();
-        return redirect()->route('admin.listedepot')
-            ->with('success', 'Depot bien supprimer');
+        if(Depot::destroy($request->id)){
+            $output = array(
+                'icon' => 'success',
+                'text' => "Depôt supprimée"
+            );
+        }else{
+            $output = array(
+                'icon' => 'warning',
+                'text' => "Il y a une erreur durant la suppression"
+            );
+        }
+        echo json_encode($output);
     }
 
     public function create()
