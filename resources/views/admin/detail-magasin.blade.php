@@ -60,7 +60,7 @@
                     {data:'ref_prod'},
                      {data:'image_prod'},
                    {data:'nom_prod'},
-                    {data:'qte_stock'},
+                    {data:'stock'},
                     {data:'unite'},
                 ],
                 "language": {

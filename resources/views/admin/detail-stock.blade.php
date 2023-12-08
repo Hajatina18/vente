@@ -44,14 +44,10 @@
 
 @push('js')
     <script type="text/javascript">
+       
+       var table;
         
-        var table;
-        var prod = "<option></option>";
-        @foreach ($produits as $produit)
-            prod += '<option value="{{ $produit->ref_prod }}">{{ $produit->nom_prod }}</option>';
-        @endforeach
-
-         var id = <?php echo json_encode($depot->id_depot) ?>
+        var id = <?php echo json_encode($depot->id_depot) ?>
       
       
         $("document").ready(function(){
@@ -64,9 +60,8 @@
                     {data:'ref_prod'},
                      {data:'image_prod'},
                    {data:'nom_prod'},
-                    {data:'qte_stock'},
+                    {data:'stock'},
                     {data:'unite'},
-                    {data:'action'}
                 ],
                 "language": {
                     url: "{{ asset('datatable/french.json') }}"
