@@ -20,7 +20,7 @@ class TransfertController extends Controller
 {
     public function index()
     {
-        $produits = Produit::all();
+        $produits = DB::table('produits')->join('entrer_produits', 'entrer_produits.ref_prod', '=', 'produits.ref_prod')->select('produits.*',)->get();
         $depots = Depot::all();
         $pointVente = PointVente::all();
         return view('admin.transfert', ['produits' => $produits, 'depots' => $depots, 'pointVente'=> $pointVente]);
@@ -94,6 +94,7 @@ class TransfertController extends Controller
                 $stock= new StockPointVente;
                 $stock->ref_prod = $request->ref_prod;
                 $stock->stock=$request->qte;
+                
                 $stock->id_pdv = $request->demandeur;
                 $stock->week = (new DateTime())->format('W');
                 $stock->save();
@@ -119,5 +120,31 @@ class TransfertController extends Controller
                 'text' => "Il existe un erreur interne, Veillez contacter l'administrateur"
             ));
         }
+    }
+    public function getQuantité(Request $request)
+    {
+      
+        $depot = DB::table('stocks')
+    ->join('produits', 'stocks.ref_prod', '=', 'produits.ref_prod')
+    ->join('avoirs', 'avoirs.ref_prod', '=', 'produits.ref_prod')
+    ->where('avoirs.id_unite', $request->unite)
+    ->where('stocks.ref_prod', $request->ref_prod)
+    ->where('id_depot', $request->depot)
+    ->select('stocks.stock')
+    ->get();
+    return dd($depot);
+        if($depot >= $request->qte){
+          $array = array(
+                'icon' => "success",
+                'text' => "Quantité suffisante"
+            );
+        }
+        else {
+            $array = array(
+                'icon' => "error",
+                'text' => "Quantité insuffisante"
+            );
+        }
+        echo json_encode($array);
     }
 }

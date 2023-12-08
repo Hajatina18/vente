@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('lineawesome/css/line-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('datatable/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ asset("css/style.css") }}">
+
     <style>
       
         .lds-dual-ring.hidden { 

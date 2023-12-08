@@ -132,9 +132,10 @@
                 }
             });
         });
+        //validation champ point de vente
         $("#formPointVente").on('submit', function() {
             var form = $(this);
-            
+            if($("#nom_pdv").val()){
                 $.ajax({
                     url: '{{ route("add_point_vente") }}',
                     type: 'POST',
@@ -159,8 +160,125 @@
                      table.ajax.reload();
                     }
                 });
+            }else{
+                Swal.fire({
+                    icon: 'warning', 
+                    text: 'Veuillez renseigner le champ point de vente pour completer l\'insertion, s\'il vous plait'
+                });
+            }
            
-            return false
+            return false;
+        });
+        //champ vide 
+        $("#formPointVente").on('submit', function() {
+            var form = $(this);
+            if($("#addresse_pdv").val()){
+                $.ajax({
+                    url: '{{ route("add_point_vente") }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    dataType: 'json',
+                    beforeSend: function() { 
+                        $('#loader').removeClass('hidden');
+                      
+                    },
+                    complete: function() { 
+                        $('#loader').addClass('hidden');
+                      
+                    },
+                    success: function(response) {
+                        $("#formPointVente")[0].reset();
+                        $('#exampleModal').modal('hide');
+                        $("#id_pdv").val(null);
+                        Swal.fire({
+                            icon: response.icon,
+                            text: response.text
+                        });
+                     table.ajax.reload();
+                    }
+                });
+            }else{
+                Swal.fire({
+                    icon: 'warning', 
+                    text: 'Veuillez renseigner le champ point de vente pour completer l\'insertion, s\'il vous plait'
+                });
+            }
+           
+            return false;
+        });
+        //champ vide telephone point de vente
+        $("#formPointVente").on('submit', function() {
+            var form = $(this);
+            if($("#telephone_pdv").val()){
+                $.ajax({
+                    url: '{{ route("add_point_vente") }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    dataType: 'json',
+                    beforeSend: function() { 
+                        $('#loader').removeClass('hidden');
+                      
+                    },
+                    complete: function() { 
+                        $('#loader').addClass('hidden');
+                      
+                    },
+                    success: function(response) {
+                        $("#formPointVente")[0].reset();
+                        $('#exampleModal').modal('hide');
+                        $("#id_pdv").val(null);
+                        Swal.fire({
+                            icon: response.icon,
+                            text: response.text
+                        });
+                     table.ajax.reload();
+                    }
+                });
+            }else{
+                Swal.fire({
+                    icon: 'warning', 
+                    text: 'Veuillez renseigner le champ point de vente pour completer l\'insertion, s\'il vous plait'
+                });
+            }
+           
+            return false;
+        });
+        //champ vide nif
+        $("#formPointVente").on('submit', function() {
+            var form = $(this);
+            if($("#nif_pdv").val()){
+                $.ajax({
+                    url: '{{ route("add_point_vente") }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    dataType: 'json',
+                    beforeSend: function() { 
+                        $('#loader').removeClass('hidden');
+                      
+                    },
+                    complete: function() { 
+                        $('#loader').addClass('hidden');
+                      
+                    },
+                    success: function(response) {
+                        $("#formPointVente")[0].reset();
+                        $('#exampleModal').modal('hide');
+                        $("#id_pdv").val(null);
+                        Swal.fire({
+                            icon: response.icon,
+                            text: response.text
+                        });
+                     table.ajax.reload();
+                    }
+                });
+            }else{
+                Swal.fire({
+                    icon: 'warning', 
+                    text: 'Veuillez renseigner le champ point de vente pour completer l\'insertion, s\'il vous plait'
+                });
+            }
+           
+            return false;
         });
         $('table').on('click', '.edit', function() {
              $("#exampleModal").find('#id_pdv').val($(this).data('id'));
