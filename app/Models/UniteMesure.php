@@ -12,8 +12,4 @@ class UniteMesure extends Model
     protected $fillable = [
         "unite"
     ];
-    public function avoir()
-    {
-        return $this->hasMany(Avoir::class);
-    }
 }

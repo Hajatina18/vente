@@ -28,7 +28,7 @@ class EntrerController extends Controller
     }
     public function addEntrer(Request $request)
     {
-        $depot = Depot::find('is_default', 1);
+        $depot = Depot::where('is_default', true)->first();
         if ($depot === null){
             $array = (array(
                 'icon' => "error",

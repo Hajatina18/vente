@@ -425,8 +425,10 @@
         }
         return false;
     });
-    $("#produits").on('change', '#produit', function() {
+    $("#produits").on('change', '#produit', '#id_approvisionneur', function() {
         var produit = $(this);
+        var depot = $("#id_approvisionneur").val();
+
         if (produit.val()) {
             $.ajax({
                 type: "POST",
@@ -456,44 +458,21 @@
         }
     });
     
-
-
-$("document").ready(function(){
-    $("#depotDiv").show();
-    $("#pointVenteDiv").hide();
-    $(".form-check-label").text("Transfert vers un autre dépôt");
-    $("#is_depot").change(function () {
-            if (this.checked) {
-                
-                $("#depotDiv").hide();
-                $("#pointVenteDiv").show();
-                $(".form-check-label").text("Transfert vers un point de vente");
-            } else {
-                
-                $("#depotDiv").show();
-                $("#pointVenteDiv").hide();
-                $(".form-check-label").text("Transfert vers un autre dépôt");
-            }
-        });
-});
-
-    $("#produits").on('change', '#produit, #unite', function() {
-        var produit = $('#produit');
-        var unite = $('#unite');
+    $("#produits").change( function() {
+        var produit = $('#produit').val();
+        var unite = $('#unite').val();
         var qte = $('#qte').val();
-       
-  
-        
-        if (produit.val() && unite.val() && qte &&  depot) {
+        var depot = $("#id_approvisionneur").val();
+        if (produit && unite && qte && depot) {
             $.ajax({
                 type: "POST",
                 url: "{{ route('get_quantite') }}",
                 data: {
                     _token: '{{ csrf_token() }}',
-                    ref_prod: produit.val(),
-                    id_unite: unite.val(),
+                    ref_prod: produit,
+                    unite: unite,
                     qte: qte,
-                  
+                    depot: depot
                 },
                 beforeSend: function() { 
                     $('#loader').removeClass('hidden')
@@ -503,17 +482,36 @@ $("document").ready(function(){
                 },
                 dataType: "json",
                 success: function(response) {
-                    if (response.icon) {
-                        Swal.fire({
-                                icon: response.icon,
-                                text: response.text
-                            });
-                    } else {
-                        // La quantité est insuffisante, vous pouvez afficher un message d'erreur ou prendre une autre action
-                    }
+                    Swal.fire({
+                            icon: response.icon,
+                            text: response.text
+                        });
                 }
             });
         }
     });
+    
+
+$("document").ready(function(){
+    $("#depotDiv").show();
+    $("#pointVenteDiv").hide();
+    $(".form-check-label").text("Transfert vers un autre dépôt");
+    $("#is_depot").change(function () {
+            if (this.checked) {
+                $("#depotDiv").hide();
+                $("#pointVenteDiv").show();
+                $(".form-check-label").text("Transfert vers un point de vente");
+            } else {
+                $("#depotDiv").show();
+                $("#pointVenteDiv").hide();
+                $(".form-check-label").text("Transfert vers un autre dépôt");
+            }
+    });
+   
+});
+
+
+   
+
 </script>
 @endpush
