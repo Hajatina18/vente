@@ -4,7 +4,7 @@
     <div class="commande-content w-100">
         <div class="card card-commande bg-white">
 
-            <div class="row">
+            <div class="row p-4">
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-12">
                     <!-- start modal -->
@@ -29,6 +29,7 @@
                                             <div class="mb-2">
                                                 <label for="nom_pdv" class="form-label">Nom</label> 
                                                 <input type="text" class="form-control" id="nom_pdv" name="nom_pdv">
+                                                <input type="hidden" class="form-control" id="id_pdv" name="id_pdv">
                                             </div>
                                             
                                             <div class="mb-2">
@@ -53,16 +54,8 @@
                                                 <label for="rcs_pdv" class="form-label">RCS</label> 
                                                 <input type="text" class="form-control" id="rcs_pdv" name="rcs_pdv">
                                             </div>
-                                            <div class="mb-2">
-                                                <label for="id_user" class="form-label">Caissier(e)</label> 
-                                                <select class="form-select" id="id_user" name="id_user">
-                                                    <option >Choisir caissier(e)</option>
-                                                    @foreach ($users as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->nom  }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                      
+                                            
+                                    
                                             <button type="submit" id="submitFormPointVente" class="btn btn-primary">
                                                 Sauvagarder
                                             </button>
@@ -79,7 +72,7 @@
                 </div>
                 <div class="col-12 col-md-12 col-lg-12">
                     <h4 class="text-center mb-2">Liste des points des ventes</h4>
-                    <table class="table table-striped" id="liste">
+                    <table class="table table-striped col-12" id="liste">
                         <thead>
                             <th>#</th>
                             <th>Nom</th>
@@ -87,7 +80,7 @@
                             <th>Téléphone</th>
                             <th>NIF Stat</th>
                             <th>RCS</th>
-                            <th>Caissier(e)</th>
+                            <!-- <th>Caissier(e)</th> -->
                             <th>Action</th>
                         </thead>
                         <tbody>
@@ -129,9 +122,9 @@
                     {
                         data: "rcs_pdv"
                     },
-                    {
-                        data: "nom"
-                    },
+                    // {
+                    //     data: "nom"
+                    // },
                     {
                         data: "action"
                     },
@@ -290,5 +283,16 @@
            
             return false;
         });
+        $('table').on('click', '.edit', function() {
+             $("#exampleModal").find('#id_pdv').val($(this).data('id'));
+            $("#exampleModal").find('#nom_pdv').val($(this).parents('tr').find('td:eq(0)').text());
+            $("#exampleModal").find('#address_pdv').val($(this).parents('tr').find('td:eq(1)').text());  
+            $("#exampleModal").find('#telephone_pdv').val($(this).parents('tr').find('td:eq(2)').text());
+            $("#exampleModal").find('#nif_pdv').val($(this).parents('tr').find('td:eq(3)').text());
+            $("#exampleModal").find('#stat_pdv').val($(this).parents('tr').find('td:eq(4)').text());
+            $("#exampleModal").find('#rcs_pdv').val($(this).parents('tr').find('td:eq(5)').text());
+            $("#exampleModal").modal('show');
+           
+        })
     </script>
 @endpush

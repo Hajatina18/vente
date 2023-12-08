@@ -10,6 +10,6 @@ class Stock extends Model
     use HasFactory;
     protected $primaryKey = "id_stock";
     protected $fillable = [
-        "week", "ref_prod", "stock"
+        "week", "ref_prod", "stock", "id_depot"
     ];
 }

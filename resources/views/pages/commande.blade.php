@@ -15,7 +15,7 @@
                         </div>
                     </form>
                 </div>
-                <table class="table table-striped" id="liste">
+               {{--  <table class="table table-striped" id="liste">
                     <thead>
                         <th>Code Art</th> 
                         <th>Designation</th> 
@@ -23,12 +23,12 @@
                         <th>Prix</th>
                         <th>Action</th>
                     </thead>
-                    <tbody> </tbody>
-                </table>
+                    <tbody></tbody>
+                </table>--}}
                 
-                {{-- <div id="product">
+                <div id="product">
                     @include('pages.partials.produits')
-                </div> --}}
+                </div> 
             </div>
             
         </div>
@@ -124,8 +124,28 @@
 
 @push('js')
     <script type="text/javascript">
-        var client;
-        $(document).ready(function(){
+        
+        var table;
+       
+        $("document").ready(function(){
+            table = $("#liste").DataTable({
+                "ajax" : {
+                    "url" : `/getProduit`,
+                    "dataSrc" : ""
+                },
+                "columns" : [
+                    {data:'ref_prod'},
+                     {data:'image_prod'},
+                   {data:'nom_prod'},
+                    // {data:'qte_stock'},
+                    {data:'unite'},
+                    // {data:'action'}
+                ],
+                "language": {
+                    url: "{{ asset('datatable/french.json') }}"
+                }
+            });
+
             window.sessionStorage.getItem("execute") ? console.log("existe") : window.sessionStorage.setItem('execute', 0);
             if(window.sessionStorage.getItem('execute')){
                 if(window.sessionStorage.getItem('execute') == 0){
@@ -163,6 +183,7 @@
                 info : false
             });
         })
+        
         var total = {{ $precommande ? $precommande->paniers_sum : 0 }};
         var i = {{ $precommande ? count($precommande->paniers) : 0 }};
         var precommande = null;
@@ -199,6 +220,7 @@
             }
             
         });
+
         function addPanier(ref_prod, nom_prod, prix_prod,id_unite, unite, image_prod) {
             var existe = false;
             $('.panier-item').each(function () {
@@ -279,9 +301,11 @@
                 });
             }
         }
+
         $('body').on('focusin', '.qte-product', function(){
             $(this).data('val', $(this).val());
         });
+
         $("body").on('change', '.qte-product', function(){
             var qte_input = $(this);
             var prix = $(this).parents('.panier-item').find('.product-price-unity').data('price');           
@@ -330,6 +354,11 @@
                 $("#product").html(data);
             });
         });
+        $(".add").on('click', function(){
+            alert("azert")
+            // $("#clientName").val($(this).data('id'));
+            // $("#modalClient").modal('hide');
+        })
 
         function sendCommande() {
             if(i > 0){
@@ -388,9 +417,9 @@
                                                 total = 0;
                                                 $("#totalPanier").text((new Intl.NumberFormat('fr').format(total))+' Ar')
                                                 i = 0;
-                                                $.get("{{ route('getProduit') }}", function(data) {
-                                                    $("#product" ).html(data);
-                                                });
+                                                // $.get("{{ route('getProduit') }}", function(data) {
+                                                //     $("#product" ).html(data);
+                                                // });
                                                 if(precommande){
                                                     $.ajax({
                                                         type: "POST",
@@ -538,9 +567,9 @@
                                                 total = 0;
                                                 $("#totalPanier").text((new Intl.NumberFormat('fr').format(total))+' Ar')
                                                 i = 0;
-                                                $.get("{{ route('getProduit') }}", function(data) {
-                                                    $("#product").html(data);
-                                                });
+                                                // $.get("{{ route('getProduit') }}", function(data) {
+                                                //     $("#product").html(data);
+                                                // });
                                                 client.ajax.reload();
                                             }
                                         }
@@ -559,9 +588,6 @@
             }
         }
         
-        $(".addClient").on('click', function(){
-            $("#clientName").val($(this).data('nom'));
-            $("#modalClient").modal('hide');
-        })
+      
     </script>
 @endpush

@@ -9,7 +9,7 @@ class PointVente extends Model
 {
     use HasFactory;
 
-    protected $primarytKey = "id_pdv";
+    protected $primaryKey = "id_pdv";
     protected $guarded = [];
 
 }

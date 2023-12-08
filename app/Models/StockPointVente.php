@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transfert extends Model
+class StockPointVente extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_transfert';
+    protected $primaryKey = "id_stock_pdv";
     protected $fillable = [
-        'bon_de_transfert', 'date_transfert', 'id_demandeur', 'id_approvisionneur', 'is_depot'
+        "week", "ref_prod", "stock", "id_pdv"
     ];
 }

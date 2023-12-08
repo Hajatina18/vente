@@ -28,51 +28,60 @@ class EntrerController extends Controller
     }
     public function addEntrer(Request $request)
     {
-        
-        $nom = ($request->frns != '') ? $request->frns : 'Anonyme';
-        $fournisseur = Fournisseur::where('nom_frns', $nom)->first();
-        if($fournisseur){
-            $id_frns = $fournisseur->id_frns;
-        }else{
-            $frns = new Fournisseur;
-            $frns->nom_frns = $nom;
-            $frns->save();
-            $id_frns = $frns->id_frns;
-        }
-        $enter = new Entrer;
-        $enter->code_art = $request->code_art;
-        $enter->reference_bl_frns = $request->reference_bl_frns;
-        $enter->pcb =  $request->pcb;
-        $enter->prix_achat_ht = $request->prix_achat_ht;
-        $enter->prix_achat_ttc	 = $request->prix_achat_ttc;
-        $enter->cout_trans = $request->cout_trans;
-        $enter->id_frns = $id_frns;
-        $enter->date_facture = $request->date_facture;
-        $enter->num_facture = $request->num_facture;
-        $enter->num_bl = $request->num_bl;
-        $enter->date_echeance = $request->date_echeance;
-        if($enter->save()){
-        $array = $enter;
-        }else{
+        $depot = Depot::find('is_default', 1);
+        if ($depot === null){
             $array = (array(
                 'icon' => "error",
-                'text' => "Il existe un erreur interne, Veillez contacter l'administrateur"
+                'text' => "Vous n'avez pas encore de dépôt principale"
             ));
         }
+        else{
+            $nom = ($request->frns != '') ? $request->frns : 'Anonyme';
+            $fournisseur = Fournisseur::where('nom_frns', $nom)->first();
+            if($fournisseur){
+                $id_frns = $fournisseur->id_frns;
+            }else{
+                $frns = new Fournisseur;
+                $frns->nom_frns = $nom;
+                $frns->save();
+                $id_frns = $frns->id_frns;
+            }
+            $enter = new Entrer;
+            $enter->code_art = $request->code_art;
+            $enter->reference_bl_frns = $request->reference_bl_frns;
+            $enter->pcb =  $request->pcb;
+            $enter->prix_achat_ht = $request->prix_achat_ht;
+            $enter->prix_achat_ttc	 = $request->prix_achat_ttc;
+            $enter->cout_trans = $request->cout_trans;
+            $enter->id_frns = $id_frns;
+            $enter->date_facture = $request->date_facture;
+            $enter->num_facture = $request->num_facture;
+            $enter->num_bl = $request->num_bl;
+            $enter->date_echeance = $request->date_echeance;
+            $enter->depot = $depot->id_depot;
+            if($enter->save()){
+            $array = $enter;
+            }else{
+                $array = (array(
+                    'icon' => "error",
+                    'text' => "Il existe un erreur interne, Veillez contacter l'administrateur"
+                ));
+            }
+        }
+       
         echo json_encode($array);
     }
     public function add_panier(Request $request)
-    {
-        $entrerProduit = new EntrerProduit;
-        
+    { 
+        $entrerProduit = new EntrerProduit;  
         $entrerProduit->id_entrer = $request->id;
         $entrerProduit->ref_prod = $request->ref_prod;
         $entrerProduit->id_unite = $request->unite;
         $entrerProduit->qte_entrer = $request->qte;
         if($entrerProduit->save()){
-            // $stock = Stock::where('ref_prod',$request->ref_prod)->get();
-            // $depot = Depot::where('is_default', 1)->get();
-            // $stock->update(['stock'=> $request->qte, 'id_depot'=> $depot->id_depot]);
+            $stock = Stock::where('ref_prod',$request->ref_prod)->first();
+            $depot = Depot::where('is_default', 1)->first();
+            $stock->update(['stock'=>$request->qte, 'id_depot'=>$depot->id_depot]);
             $produit = Produit::find($request->ref_prod);
             $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
             $produit->qte_stock += ($unite->qte_unite * floatval($request->qte));

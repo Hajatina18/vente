@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Depot;
+use App\Models\PointVente;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +14,10 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.users');
+        $magasins = PointVente::all();
+        $depots = Depot::all();
+
+        return view('admin.users',compact('magasins','depots'));
     }
 
     public function liste(Request $request)
@@ -26,6 +31,7 @@ class UserController extends Controller
     }
     public function create(Request $request)
     {
+        
         if($request->id_user != NULL){
             $user = User::find($request->id_user);
             if(($request->password != "") || ($request->password != NULL)){
@@ -38,6 +44,15 @@ class UserController extends Controller
         $user->nom = $request->nom;
         $user->is_admin = $request->is_admin;
         $user->username = $request->username;
+
+        $caisse =$request->caisse;
+
+        if($request->is_admin==0){
+
+            $user->id_pdv= $caisse =="magasin"? $request->id_pdv : NULL;
+            $user->id_depot= $caisse =="depot"? $request->id_depot : NULL;
+        }
+
         if($user->save()){
             $array = array(
                 'icon' => "success",
