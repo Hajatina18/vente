@@ -43,7 +43,7 @@ class PreCommandeController extends Controller
             $precommande->date = date('d/m/Y H:i:s', strtotime($precommande->created_at));
             $precommande->user = User::find($precommande->id_user)->nom;
             $precommande->total = number_format($total->total, 2, ',', ' ').' Ar';
-             $precommande->action = '` <a class="btn btn-primary edit_precommande" data-id="'.$precommande->id_pre_commande .'">Modifier</a>
+            $precommande->action = '` <a class="btn btn-primary edit_precommande" data-id="'.$precommande->id_pre_commande .'">Modifier</a>
                                      <a class="btn btn-success validate_commande" data-id="'. $precommande->id_pre_commande .'">Valider</a>`';
             
         }

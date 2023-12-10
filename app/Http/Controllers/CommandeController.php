@@ -233,7 +233,7 @@ class CommandeController extends Controller
 
         $commercial = $user->is_admin === 2;
  
-        $produits = $commercial ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->get() 
+        $produits = $commercial ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->where('stock','>',0)->get() 
                                 : ($id_depot ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')
                                                ->where('id_depot',$id_depot)->get() 
                                              : StockPointVente::join('produits','produits.ref_prod','=','stock_point_ventes.ref_prod')
@@ -241,7 +241,9 @@ class CommandeController extends Controller
                                                 ->where('id_pdv',$id_pdv)->get());
         foreach ($produits as $product) {
         //     $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
-            $unites = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.id_unite","unite_mesures.unite", "avoirs.prix")->get();
+            $unites = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')
+                        ->where('avoirs.ref_prod', $product->ref_prod)
+                        ->select("unite_mesures.id_unite","unite_mesures.unite", "avoirs.prix")->get();
             $unite = "";
             foreach ($unites as $value) {
                 $unite .= "<div class='d-flex justify-content-between' >
