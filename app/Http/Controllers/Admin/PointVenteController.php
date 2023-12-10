@@ -37,7 +37,7 @@ class PointVenteController extends Controller
             foreach ($unites as $value) {
                 $unite .= "<span>".$value->unite." : ".number_format($value->prix, 2, ',' , ' ')." Ar</span><br>";
             }
-            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
+            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.unite")->first();
             $product->unite = $unite;
             $product->qte_stock = number_format($product->stock, 0, ',', ' ').' '.($product->stock > 1 ? $base->unite.'s' : $base->unite);
             $product->image_prod = "<img src='".url($product->image_prod)."' style='width: 60px'>";
@@ -78,9 +78,9 @@ class PointVenteController extends Controller
     {
         $pointVente = PointVente::all();
         foreach ($pointVente as $pointvente) {
-            $pointvente->action = "`<a href='#' class='badge bg-primary p-2 ms-2 edit' data-bs-toggle='modal' data-bs-target='#exampleModal' data-id='".$pointvente->id_pdv."' >Modifier</a>
+            $pointvente->action = "<a href='#' class='badge bg-primary p-2 ms-2 edit' data-bs-toggle='modal' data-bs-target='#exampleModal' data-id='".$pointvente->id_pdv."' >Modifier</a>
                                     <a href='javascript:void(0)' class='badge bg-danger p-2 ms-2 delete_poinvente' data-id='".$pointvente->id_pdv."'>Supprimer</a>
-                                    <a href='/admin/points_vente/". $pointvente->id_pdv ."' class='badge bg-success p-2 ms-2 visit_depot' data-id='" . $pointvente->id_pdv . "'>Visiter</a>`";}
+                                    <a href='/admin/points_vente/". $pointvente->id_pdv ."' class='badge bg-success p-2 ms-2 visit_depot' data-id='" . $pointvente->id_pdv . "'>Visiter</a>";}
         echo json_encode($pointVente);
 
     }

@@ -373,6 +373,7 @@
                             var unite = $(this).find("#unite").val();
                             var qte = $(this).find("#qte").val();
                             var ref = $(this).find("#produit").val();
+                            var is_checked = $("#is_depot").val();
                             $.ajax({
                                 type: "POST",
                                 url: "{{ route('add_panier_transfert') }}",
@@ -384,7 +385,7 @@
                                     qte: qte,
                                     demandeur: response.id_demandeur,
                                     approvisionneur: response.id_approvisionneur,
-                                    is_depot: response.is_depot
+                                    is_depot: is_checked    
                                 },
                                 beforeSend: function() { 
                                     $("#exampleModal").modal('hide');
