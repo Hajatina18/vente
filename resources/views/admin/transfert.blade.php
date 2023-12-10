@@ -48,10 +48,11 @@
                                                         name="id_approvisionneur">
                                                         <option default disabled>Choix de Dépôt</option>
                                                         @foreach ($depots as $depot)
-                                                            @if ($depot->is_default == 1)
-                                                                <option value="{{ $depot->id_depot }}">
-                                                                    {{ $depot->nom_depot }}</option>
-                                                            @endif
+                                                        <option value="{{ $depot->id_depot }}">
+                                                            {{ $depot->nom_depot }}
+                                                        </option>
+                                                            {{-- @if ($depot->is_default == 1)
+                                                            @endif --}}
                                                         @endforeach
                                                     </select>
                                                 </div>

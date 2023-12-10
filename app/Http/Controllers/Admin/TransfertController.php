@@ -84,40 +84,50 @@ class TransfertController extends Controller
     }
 
     public function add_panier_transfert(Request $request){
+        
         $panier_transfert = new  TransfertProduit;
         $panier_transfert->id_transfert = $request->id;
         $panier_transfert->ref_prod = $request->ref_prod;
         $panier_transfert->id_unite = $request->unite;
         $panier_transfert->qte_transfert = $request->qte;
         if($panier_transfert->save()){
-            $depots = Stock::where('ref_prod', $request->ref_prod)->where('id_depot', $request->approvisionneur)->first();
-            if($depots != null){
-                $depot = $depots->stock - $request->qte;
-                $depots->update(['stock' => $depot]);
-                    if($request->is_depot === 'on'){
-                        $stock= new StockPointVente;
-                        $stock->ref_prod = $request->ref_prod;
-                        $stock->stock=$request->qte;
-                        $stock->id_pdv = $request->demandeur;
-                        $stock->week = (new DateTime())->format('W');
-                        $stock->save();
-                    } 
-                    else{
-                        $stock = new Stock;
-                        $stock->ref_prod = $request->ref_prod;
-                        $stock->stock = $request->qte; 
-                        $stock->id_depot = $request->demandeur;
-                        $stock->week = (new DateTime())->format('W');
-                        $stock->save();
-                    }
+            if($request->is_depot === 'on'){
+                $depots = Stock::where('ref_prod', $request->ref_prod)->where('id_depot', $request->approvisionneur)->first();
+                if($depots != null){
+                    $depot = $depots->stock - $request->qte;
+                    $depots->update(['stock' => $depot]);
+                $stock= new StockPointVente;
+                $stock->ref_prod = $request->ref_prod;
+                $stock->stock=$request->qte;
+                $stock->id_pdv = $request->demandeur;
+                $stock->week = (new DateTime())->format('W');
+                $stock->save();
                 $array = array(
                     'icon' => "success",
-                    'text' => "Transfert enregistée avec succès"
+                    'text' => "Transfert vers un autre  point de vente enregistée avec succès"
                 );
+                }
+                
+            } 
+            else{
+                $depots = Stock::where('ref_prod', $request->ref_prod)->where('id_depot', $request->approvisionneur)->first();
+                if($depots != null){
+                    $depot = $depots->stock - $request->qte;
+                    $depots->update(['stock' => $depot]);
+                    $stock = new Stock;
+                    $stock->ref_prod = $request->ref_prod;
+                    $stock->stock = $request->qte; 
+                    $stock->id_depot=$request->demandeur;
+                    $stock->week = (new DateTime())->format('W');
+                    $stock->save();
+                    $array = array(
+                        'icon' => "success",
+                        'text' => "Transfert vers un dépôt  enregistée avec succès"
+                    );
               
-          
+                }
+                
             }
-           
             // $produit = Produit::find($request->ref_prod);
             // $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
             // $produit->qte_stock += ($unite->qte_unite * floatval($request->qte));
