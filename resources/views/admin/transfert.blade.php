@@ -485,10 +485,18 @@
                 },
                 dataType: "json",
                 success: function(response) {
-                    Swal.fire({
-                            icon: response.icon,
-                            text: response.text
-                        });
+                    if(response.icon === "error"){
+                        $("#submitFormTransfert").prop("disabled", true);
+                    }
+                    else{
+                        $("#submitFormTransfert").prop("disabled", false);
+                        Swal.fire({
+                                icon: response.icon,
+                                text: response.text
+                            });
+                    }
+
+                    
                         
                 }
             });
