@@ -48,11 +48,10 @@
                                                         name="id_approvisionneur">
                                                         <option default disabled>Choix de Dépôt</option>
                                                         @foreach ($depots as $depot)
-                                                        <option value="{{ $depot->id_depot }}">
-                                                            {{ $depot->nom_depot }}
-                                                        </option>
-                                                            {{-- @if ($depot->is_default == 1)
-                                                            @endif --}}
+                                                            @if ($depot->is_default == 1)
+                                                                <option value="{{ $depot->id_depot }}">
+                                                                    {{ $depot->nom_depot }}</option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -374,7 +373,6 @@
                             var unite = $(this).find("#unite").val();
                             var qte = $(this).find("#qte").val();
                             var ref = $(this).find("#produit").val();
-                            var is_checked = $("#is_depot").val();
                             $.ajax({
                                 type: "POST",
                                 url: "{{ route('add_panier_transfert') }}",
@@ -386,7 +384,7 @@
                                     qte: qte,
                                     demandeur: response.id_demandeur,
                                     approvisionneur: response.id_approvisionneur,
-                                    is_depot: is_checked    
+                                    is_depot: response.is_depot    
                                 },
                                 beforeSend: function() { 
                                     $("#exampleModal").modal('hide');

@@ -84,14 +84,14 @@ class TransfertController extends Controller
     }
 
     public function add_panier_transfert(Request $request){
-        
+    
         $panier_transfert = new  TransfertProduit;
         $panier_transfert->id_transfert = $request->id;
         $panier_transfert->ref_prod = $request->ref_prod;
         $panier_transfert->id_unite = $request->unite;
         $panier_transfert->qte_transfert = $request->qte;
         if($panier_transfert->save()){
-            if($request->is_depot === 'on'){
+            if($request->is_depot === "true"){
                 $depots = Stock::where('ref_prod', $request->ref_prod)->where('id_depot', $request->approvisionneur)->first();
                 if($depots != null){
                     $depot = $depots->stock - $request->qte;
