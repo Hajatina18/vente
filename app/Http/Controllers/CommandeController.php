@@ -12,8 +12,6 @@ use App\Models\Panier;
 use App\Models\PreCommande;
 use App\Models\PrePaniers;
 use App\Models\Produit;
-use App\Models\Stock;
-use App\Models\StockPointVente;
 use App\Models\UniteMesure;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,11 +23,17 @@ class CommandeController extends Controller
 {
     public function index($id = null)
     {
+        $produits = DB::table('produits')
+                    ->join('avoirs', "avoirs.ref_prod", "=", "produits.ref_prod")
+                    ->join('unite_mesures', 'unite_mesures.id_unite', "=", "avoirs.id_unite")
+                    ->select('produits.*', 'avoirs.prix', 'unite_mesures.unite', 'unite_mesures.id_unite')
+                    ->where('qte_stock', '>', 0)
+                    ->orWhere('fait_demande', true)
+                    ->get();
         $modes = ModePaiement::all();
         $precommande = PreCommande::withSum(['paniers' => fn ($query) => $query->select(DB::raw("sum(prix_produit*qte_commande)"))], '')->where("id_pre_commande", $id)->first();
-        return view('pages.commande', array("precommande" => $precommande,'modes' => $modes, "parametres" => $id));
+        return view('pages.vente', array("produits" => $produits,"precommande" => $precommande,'modes' => $modes, "parametres" => $id));
     }
-
     public function searchProduct(Request $request)
     {
         $word = $request->search;
@@ -103,9 +107,9 @@ class CommandeController extends Controller
     {
         $clients = Client::all();
         foreach ($clients as $client) {
-            $client->action = '<a class="btn btn-sm btn-secondary " data-id="'.$client->nom_client.'">
-                <i class="las la-plus-circle add"></i>
-            </a>';
+            $client->action = '<button class="btn btn-sm btn-secondary addClient" data-nom="'.$client->nom_client.'">
+                <i class="las la-plus-circle"></i>
+            </button>';
         }
         echo json_encode($clients);
     }
@@ -155,18 +159,12 @@ class CommandeController extends Controller
 
     public function stock(Request $request)
     {
-        $user = auth()->user();
         $ref_prod = $request->ref_prod;
         $qte = $request->qte;
         $unite = $request->unite;
         $produit = Produit::find($ref_prod);
-        // $produit = $user->is_admin === 0 && $user->id_depot ? 
-        //           Stock::where('ref_prod',$ref_prod)->where('id_depot',$user->id_depot)->first() 
-        //         : 
-        // $produit = StockPointVente::where('ref_prod',$ref_prod)->where('id_pdv',$user->id_pdv)->first();
         $avoir = Avoir::where('ref_prod', $ref_prod)->where('avoirs.id_unite', $unite)->join('unite_mesures', 'avoirs.id_unite', '=', 'unite_mesures.id_unite')->select('*')->first();
-        
-       if(($avoir->qte_unite * $qte) > $produit->qte_stock){
+        if(($avoir->qte_unite * $qte) > $produit->qte_stock){
             $produit->qte_stock /= $avoir->qte_unite;
             $produit->unite = $avoir->unite;
             echo json_encode($produit);
@@ -176,10 +174,8 @@ class CommandeController extends Controller
     }
     public function caisse()
     {
-        $user = auth()->user(); 
         $caisse = FondCaisse::where(DB::raw('date(created_at)'), date('Y-m-d'))->select(DB::raw('SUM(montant) as total'))->first();
-        $command = $user->is_admin ===1 ? DB::table('commandes') : DB::table('commandes')->where('id_user',$user->id);
-        $jour =  $command
+        $jour = DB::table('commandes')
                     ->where(DB::raw('date(commandes.created_at)'), '=' , date('Y-m-d'))
                     ->join('paniers', 'commandes.id_commande', '=', 'paniers.id_commande')
                     ->select(DB::raw('SUM(qte_commande * prix_produit) as total'))
@@ -226,37 +222,13 @@ class CommandeController extends Controller
     }
     public function getProduit()
     {
-        $user =auth()->user();
-        $id_depot = $user->id_depot;
-        $id_pdv = $user->id_pdv;
-
-        $commercial = $user->is_admin === 2;
- 
-        $produits = $commercial ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->get() 
-                                : ($id_depot ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')
-                                               ->where('id_depot',$id_depot)->get() 
-                                             : StockPointVente::join('produits','produits.ref_prod','=','stock_point_ventes.ref_prod')
-                                                ->where('stock','>',0)
-                                                ->where('id_pdv',$id_pdv)->get());
-        foreach ($produits as $product) {
-        //     $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
-            $unites = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.id_unite","unite_mesures.unite", "avoirs.prix")->get();
-            $unite = "";
-            foreach ($unites as $value) {
-                $unite .= "<div class='d-flex justify-content-between' >
-                                <span>".$value->unite." : ".number_format($value->prix, 2, ',' , ' ')." Ar</span>
-                                <i style='cursor:pointer;' class='las text-primary la-plus-circle fs-2 me-2' onclick=\"addPanier('$product->ref_prod','$product->nom_prod','$value->prix','$value->id_unite','$value->unite','url($product->image_prod) ')\" ></i>  
-                            </div>";
-
-            }
-            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.unite")->first();
-            $product->unite = $unite;
-           
-            $product->qte_stock = number_format($product->stock, 0, ',', ' ').' '.($product->stock > 1 ? $base->unite.'s' : $base->unite);
-           
-            $product->image_prod = "<img src='".url($product->image_prod)."' style='width: 60px'>";
-        }
-        echo json_encode($produits);
-    
+        $produits = DB::table('produits')
+                    ->join('avoirs', "avoirs.ref_prod", "=", "produits.ref_prod")
+                    ->join('unite_mesures', 'unite_mesures.id_unite', "=", "avoirs.id_unite")
+                    ->select('produits.*', 'avoirs.prix', 'unite_mesures.unite', 'unite_mesures.id_unite')
+                    ->where('qte_stock', '>', 0)
+                    ->orWhere('fait_demande', true)
+                    ->get();
+        return view('pages.partials.produits', array("produits" => $produits))->render();
     }
 }
