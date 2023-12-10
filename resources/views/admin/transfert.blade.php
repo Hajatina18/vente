@@ -487,6 +487,10 @@
                 success: function(response) {
                     if(response.icon === "error"){
                         $("#submitFormTransfert").prop("disabled", true);
+                        Swal.fire({
+                                icon: response.icon,
+                                text: response.text
+                            });
                     }
                     else{
                         $("#submitFormTransfert").prop("disabled", false);
