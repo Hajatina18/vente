@@ -232,7 +232,7 @@
         $('table').on('click','.edit_precommande', function(e){
                 window.location.href = `{{ route("commande") }}/${$(this).data('id')}`;
             });
-            $(".validate_commande").off().on('click', function(e){
+            $("table").on('click',".validate_commande", function(e){
                 $("#precommandeID").val($(this).data('id'))
                 $("#validateCommande").modal('show');
             })

@@ -5,7 +5,7 @@
                       <span class="fs-4">Commercial</span>
                   </li>
                     <li class="sidebar-item"  style=" border-top: 1px solid white;">
-                        <a href="{{ route('produit_com') }}" class="sidebar-link">
+                        <a href="{{ route('commande') }}" class="sidebar-link">
                             <i class="lab la-product-hunt me-2"></i>
                             <span>Produit</span>
                         </a>

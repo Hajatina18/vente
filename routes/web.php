@@ -45,7 +45,6 @@ Route::group(['middleware' => ["auth"]], function(){
     });
 });
 Route::group(['middleware' => ['vente:0']], function(){
-    Route::get('/{id?}', [CommandeController::class, 'index'])->where("id", '[0-9]+')->name('commande');
     Route::post('/', [CommandeController::class, 'searchProduct'])->name('search_product');
     Route::post('/commande', [CommandeController::class, 'save_commande'])->name('save_commande');
     Route::post('/add_panier', [CommandeController::class, 'add_panier'])->name('add_panier');
@@ -158,7 +157,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/caisse', [CommandeController::class, 'caisse'])->name('caisse');
     
      Route::group(['prefix' => 'commande'], function (){
-        Route::get('/', [CommandecomController::class, 'produit'])->name('produit_com');
+        Route::get('/{id?}', [CommandeController::class, 'index'])->where("id", '[0-9]+')->name('commande');
+    // Route::get('/', [CommandecomController::class, 'produit'])->name('produit_com');
         Route::get('/liste', [AdminCommandeController::class, 'index'])->name('commande_liste');
         Route::get('/list', [AdminCommandeController::class, 'liste'])->name('liste_commande');
         Route::post('/getDetail', [AdminCommandeController::class, 'getDetail'])->name('admin_getDetail_commande');
