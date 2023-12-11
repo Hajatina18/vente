@@ -10,6 +10,7 @@ use App\Models\Panier;
 use App\Models\PreCommande;
 use App\Models\PrePaniers;
 use App\Models\Produit;
+use App\Models\Stock;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +21,6 @@ class PreCommandeController extends Controller
 {
     public function index(Request $request)
     {
-        // $produits = DB::table('produits')
-        //             ->join('avoirs', "avoirs.ref_prod", "=", "produits.ref_prod")
-        //             ->join('unite_mesures', 'unite_mesures.id_unite', "=", "avoirs.id_unite")
-        //             ->select('produits.*', 'avoirs.prix', 'unite_mesures.unite', 'unite_mesures.id_unite')
-        //             ->where('qte_stock', '>', 0)
-        //             ->orWhere('fait_demande', true)
-        //             ->get();
         $user= auth()->user();
 
         setlocale(LC_ALL, 'fr_FR.utf8', 'FRA');
@@ -40,7 +34,7 @@ class PreCommandeController extends Controller
     public function liste(){
         $user= auth()->user();
  
-        $Precomm = PreCommande::with("paniers");
+        $Precomm = PreCommande::with("paniers","paniers.produit");
         $precommandes =$user->is_admin===1 ? $Precomm->get() : $Precomm->where('id_user',$user->id)->get();
         foreach ($precommandes as $precommande) {
             $total = DB::table('pre_paniers')
@@ -51,7 +45,7 @@ class PreCommandeController extends Controller
             $precommande->user = User::find($precommande->id_user)->nom;
             $precommande->total = number_format($total->total, 2, ',', ' ').' Ar';
             $precommande->action = '` <a class="btn btn-primary edit_precommande" data-id="'.$precommande->id_pre_commande .'">Modifier</a>
-                                     <a class="btn btn-success validate_commande" data-id="'. $precommande->id_pre_commande .'">Valider</a>`';
+                                     <a class="btn btn-success validate_commande" onclick=\'getDetail('.$precommande.')\' data-id="'. $precommande->id_pre_commande .'">Valider</a>`';
             
         }
         echo json_encode($precommandes);
@@ -141,24 +135,45 @@ class PreCommandeController extends Controller
         $commande->id_mode = $request->mode;
         $commande->id_user = Auth::user()->id;
         if($commande->save()){
-            foreach($precommande->paniers as $prepanier){
+            // foreach($precommande->paniers as $prepanier){
+            //     $panier = new Panier;
+            //     $panier->id_commande = $commande->id_commande;
+            //     $panier->ref_prod = $prepanier->ref_prod;
+            //     $panier->prix_produit = $prepanier->prix_produit;
+            //     $panier->qte_commande = $prepanier->qte_commande;
+            //     $panier->id_unite = $prepanier->id_unite;
+            //     $panier->save();
+            //     $produit = Produit::find($prepanier->ref_prod);
+            //     if(!$produit->fait_demande){
+            //         $unite = Avoir::where('ref_prod', $prepanier->ref_prod)->where('id_unite', $prepanier->id_unite)->first();
+            //         $produit->qte_stock -= ($unite->qte_unite * floatval($prepanier->qte_commande));
+            //         $produit->save();
+            //     }
+            //     $prepanier->delete();
+            // }
+             foreach($request->paniers as $prepanier){
                 $panier = new Panier;
                 $panier->id_commande = $commande->id_commande;
-                $panier->ref_prod = $prepanier->ref_prod;
-                $panier->prix_produit = $prepanier->prix_produit;
-                $panier->qte_commande = $prepanier->qte_commande;
-                $panier->id_unite = $prepanier->id_unite;
+                $panier->ref_prod = $prepanier["ref_prod"];
+                $panier->prix_produit = $prepanier["prix_produit"];
+                $panier->qte_commande = $prepanier["qte_commande"];
+                $panier->id_unite = $prepanier["id_unite"];
                 $panier->save();
-                $produit = Produit::find($prepanier->ref_prod);
-                if(!$produit->fait_demande){
-                    $unite = Avoir::where('ref_prod', $prepanier->ref_prod)->where('id_unite', $prepanier->id_unite)->first();
-                    $produit->qte_stock -= ($unite->qte_unite * floatval($prepanier->qte_commande));
+                  $unite = Avoir::where('ref_prod', $prepanier["ref_prod"])->where('id_unite', $prepanier["id_unite"])->first();
+                   $produit = Stock::where('stocks.ref_prod',$prepanier['ref_prod'])
+                                ->join('produits','stocks.ref_prod','produits.ref_prod')
+                                ->join('depots','depots.id_depot','stocks.id_depot')
+                                ->first();
+                    if(!$produit->fait_demande){
+                     $produit->stock -= ($unite->qte_unite * floatval($prepanier["qte_commande"]));
                     $produit->save();
                 }
-                $prepanier->delete();
+                // return Response::json($produit, 200);
+               $Prepanier = PrePaniers::where('id_pre_panier',$prepanier["id_pre_panier"])->first();
+               $Prepanier->delete();
             }
             $precommande->delete();
-            return Response::json($commande, 200);
+            return Response::json($precommande, 200);
         }else{
             echo json_encode(array(
                 'icon' => "error",

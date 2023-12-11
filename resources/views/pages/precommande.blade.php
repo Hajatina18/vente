@@ -151,6 +151,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 mx-0 mb-2 border-bottom pb-2">
+                        <div class="d-flex align-items-center justify-content-between form-group">
+                            <div class="d-flex align-items-center justify-content-between" id="productTable">
+                                
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -165,28 +172,45 @@
 @push('js')
     <script>
        
-        function format(d) {
-            console.log(d)
-       return(
+       var commande;
+        function format(d,show) {
+        return(
                 `<table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th width="60%">Designation</th>
-                                        <th>Quantité</th>
-                                        <th>Prix Total</th>
+                                        <th >Designation</th>
+                                        <th class=" text-center">Quantité</th>
+                                        <th  class="text-center ${show==true? 'd-block':'d-none'}">Prix admin</th>
+                                        <th class=" text-end">Prix Total</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>`+
-                            d.paniers.map(panier=> `<tr>
-                                            <td>`+panier.nom_prod+`</td>
-                                            <td>`+panier.qte_commande + ` </td>
-                                            <td class=" text-end">`+ panier.qte_commande * panier.prix_produit+`Ar</td>
+                            d.paniers.map(panier=>`<tr class="product">
+                                            <td>`+panier.produit.nom_prod+`</td>
+                                            <td class="qte text-center">`+panier.qte_commande + ` </td>
+                                            <td  class="${show==true? 'd-block':'d-none'}" > <input class="form-control" type="number" value="${panier.prix_produit}" /></td>
+                                            <td class="sum text-end">`+ panier.qte_commande * panier.prix_produit+`Ar</td>
+                                            
                                         </tr>` )
-                                +`</tbody>
-                            </table>`
+                                +`
+                               <tr class="${show==true? 'd-block':'d-none'}">
+                                    <td colspan="3" class="text-end">Total</td>
+                                    <td id="total">${ d.paniers.reduce((a,b) =>  a + b.qte_commande*b.prix_produit,0)}</td>
+                                </tr>
+                             </tbody>
+                           </table>`
             )
             
         }
+       
+        function calc_total(){
+            var sum = 0;
+            $(".sum").each(function(){
+                sum += parseFloat($(this).text());
+            });
+            $('#total').text(sum);
+            }
         
          $("document").ready(function(){
             table = $("#liste").DataTable({
@@ -225,19 +249,40 @@
             }
             else {
                 // Open this row
-                row.child(format(row.data())).show();
+                row.child(format(row.data(),false)).show();
             }
         });
+       
+        $("#productTable").on('change','input',function(e){
+                var prix = e.target.value
+               var qte = $(this).parents('tr').find('td:eq(1)').text()
+                 $(this).parents('tr').find('td:eq(3)').html(qte*prix)
+                 calc_total()
+        })
 
         $('table').on('click','.edit_precommande', function(e){
                 window.location.href = `{{ route("commande") }}/${$(this).data('id')}`;
             });
-            $("table").on('click',".validate_commande", function(e){
-                $("#precommandeID").val($(this).data('id'))
-                $("#validateCommande").modal('show');
+
+        $("table").on('click',".confirm_commande", function(e){
+            $("#precommandeID").val($(this).data('id'))
+            $("#validateCommande").modal('show');
+        })
+
+        $("#sendCommande").off().on('click', function(e){
+             console.log(commande)
+            var paniers =commande.paniers.map((panier,index) =>{
+                
+                return {
+                    id_pre_panier: panier.id_pre_panier,
+                    ref_prod : panier.ref_prod,
+                    qte_commande : $("#productTable input").parents('tr').find('td:eq(1)').eq(index).text(),
+                    id_unite:panier.id_unite,
+                    prix_produit: $("#productTable input").eq(index).val()
+                }
             })
-            $("#sendCommande").off().on('click', function(e){
-                if ($("input[name=mode]:checked").val()) {
+            // alert($("#precommandeID").val())
+           if ($("input[name=mode]:checked").val()) {
                     $.ajax({
                         type: "POST",
                         url: "{{ route('precommande.transfert_commande') }}",
@@ -245,7 +290,8 @@
                             _token: '{{ csrf_token() }}',
                             mode: $("input[name=mode]:checked").val(),
                             client: $("#clientName").val(),
-                            precommande: $("#precommandeID").val()
+                            precommande: $("#precommandeID").val(), 
+                            paniers:paniers
                         },
                         beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
                             $('#loader').removeClass('hidden')
@@ -289,7 +335,13 @@
                 }
             });
         });
-        function getDetail(id) {
+
+        function getDetail(data) {
+            commande = data
+            $("#precommandeID").val(data.id_pre_commande)
+            $("#validateCommande").modal('show');
+
+            $("#productTable").html(format(data,true))
             if(id){
                 $.ajax({
                     url : '{{ route("admin_getDetail_commande") }}',
