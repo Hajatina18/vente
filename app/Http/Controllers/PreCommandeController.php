@@ -20,6 +20,13 @@ class PreCommandeController extends Controller
 {
     public function index(Request $request)
     {
+        // $produits = DB::table('produits')
+        //             ->join('avoirs', "avoirs.ref_prod", "=", "produits.ref_prod")
+        //             ->join('unite_mesures', 'unite_mesures.id_unite', "=", "avoirs.id_unite")
+        //             ->select('produits.*', 'avoirs.prix', 'unite_mesures.unite', 'unite_mesures.id_unite')
+        //             ->where('qte_stock', '>', 0)
+        //             ->orWhere('fait_demande', true)
+        //             ->get();
         $user= auth()->user();
 
         setlocale(LC_ALL, 'fr_FR.utf8', 'FRA');

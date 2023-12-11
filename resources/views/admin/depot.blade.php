@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <!-- recherche entre deux date -->
-                        <div class="d-flex justify-content-between align-items-center my-2">
+                        {{-- <div class="d-flex justify-content-between align-items-center my-2">
                             <div class="col-md-5">
                                 <form>
                                     <div class="container">
@@ -60,7 +60,7 @@
                             </div>
                             
                         </div>
-                        
+                         --}}
                         
                         <!-- fin  -->
                     </div>

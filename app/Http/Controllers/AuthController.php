@@ -21,7 +21,7 @@ class AuthController extends Controller
                 return redirect()->intended('admin');
             } elseif ($userLogged->is_admin == 2) {
                 // Si l'utilisateur est un commercial (is_admin = 2), rediriger vers la vue correspondante
-                return redirect()->intended('commercial');
+                return redirect()->intended('commande');
             } else {
                 // Si ni admin ni commercial, rediriger vers une autre page, par exemple la page d'accueil
                 return redirect()->intended('/');

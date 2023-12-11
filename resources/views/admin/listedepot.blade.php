@@ -106,7 +106,7 @@
 
         $("#formDepot").on('submit', function() {
             var form = $(this);
-            if($("#id_depot").val()){ 
+           
                 $.ajax({
                     url: '{{ route("add_depot") }}',
                     type: 'POST',
@@ -128,48 +128,11 @@
                         table.ajax.reload();
                     }
                 });
-            }else{
-                Swal.fire({
-                    icon: 'warning',
-                    text: 'Veuillez renseigner le champ Nom depot pour completer l\'insertion,s\'il vous plait!'
-                });
-            }
+          
                 return false
         });
 
-        //localisation (champ invalide)
-        $("#formDepot").on('submit', function() {
-            var form = $(this);
-            if($("#localisation").val()){ 
-                $.ajax({
-                    url: '{{ route("add_depot") }}',
-                    type: 'POST',
-                    data: form.serialize(),
-                    dataType: 'json',
-                    beforeSend: function() {
-                        $('#loader').removeClass('hidden')
-                    },
-                    complete: function() {
-                        $('#loader').addClass('hidden')
-                    },
-                    success: function(response) {
-                        $("#formDepot")[0].reset();
-                        $("#id_depot").val(null);
-                        Swal.fire({
-                            icon: response.icon,
-                            text: response.text
-                        });
-                        table.ajax.reload();
-                    }
-                });
-            }else{
-                Swal.fire({
-                    icon: 'warning',
-                    text: 'Veuillez renseigner le champ localisation pour completer l\'insertion,s\'il vous plait!'
-                });
-            }
-                return false
-        });
+    
         $('table').on('click', '.edit', function(){
             $("#id_depot").val($(this).data('id'));
             $("#nom_depot").val($(this).parents('tr').find('td:eq(0)').text());

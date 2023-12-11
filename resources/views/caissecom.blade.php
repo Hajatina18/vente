@@ -4,7 +4,9 @@
 <div class="commande-content w-100">
     <div class="card card-commande bg-white">
         <div class="card-body">
-            <h4 class="text-center">Total caisse du <?php setlocale(LC_ALL, 'fr_FR.utf8', 'FRA'); echo ucfirst(utf8_encode(strftime('%A %d %B %Y', strtotime(date('Y-m-d'))))) ?></h4>
+            <h4 class="text-center">Total caisse du <?php setlocale(LC_ALL, 'fr_FR.utf8', 'FRA');
+                $date = strftime('%A %d %B %Y');
+                echo ucfirst(utf8_decode($date));?></h4>
             <div class="row">
                 <div class="col-md-4 col-12 col-lg-4">
                     <div class="card card-dashboard">

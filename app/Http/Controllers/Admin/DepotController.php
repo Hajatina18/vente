@@ -37,7 +37,7 @@ class DepotController extends Controller
             foreach ($unites as $value) {
                 $unite .= "<span>".$value->unite." : ".number_format($value->prix, 2, ',' , ' ')." Ar</span><br>";
             }
-            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
+            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.unite")->first();
             $product->unite = $unite;
             // if(boolval($product->fait_demande)){
             //     $product->qte_stock = "Fait à la demande";
@@ -125,9 +125,9 @@ class DepotController extends Controller
     {
         $depots = Depot::orderByDesc('created_at')->get();
         foreach ($depots as $depot) {
-            $depot->action = "`<a href='javascript:void(0)' class='badge bg-primary p-2 ms-2  edit_depot'>Modifier</a>
+            $depot->action = "<a href='javascript:void(0)' class='badge bg-primary p-2 ms-2  edit_depot'>Modifier</a>
                                 <a href='javascript:void(0)' class='badge bg-danger p-2 ms-2 delete_depot' data-id='" . $depot->id_depot . "'>Supprimer</a>
-                                <a href='/admin/depots/" . $depot->id_depot . "' class='badge bg-success p-2 ms-2 visit_depot' data-id='" . $depot->id_depot . "'>Visiter</a>`";
+                                <a href='/admin/depots/" . $depot->id_depot . "' class='badge bg-success p-2 ms-2 visit_depot' data-id='" . $depot->id_depot . "'>Visiter</a>";
         }
         echo json_encode($depots);
     }

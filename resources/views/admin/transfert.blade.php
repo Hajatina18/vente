@@ -383,14 +383,15 @@
                                     ref_prod: ref,
                                     qte: qte,
                                     demandeur: response.id_demandeur,
-                                    is_depot: response.is_depot
+                                    approvisionneur: response.id_approvisionneur,
+                                    is_depot: response.is_depot    
                                 },
                                 beforeSend: function() { 
-                                    
+                                    $("#exampleModal").modal('hide');
                                     $('#loader').removeClass('hidden')
                                 },
                                 complete: function() { 
-                                    
+                                    $("#exampleModal").modal('hide');
                                     $('#loader').addClass('hidden')
                                 },
                                 dataType: "json",
@@ -415,6 +416,7 @@
                         });
                     }
                     table.ajax.reload();
+                    $("#exampleModal").modal('hide');
                 }
             });
         } else {
@@ -482,10 +484,23 @@
                 },
                 dataType: "json",
                 success: function(response) {
-                    Swal.fire({
-                            icon: response.icon,
-                            text: response.text
-                        });
+                    if(response.icon === "error"){
+                        $("#submitFormTransfert").prop("disabled", true);
+                        Swal.fire({
+                                icon: response.icon,
+                                text: response.text
+                            });
+                    }
+                    else{
+                        $("#submitFormTransfert").prop("disabled", false);
+                        Swal.fire({
+                                icon: response.icon,
+                                text: response.text
+                            });
+                    }
+
+                    
+                        
                 }
             });
         }
