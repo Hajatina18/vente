@@ -156,19 +156,36 @@ class CommandeController extends Controller
     public function stock(Request $request)
     {
         $user = auth()->user();
-
+        $commercial = $user->is_admin === 2;
         $ref_prod = $request->ref_prod;
         $qte = $request->qte;
         $unite = $request->unite;
-        $produit = Produit::find($ref_prod);
+        // $produit = Produit::find($ref_prod);
         // $produit = $user->is_admin === 0 && $user->id_depot ? 
         //           Stock::where('ref_prod',$ref_prod)->where('id_depot',$user->id_depot)->first() 
         //         : 
         // $produit = StockPointVente::where('ref_prod',$ref_prod)->where('id_pdv',$user->id_pdv)->first();
-        $avoir = Avoir::where('ref_prod', $ref_prod)->where('avoirs.id_unite', $unite)->join('unite_mesures', 'avoirs.id_unite', '=', 'unite_mesures.id_unite')->select('*')->first();
+        if($commercial){
+        $produit = Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->where('stock','>',0)
+                        ->select(DB::raw('SUM(stock) as totalStock'),'produits.*','stocks.*')
+                        ->groupBy('produits.ref_prod')
+                        ->where('produits.ref_prod',$ref_prod)->first();    
+        }else{
+            $produit = $user->is_admin === 0 && $user->id_depot ? 
+                  Stock::where('ref_prod',$ref_prod)->where('id_depot',$user->id_depot)->first() 
+                   : 
+                 StockPointVente::where('ref_prod',$ref_prod)->where('id_pdv',$user->id_pdv)->first();
+        }
+
+         $avoir = Avoir::where('ref_prod', $ref_prod)->where('avoirs.id_unite', $unite)->join('unite_mesures', 'avoirs.id_unite', '=', 'unite_mesures.id_unite')->select('*')->first();
         
-       if(($avoir->qte_unite * $qte) > $produit->qte_stock){
-            $produit->qte_stock /= $avoir->qte_unite;
+        // echo json_encode(($avoir->qte_unite * $qte) > $produit->totalStock);
+       if($commercial &&( $avoir->qte_unite * $qte) > $produit->totalStock ){
+            $produit->stock = $commercial ?  $produit->totalStock/$avoir->qte_unite : $produit->stock/ $avoir->qte_unite;
+            $produit->unite = $avoir->unite;
+            echo json_encode($produit);
+        }else if(!$commercial && ($avoir->qte_unite * $qte) > $produit->stock){
+            $produit->stock =  $produit->stock/ $avoir->qte_unite;
             $produit->unite = $avoir->unite;
             echo json_encode($produit);
         }else{
@@ -233,7 +250,10 @@ class CommandeController extends Controller
 
         $commercial = $user->is_admin === 2;
  
-        $produits = $commercial ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->where('stock','>',0)->get() 
+        $produits = $commercial ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->where('stock','>',0)
+                                        ->select(DB::raw('SUM(stock) as totalStock'),'produits.*','stocks.*')
+                                        ->groupBy('produits.ref_prod')
+                                        ->join('depots','depots.id_depot','stocks.id_depot')->get() 
                                 : ($id_depot ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')
                                                ->where('id_depot',$id_depot)->get() 
                                              : StockPointVente::join('produits','produits.ref_prod','=','stock_point_ventes.ref_prod')
@@ -243,19 +263,25 @@ class CommandeController extends Controller
         //     $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
             $unites = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')
                         ->where('avoirs.ref_prod', $product->ref_prod)
-                        ->select("unite_mesures.id_unite","unite_mesures.unite", "avoirs.prix")->get();
+                        ->select("unite_mesures.id_unite","unite_mesures.unite", "avoirs.prix","avoirs.qte_unite")->get();
             $unite = "";
+            $qte ="";
+            $stock = $commercial ? $product->totalStock : $product->stock;
+
             foreach ($unites as $value) {
                 $unite .= "<div class='d-flex justify-content-between' >
                                 <span>".$value->unite." : ".number_format($value->prix, 2, ',' , ' ')." Ar</span>
-                                <i style='cursor:pointer;' class='las text-primary la-plus-circle fs-2 me-2' onclick=\"addPanier('$product->ref_prod','$product->nom_prod','$value->prix','$value->id_unite','$value->unite','url($product->image_prod) ')\" ></i>  
+                                <i style='cursor:pointer;' class='las text-primary la-plus-circle fs-2 me-2' onclick=\"addPanier('$product->id_depot','$product->nom_depot','$product->ref_prod','$product->nom_prod','$value->prix','$value->id_unite','$value->unite','url($product->image_prod) ')\" ></i>  
                             </div>";
+                $nbr = $stock/$value->qte_unite> 0.5 ? number_format($stock/$value->qte_unite,1,',',' ') : 0 ;
+                $qte.="<div class='d-flex justify-content-between pb-1' >".$nbr  ." ". ($nbr > 1 ? $value->unite.'s' : $value->unite)."</div>";
 
             }
             $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
             $product->unite = $unite;
-           
-            $product->qte_stock = number_format($product->stock, 0, ',', ' ').' '.($product->stock > 1 ? $base->unite.'s' : $base->unite);
+            $product->qte_stock = $qte;
+            // $product->nom_prod = $commercial ? "<div> <div>".$product->nom_prod."</div><div><span class='btn disabled btn-secondary btn-sm' >".$product->nom_depot."</span></div></div>" : $product->nom_prod ;
+            // $product->qte_stock = number_format($stock, 0, ',', ' ').' '.($stock > 1 ? $base->unite.'s' : $base->unite);
            
             $product->image_prod = "<img src='".url($product->image_prod)."' style='width: 60px'>";
         }

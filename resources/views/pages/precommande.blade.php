@@ -118,8 +118,8 @@
 </div>
 
 
-<div class="modal fade" id="validateCommande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade modal-fullscreen" id="validateCommande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Valider la commande</h5>
@@ -174,30 +174,32 @@
        
        var commande;
         function format(d,show) {
+            // console.log(d)  
         return(
                 `<table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th >Designation</th>
-                                        <th class=" text-center">Quantité</th>
-                                        <th  class="text-center ${show==true? 'd-block':'d-none'}">Prix admin</th>
-                                        <th class=" text-end">Prix Total</th>
+                                        <th width="30%" class="text-center">Quantité</th>
+                                        <th class=" text-center">Choix du dépot</th>
+                                        <th class=" ">Total</th>
                                         
                                     </tr>
                                 </thead>
                                 <tbody>`+
-                            d.paniers.map(panier=>`<tr class="product">
-                                            <td>`+panier.produit.nom_prod+`</td>
-                                            <td class="qte text-center">`+panier.qte_commande + ` </td>
-                                            <td  class="${show==true? 'd-block':'d-none'}" > <input class="form-control" type="number" value="${panier.prix_produit}" /></td>
+                            d.paniers.map((panier,i)=>`<tr class="product">
+                                            <td>`+panier.produit.nom_prod  +`</td>
+                                            <td class="qte text-center"> ${panier.qte_commande}  ${panier.qte_commande >1 ? panier.unite.unite+'s' : panier.unite.unite}  </td>
+                                            `+/* <td  class="${show==true? 'd-block':'d-none'}" > <input class="form-control" type="number" value="${panier.prix_produit}" />*/`</td>
+                                            <td class="depot" >${getDepot(panier,i)}</td>
                                             <td class="sum text-end">`+ panier.qte_commande * panier.prix_produit+`Ar</td>
                                             
                                         </tr>` )
                                 +`
-                               <tr class="${show==true? 'd-block':'d-none'}">
+                              ${show==true ? `<tr >
                                     <td colspan="3" class="text-end">Total</td>
-                                    <td id="total">${ d.paniers.reduce((a,b) =>  a + b.qte_commande*b.prix_produit,0)}</td>
-                                </tr>
+                                    <td id="total fs-4">${ d.paniers.reduce((a,b) =>  a + b.qte_commande*b.prix_produit,0)}</td>
+                                </tr> ` : ''} 
                              </tbody>
                            </table>`
             )
@@ -212,6 +214,38 @@
             $('#total').text(sum);
             }
         
+        function getDepot (data,id){
+            //    console.log(data)
+            $.ajax({
+                        type: "POST",
+                        url: "/getStock",
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            ref_prod: data.ref_prod,
+                            id_unite: data.id_unite
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response)
+                            
+                        const depots = response.map(depot => `
+                              <div class="w-100 form-check form-check-inline ">
+                                    <input class="form-check-input" type="radio" name="${depot.ref_prod}/${depot.unite}" id="${depot.ref_prod}/${depot.unite}" value="${depot.id_depot}">
+                                <label for="id_depot" class="form-label">
+                                    ${depot.nom_depot} 
+                                    <span class='badge disabled ${ data.qte_commande > Math.round(depot.totalStock /depot.qte_unite,2) ?"btn-danger" : "btn-primary"} '>
+                                    ${Math.round(depot.totalStock/depot.qte_unite,2)} ${ Math.round(depot.totalStock/depot.qte_unite,2)>1 ? depot.unite+'s' :  depot.unite}</span>
+                                </label> 
+                                </div>
+                         `
+                         )
+                            $('.depot').eq(id).html(depots)
+                        }
+                })
+                
+        }
+
+
          $("document").ready(function(){
             table = $("#liste").DataTable({
                 "ajax" : {
@@ -253,7 +287,7 @@
             }
         });
        
-        $("#productTable").on('change','input',function(e){
+        $("#productTable").on('change','.input',function(e){
                 var prix = e.target.value
                var qte = $(this).parents('tr').find('td:eq(1)').text()
                  $(this).parents('tr').find('td:eq(3)').html(qte*prix)
@@ -270,19 +304,21 @@
         })
 
         $("#sendCommande").off().on('click', function(e){
-             console.log(commande)
-            var paniers =commande.paniers.map((panier,index) =>{
-                
+            //  console.log(commande)
+            var paniers = commande.paniers.map((panier,index) =>{
+                // console.log(panier.prix_produit) 
                 return {
                     id_pre_panier: panier.id_pre_panier,
                     ref_prod : panier.ref_prod,
-                    qte_commande : $("#productTable input").parents('tr').find('td:eq(1)').eq(index).text(),
+                    qte_commande :panier.qte_commande,
                     id_unite:panier.id_unite,
-                    prix_produit: $("#productTable input").eq(index).val()
+                    id_depot: $("#productTable input:checked").eq(index).val(),
+                     prix_produit: panier.prix_produit, //$("#productTable input").eq(index).val()
                 }
             })
+            // console.log(paniers)
             // alert($("#precommandeID").val())
-           if ($("input[name=mode]:checked").val()) {
+        if ($("input[name=mode]:checked").val()) {
                     $.ajax({
                         type: "POST",
                         url: "{{ route('precommande.transfert_commande') }}",
@@ -302,6 +338,15 @@
                         dataType: "json",
                         success: function (response) {
                             $("#validateCommande").modal('hide');
+                            if(response.icon==="error"){
+                                Swal.fire({
+                                icon: response.icon,
+                                text: response.text
+                            }).then((result) => {
+                                window.location.reload();
+                                
+                            });
+                            }else{
                             Swal.fire({
                                 icon: "success",
                                 text: "La commande est effectuée",
@@ -324,9 +369,11 @@
                                     window.location.reload();
                                 }
                             });
+                         }
                         }
                     });
-                } else {
+                } 
+                else {
                     Swal.fire(
                         '',
                         'Choisissez un mode de paiement',
@@ -334,7 +381,7 @@
                     );
                 }
             });
-        });
+    });
 
         function getDetail(data) {
             commande = data
@@ -342,32 +389,32 @@
             $("#validateCommande").modal('show');
 
             $("#productTable").html(format(data,true))
-            if(id){
-                $.ajax({
-                    url : '{{ route("admin_getDetail_commande") }}',
-                    type : 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        id : id
-                    },
-                    beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader').removeClass('hidden')
-                    },
-                    complete : function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-                        $('#loader').addClass('hidden')
-                    },
-                    dataType : 'json',
-                    success: function(response){
-                        $("#modalDetail").find('#clientModal').text(response.commande.nom_client);
-                        $("#modalDetail").find('#dateModal').text(response.commande.date);
-                        $("#listePaniers > tbody").empty();
-                        response.paniers.forEach(panier => {
-                            $("#listePaniers > tbody").append("<tr><td><img src='{{ url('/') }}/"+panier.image_prod+"' style='width: 60px'></td><td>"+panier.nom_prod+"</td><td class='text-end'>"+panier.prix_produit+"</td><td class='text-end'>"+panier.qte_commande+" "+panier.unite+"</td><td class='text-end'>"+panier.total+"</td></tr>");
-                        });
-                        $("#modalDetail").modal('show');
-                    }
-                });
-            }
+            // if(id){
+            //     $.ajax({
+            //         url : '{{ route("admin_getDetail_commande") }}',
+            //         type : 'POST',
+            //         data: {
+            //             _token: '{{ csrf_token() }}',
+            //             id : id
+            //         },
+            //         beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+            //             $('#loader').removeClass('hidden')
+            //         },
+            //         complete : function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+            //             $('#loader').addClass('hidden')
+            //         },
+            //         dataType : 'json',
+            //         success: function(response){
+            //             $("#modalDetail").find('#clientModal').text(response.commande.nom_client);
+            //             $("#modalDetail").find('#dateModal').text(response.commande.date);
+            //             $("#listePaniers > tbody").empty();
+            //             response.paniers.forEach(panier => {
+            //                 $("#listePaniers > tbody").append("<tr><td><img src='{{ url('/') }}/"+panier.image_prod+"' style='width: 60px'></td><td>"+panier.nom_prod+"</td><td class='text-end'>"+panier.prix_produit+"</td><td class='text-end'>"+panier.qte_commande+" "+panier.unite+"</td><td class='text-end'>"+panier.total+"</td></tr>");
+            //             });
+            //             $("#modalDetail").modal('show');
+            //         }
+            //     });
+            // }
         }
         
         

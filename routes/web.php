@@ -152,6 +152,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function(){
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/getProduit', [CommandeController::class, 'getProduit'])->name('getProduit');
+    Route::post('/getStock', [PreCommandeController::class, 'getStock'])->name('getStock');
     Route::post('/verify-stock', [CommandeController::class, 'stock'])->name('verify-stock');
     Route::get('/getClient', [CommandeController::class, 'getClient'])->name('getClient_commande');
     Route::get('/caisse', [CommandeController::class, 'caisse'])->name('caisse');

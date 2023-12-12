@@ -211,7 +211,7 @@
             
         });
 
-        function addPanier(ref_prod, nom_prod, prix_prod,id_unite, unite, image_prod) {
+        function addPanier(id_depot,nom_depot,ref_prod, nom_prod, prix_prod,id_unite, unite, image_prod) {
             var existe = false;
             $('.panier-item').each(function () {
                 var ref = $(this).find('.product-name').data('id');
@@ -233,11 +233,11 @@
                         },
                         dataType: "json",
                         success: function (response) {
-                            if(response.qte_stock){
+                            if(response.stock){
                                 Swal.fire({
                                     icon: 'warning',
                                     title: 'Stock épuisé',
-                                    text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+response.qte_stock+' '+response.unite
+                                    text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+ Math.round(response.stock,2)+' '+response.unite
                                 });
                                 panier.find('.panier-item-qty').children('input').val(response.qte_stock);
                             }else{
@@ -273,14 +273,14 @@
                     },
                     dataType: "json",
                     success: function (response) {
-                        if(response.qte_stock){
+                        if(response.stock){
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Stock épuisé',
-                                text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+response.qte_stock+' '+response.unite
+                                text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+Math.round(response.stock,2)+' '+response.unite
                             });
                             $("#panier").append('<div class="panier-item mb-2"><img src="'+image_prod+'" class="panier-item-img" alt=""><div class="product-info"><p class="product-name m-0" data-id="'+ref_prod+'">'+nom_prod+'</p><p class="product-price-unity m-0"  data-price="'+prix_prod+'" data-unity="'+id_unite+'">'+(new Intl.NumberFormat('fr').format(prix_prod))+' Ar / '+unite+'</p></div><div class="panier-item-qty"><input type="number" class="form-control qte-product" name="panier-qty" data-val="'+response.qte_stock+'" value="'+response.qte_stock+'"></div><div class="total-product"><span class="total">'+(new Intl.NumberFormat('fr').format(prix_prod*1))+'</span> Ar</div><a href="javascript:void(0)" type="button" class="bagde bg-secondary delete"><i class="las la-trash"></i></a></div>');
-                            total += parseInt(prix_prod)*response.qte_stock;
+                            total += parseInt(prix_prod)*Math.round(response.stock,2);
                             $("#totalPanier").text((new Intl.NumberFormat('fr').format(total))+' Ar');
                         }else{
                             $("#panier").append('<div class="panier-item mb-2"><img src="'+image_prod+'" class="panier-item-img" alt=""><div class="product-info"><p class="product-name m-0" data-id="'+ref_prod+'">'+nom_prod+'</p><p class="product-price-unity m-0"  data-price="'+prix_prod+'" data-unity="'+id_unite+'">'+(new Intl.NumberFormat('fr').format(prix_prod))+' Ar / '+unite+'</p></div><div class="panier-item-qty"><input type="number" class="form-control qte-product" name="panier-qty" value="1" data-val="1"></div><div class="total-product"><span class="total">'+(new Intl.NumberFormat('fr').format(prix_prod*1))+'</span> Ar</div><a href="javascript:void(0)" type="button" class="bagde bg-secondary delete"><i class="las la-trash"></i></a></div>');
@@ -314,13 +314,13 @@
                     },
                     dataType: "json",
                     success: function (response) {
-                        if(response.qte_stock){
+                        if(response.stock){
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Stock épuisé',
-                                text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+response.qte_stock+' '+response.unite
+                                text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+Math.round(response.stock,2)+' '+response.unite
                             });
-                            qte_input.val(response.qte_stock);
+                            qte_input.val(Math.round(response.stock,2));
                         }
                     },
                     complete: function(){

@@ -30,17 +30,35 @@ class PreCommandeController extends Controller
         $modes = ModePaiement::all();
         return view("pages.precommande", compact('precommandes', "modes"));
     }
+    public function getStock(Request $request){
+     
+        $depot = Stock::select(DB::raw('SUM(stock) as totalStock'),'produits.*','stocks.*','unite_mesures.*','depots.*','avoirs.*')
+        ->join('produits','produits.ref_prod','=','stocks.ref_prod')
+        ->join('avoirs','avoirs.ref_prod','produits.ref_prod')
+        ->join('unite_mesures','unite_mesures.id_unite','avoirs.id_unite')
+        ->where('avoirs.id_unite',$request->id_unite)
+        ->where('produits.ref_prod',$request->ref_prod)
+        ->join('depots','depots.id_depot','stocks.id_depot')
+        ->where('stock','>',0)
+        ->groupBy('stocks.id_depot')
+        ->get() ;
+
+        echo json_encode( $depot);
+    }
 
     public function liste(){
         $user= auth()->user();
  
-        $Precomm = PreCommande::with("paniers","paniers.produit");
+         $Precomm = PreCommande::with("paniers","paniers.produit","paniers.unite");
+        
         $precommandes =$user->is_admin===1 ? $Precomm->get() : $Precomm->where('id_user',$user->id)->get();
         foreach ($precommandes as $precommande) {
             $total = DB::table('pre_paniers')
                         ->where('id_pre_commande', $precommande->id_pre_commande)
                         ->select(DB::raw('SUM(qte_commande * prix_produit) as total'))
                         ->first();
+           
+
             $precommande->date = date('d/m/Y H:i:s', strtotime($precommande->created_at));
             $precommande->user = User::find($precommande->id_user)->nom;
             $precommande->total = number_format($total->total, 2, ',', ' ').' Ar';
@@ -159,16 +177,23 @@ class PreCommandeController extends Controller
                 $panier->qte_commande = $prepanier["qte_commande"];
                 $panier->id_unite = $prepanier["id_unite"];
                 $panier->save();
-                  $unite = Avoir::where('ref_prod', $prepanier["ref_prod"])->where('id_unite', $prepanier["id_unite"])->first();
-                   $produit = Stock::where('stocks.ref_prod',$prepanier['ref_prod'])
+                $unite = Avoir::where('ref_prod', $prepanier["ref_prod"])->where('id_unite', $prepanier["id_unite"])->first();
+                $Qte = ($unite->qte_unite * floatval($prepanier["qte_commande"]));
+
+                  $produit = Stock::where('stocks.ref_prod',$prepanier['ref_prod'])
+                                // ->where('stock','>',$Qte)
                                 ->join('produits','stocks.ref_prod','produits.ref_prod')
-                                ->join('depots','depots.id_depot','stocks.id_depot')
-                                ->first();
-                    if(!$produit->fait_demande){
-                     $produit->stock -= ($unite->qte_unite * floatval($prepanier["qte_commande"]));
-                    $produit->save();
-                }
-                // return Response::json($produit, 200);
+                                // ->join('depots','depots.id_depot','stocks.id_depot')
+                                ->where('stocks.id_depot',$prepanier["id_depot"])
+                                ->orderBy('stocks.created_at','ASC');
+                                
+                $prod = $produit->first();
+        //    return Response::json($prod, 200);
+                  //     // $principal = $produit->where('is_default',1)->first();
+                    if(!$prod->fait_demande){
+                        $prod->stock -= $Qte;
+                        $prod->save();
+                     }
                $Prepanier = PrePaniers::where('id_pre_panier',$prepanier["id_pre_panier"])->first();
                $Prepanier->delete();
             }
