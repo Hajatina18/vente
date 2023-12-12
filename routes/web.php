@@ -45,7 +45,8 @@ Route::group(['middleware' => ["auth"]], function(){
     });
 });
 Route::group(['middleware' => ['vente:0']], function(){
-    Route::post('/', [CommandeController::class, 'searchProduct'])->name('search_product');
+  
+    Route::get('/{id?}', [CommandeController::class, 'index'])->where("id", '[0-9]+')->name('commande');
     Route::post('/commande', [CommandeController::class, 'save_commande'])->name('save_commande');
     Route::post('/add_panier', [CommandeController::class, 'add_panier'])->name('add_panier');
     Route::get('/ticket', [CommandeController::class, 'ticket'])->name('ticket');

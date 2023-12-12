@@ -33,9 +33,11 @@ class TransfertController extends Controller
             'id_approvisionneur' => 'required',
         ]);
        $transferts = new Transfert;
-       $transferts->bon_de_transfert = $request->bon_de_transfert;
+    //    $transferts->bon_de_transfert = $request->bon_de_transfert;
+       
        $transferts->date_transfert = $request->date_transfert;
        $transferts->id_approvisionneur = $request->id_approvisionneur;
+
        if($request->is_depot === "on"){
         $transferts->is_depot = true;
         $transferts->id_demandeur = $request->id_pdv;
@@ -43,6 +45,8 @@ class TransfertController extends Controller
         $transferts->id_demandeur = $request->id_depot;
         $transferts->is_depot = false; 
        } 
+
+        $transferts->bon_de_transfert = $this->getBonTransfert($request->id_demandeur, $request->id_approvisionneur);
        if($transferts->save()){
         $array = $transferts;
         }
@@ -155,5 +159,16 @@ class TransfertController extends Controller
             );
         }
         echo json_encode($array);
+    }
+
+
+    public function getBonTransfert(Request $request){
+            $data = Transfert::orderBy('id', 'desc')->pluck('id')->first();
+            $nombre =  $data + 1;
+            $longueurNombre = 4; 
+           $nouveauNombreAvecZeros = str_pad($nombre, $longueurNombre, '0', STR_PAD_LEFT);
+            $var = 'BT/'.$request->id_demandeur. $request->id_approvisionneur .'/'. $nouveauNombreAvecZeros;
+            return $var;
+        
     }
 }
