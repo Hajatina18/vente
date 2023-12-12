@@ -42,32 +42,39 @@
                            
                            <div class="row type_caisse">
                              <div class="mb-0 col-12">
-                                <label for="nom" class="form-label">Type de caisse</label>
+                                <label for="nom" class="form-label">Dépôt de stockage</label>
                             </div>
-                            <div class="mb-2 col-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="caisse" id="caisse" value="magasin">
-                                    <label for="id_pdv" class="form-label">Point de vente</label> 
+                            <div class="row px-5 mt-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="is_depot" name="is_depot">
+                                    <label class="form-check-label" id="label_depot" for="is_depot"></label>
+                                  </div>
                                 </div>
-                                <select class="form-select  ms-3" id="id_pdv" name="id_pdv">
-                                    <option >Choisir point de vente</option>
-                                    @foreach ($magasins as $magasin)
-                                    <option value="{{ $magasin->id_pdv }}">{{ $magasin->nom_pdv  }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-2  col-6">
-                               <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="caisse" id="caisse" value="depot">
-                                <label for="id_depot" class="form-label">Dépot</label> 
+                                <div class="row px-5 my-3">
+                                 
+                                    <div class="col-md-6" id="depotDiv">
+                                        <label for="id_depot" class="form-label">Dépôt</label>
+                                        <select class="form-select" id="id_depot" name="id_depot">
+                                            <option default disabled>Choix de Dépôt</option>
+                                            @foreach ($depots as $depot)
+                                                @if ($depot->is_default == 0)
+                                                    <option value="{{ $depot->id_depot }}">
+                                                        {{ $depot->nom_depot }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5" id="pointVenteDiv">
+                                        <label for="id_pdv" class="form-label">Point de Vente</label>
+                                        <select class="form-select" id="id_pdv" name="id_pdv">
+                                            <option value="" disabled>Choix de point de Vente</option>
+                                            @foreach ($pointVente as $points)
+                                                <option value="{{ $points->id_pdv }}">{{ $points->nom_pdv }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                                <select class="form-select ms-3 "  id="id_depot" name="id_depot">
-                                    <option >Choisir dépot</option>
-                                    @foreach ($depots as $depot)
-                                    <option value="{{ $depot->id_depot }}">{{ $depot->nom_depot  }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                         </div>
                             <button type="submit" class="btn btn-outline-primary">
                                 Enregistrer
@@ -218,20 +225,24 @@
 
             }
            
-        })
-        $('input[name=caisse]').on('change',function(){
-          var notChecked =  $('input[name=caisse]').not(':checked').val()
-          if(notChecked==="depot"){
-            $('#id_depot').val('Choisir dépot')
-            $('#id_depot').prop('disabled',true)
-            $('#id_pdv').prop('disabled',false)
-
-          }else{
-            $('#id_pdv').val('Choisir point de vente')
-            $('#id_pdv').prop('disabled',true)
-            $('#id_depot').prop('disabled',false)
-          }
-          
-        })
+        });
+       
+$("document").ready(function(){
+    $("#depotDiv").show();
+    $("#pointVenteDiv").hide();
+    $("#label_depot").text("Transfert vers un autre dépôt");
+    $("#is_depot").change(function () {
+            if (this.checked) {
+                $("#depotDiv").hide();
+                $("#pointVenteDiv").show();
+                $("#label_depot").text("Transfert vers un point de vente");
+            } else {
+                $("#depotDiv").show();
+                $("#pointVenteDiv").hide();
+                $("#label_depot").text("Transfert vers un autre dépôt");
+            }
+    });
+   
+});
     </script>
 @endpush

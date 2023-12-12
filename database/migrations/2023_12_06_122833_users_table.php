@@ -21,8 +21,8 @@ class UsersTable extends Migration
             $table->integer('is_admin')->unsigned();
             $table->integer("id_depot")->nullable()->index();
             $table->integer("id_pdv")->nullable()->index();
-            $table->foreign('id_depot')->references('id_depot')->on('depots');
-            $table->foreign('id_pdv')->references('id_pdv')->on('point_ventes');
+            $table->boolean("is_depot")->default(false);
+            $table->integer('depot');
             $table->rememberToken();
             $table->timestamps();
         });

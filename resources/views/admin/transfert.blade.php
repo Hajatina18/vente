@@ -92,15 +92,10 @@
                                             <div class="row px-5 mt-3">
                                                 <div class="col-md-6">
                                                     <label for="ref_prod" class="form-label">Date de transfert</label>
-
                                                     <input type="date" class="form-control" name="date_transfert"
                                                         id="date_transfert">
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label for="ref_prod" class="form-label">Bon de transfert</label>
-                                                    <input type="text" class="form-control" name="bon_de_transfert"
-                                                        id="bon_de_transfert">
-                                                </div>
+                                              
                                                 <div>
                                                     <div class="row px-5 mt-3">
                                                         <label for="produits" class="form-label "
@@ -186,35 +181,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalModif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center" id="exampleModalLabel">Modification d'un transfert</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="" method="post" id="formModifProd">
-                    @csrf
-                    <div class="modal-body">
-
-                        <div class="mb-2">
-                            <label for="modif_nom" class="form-label">Designation</label>
-                            <input tytransfert-pe="text" class="form-control" id="modif_nom" name="nom_prod" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="image_prod" class="form-label">Image</label>
-                            <input class="form-control" type="file" id="modif_image" name="image_prod">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+ 
 @endsection
 
 @push('js')
@@ -460,10 +427,10 @@
         }
     });
     
-    $("#produits").change( function() {
+    $("#qte").change( function() {
         var produit = $('#produit').val();
         var unite = $('#unite').val();
-        var qte = $('#qte').val();
+        var qte = $(this).val();
         var depot = $("#id_approvisionneur").val();
         if (produit && unite && qte && depot) {
             $.ajax({

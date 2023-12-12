@@ -14,10 +14,10 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $magasins = PointVente::all();
+        $pointVente = PointVente::all();
         $depots = Depot::all();
 
-        return view('admin.users',compact('magasins','depots'));
+        return view('admin.users',compact('pointVente','depots'));
     }
 
     public function liste(Request $request)
