@@ -28,14 +28,13 @@ class TransfertController extends Controller
 
     public function store(Request $request) {
         $request->validate([
-            'bon_de_transfert' => 'required',
             'date_transfert' => 'required',
             'id_approvisionneur' => 'required',
         ]);
        $transferts = new Transfert;
-       $transferts->bon_de_transfert = $request->bon_de_transfert;
        $transferts->date_transfert = $request->date_transfert;
        $transferts->id_approvisionneur = $request->id_approvisionneur;
+
        if($request->is_depot === "on"){
         $transferts->is_depot = true;
         $transferts->id_demandeur = $request->id_pdv;
@@ -43,6 +42,7 @@ class TransfertController extends Controller
         $transferts->id_demandeur = $request->id_depot;
         $transferts->is_depot = false; 
        } 
+        $transferts->bon_de_transfert = $this->getBonTransfert($transferts->id_demandeur, $transferts->id_approvisionneur);
        if($transferts->save()){
         $array = $transferts;
         }
@@ -128,9 +128,6 @@ class TransfertController extends Controller
                 }
                 
             }
-            // $produit = Produit::find($request->ref_prod);
-            // $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
-            // $produit->qte_stock += ($unite->qte_unite * floatval($request->qte));
             // $produit->save();
             echo json_encode($array);
         }else{
@@ -155,5 +152,18 @@ class TransfertController extends Controller
             );
         }
         echo json_encode($array);
+    }
+
+
+    public function getBonTransfert($demandeur, $approvisionneur){
+            $data = Transfert::orderBy('id_transfert', 'desc')->pluck('id_transfert')->first();
+            $nombre =  $data + 1;
+            $longueurNombre = 4; 
+           $nouveauNombreAvecZeros = str_pad($nombre, $longueurNombre, '0', STR_PAD_LEFT);
+           $demandeur = str_pad($demandeur, 2, 'O', STR_PAD_LEFT);
+           $approvisionneur = str_pad($approvisionneur, 2, 'O', STR_PAD_LEFT);
+            $var = 'BT/'.$demandeur.''.$approvisionneur .'/'. $nouveauNombreAvecZeros;
+            return $var;
+        
     }
 }
