@@ -15,14 +15,12 @@ class UsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('name');
             $table->string('username')->unique();
             $table->string('password');
             $table->integer('is_admin')->unsigned();
-            $table->integer("id_depot")->nullable()->index();
-            $table->integer("id_pdv")->nullable()->index();
             $table->boolean("is_depot")->default(false);
-            $table->integer('depot');
+            $table->integer('depot')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

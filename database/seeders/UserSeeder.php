@@ -16,16 +16,18 @@ class UserSeeder extends Seeder
     {
         $user = [
             [
-                'nom' => 'ARATO',
+                'name' => 'ARATO',
                 'username' => 'aratomg',
                 'password' => bcrypt('arato'),
-                'is_admin' => 1
+                'is_admin' => 1,
+                'is_depot' => 0
             ],
             [
-                'nom' => 'Francki',
+                'name' => 'Francki',
                 'username' => 'francki',
                 'password' => bcrypt('arato'),
-                'is_admin' => 0
+                'is_admin' => 0,
+                'is_depot' => 0
             ]
         ];
         foreach ($user as $key => $value) {

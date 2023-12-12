@@ -40,15 +40,13 @@
                                 </div>
                             </div>
                            
-                           <div class="row type_caisse">
-                             <div class="mb-0 col-12">
-                                <label for="nom" class="form-label">Dépôt de stockage</label>
-                            </div>
-                            <div class="row px-5 mt-3">
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="is_depot" name="is_depot">
-                                    <label class="form-check-label" id="label_depot" for="is_depot"></label>
-                                  </div>
+                           <div class="row ">
+                             
+                                <div class="row px-3 mt-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="is_depot" name="is_depot">
+                                        <label class="form-check-label" id="label_depot" for="is_depot"></label>
+                                    </div>
                                 </div>
                                 <div class="row px-5 my-3">
                                  
@@ -64,7 +62,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-5" id="pointVenteDiv">
+                                    <div class="col-md-6" id="pointVenteDiv">
                                         <label for="id_pdv" class="form-label">Point de Vente</label>
                                         <select class="form-select" id="id_pdv" name="id_pdv">
                                             <option value="" disabled>Choix de point de Vente</option>
@@ -214,35 +212,23 @@
                     }
                 })
             }
+        });       
+        $("document").ready(function(){
+            $("#depotDiv").show();
+            $("#pointVenteDiv").hide();
+            $("#label_depot").text("Attribué à une autre dépôt");
+            $("#is_depot").change(function () {
+                    if (this.checked) {
+                        $("#depotDiv").hide();
+                        $("#pointVenteDiv").show();
+                        $("#label_depot").text("Attribuée à un point de vente");
+                    } else {
+                        $("#depotDiv").show();
+                        $("#pointVenteDiv").hide();
+                        $("#label_depot").text("Attribuée à un autre dépôt");
+                    }
+            });
+        
         });
-        $('.type_user').on('change',function(){
-            var value = $('input[name=is_admin]:checked').val();
-           if(value==0){
-               $('.type_caisse').removeClass('d-none')
-            }
-            else{
-                $('.type_caisse').addClass('d-none')
-
-            }
-           
-        });
-       
-$("document").ready(function(){
-    $("#depotDiv").show();
-    $("#pointVenteDiv").hide();
-    $("#label_depot").text("Transfert vers un autre dépôt");
-    $("#is_depot").change(function () {
-            if (this.checked) {
-                $("#depotDiv").hide();
-                $("#pointVenteDiv").show();
-                $("#label_depot").text("Transfert vers un point de vente");
-            } else {
-                $("#depotDiv").show();
-                $("#pointVenteDiv").hide();
-                $("#label_depot").text("Transfert vers un autre dépôt");
-            }
-    });
-   
-});
     </script>
 @endpush

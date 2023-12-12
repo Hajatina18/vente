@@ -31,7 +31,6 @@ class UserController extends Controller
     }
     public function create(Request $request)
     {
-        
         if($request->id_user != NULL){
             $user = User::find($request->id_user);
             if(($request->password != "") || ($request->password != NULL)){
@@ -42,15 +41,16 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->nom = $request->nom;
-        $user->is_admin = $request->is_admin;
         $user->username = $request->username;
-
-        $caisse =$request->caisse;
-
         if($request->is_admin==0){
-
-            $user->id_pdv= $caisse =="magasin"? $request->id_pdv : NULL;
-            $user->id_depot= $caisse =="depot"? $request->id_depot : NULL;
+            if($request->is_depot === "on"){
+                $user->is_depot = true;
+               $user->is_admin = $request->is_admin;
+                $user->depot = $request->id_pdv;
+               } else {
+                $user->depot = $request->id_depot;
+                $user->is_depot = false; 
+               } 
         }
 
         if($user->save()){

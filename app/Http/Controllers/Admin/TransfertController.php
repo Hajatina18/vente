@@ -42,7 +42,6 @@ class TransfertController extends Controller
         $transferts->id_demandeur = $request->id_depot;
         $transferts->is_depot = false; 
        } 
-
         $transferts->bon_de_transfert = $this->getBonTransfert($transferts->id_demandeur, $transferts->id_approvisionneur);
        if($transferts->save()){
         $array = $transferts;
