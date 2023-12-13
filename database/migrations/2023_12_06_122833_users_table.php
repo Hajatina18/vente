@@ -15,11 +15,11 @@ class UsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nom');
             $table->string('username')->unique();
             $table->string('password');
             $table->integer('is_admin')->unsigned();
-            $table->boolean("is_depot")->default(false);
+            $table->boolean('is_depot')->default(false);
             $table->integer('depot')->nullable();
             $table->rememberToken();
             $table->timestamps();
