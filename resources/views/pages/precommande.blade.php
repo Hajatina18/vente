@@ -191,14 +191,14 @@
                                             <td>`+panier.produit.nom_prod  +`</td>
                                             <td class="qte text-center"> ${panier.qte_commande}  ${panier.qte_commande >1 ? panier.unite.unite+'s' : panier.unite.unite}  </td>
                                             </td>
-                                           ${show==true? '<td class="depot" class=" " > '+getDepot(panier,i)+'</td>' : ''}
+                                           ${show==true? '<td class="depot "  > '+getDepot(panier,i)+'</td>' : ''}
                                             <td width="20%"  class="sum text-center">`+ panier.qte_commande * panier.prix_produit+`Ar</td>
                                             
                                         </tr>` )
                                 +`
                               ${show==true ? `<tr >
                                     <td colspan="3" class="text-end">Total</td>
-                                    <td id="total fs-4 text-end">${ d.paniers.reduce((a,b) =>  a + b.qte_commande*b.prix_produit,0)}</td>
+                                    <td id="total fs-4 text-center">${ d.paniers.reduce((a,b) =>  a + b.qte_commande*b.prix_produit,0)}</td>
                                 </tr> ` : ''} 
                              </tbody>
                            </table>`
@@ -229,9 +229,9 @@
                         const TotalStock = response.reduce((acc,val) => acc + (val.totalStock /val.qte_unite),0)  
                         //   response.map(val=> { console.log(val.totalStock /val.qte_unite)})
                         const EtatStock = response.reduce((acc,val) => acc + ( (val.totalStock /val.qte_unite) > data.qte_commande),false)
-                        //   console.log(EtatStock)
-
-                        let depots = response.map(depot => `
+                        //   console.log(response)
+                        //   console.log(response.length )
+                        let depots = response.length === 0 ? `<div class="blink-grow"><span class='badge bg-danger rounded-pill'>Stock épuisé</span></div>`: response.map(depot => `
                             <div class='d-flex' >
                               <div class="w-100 form-check form-check-inline ">
                                     <input class="form-check-input" type="radio" name="${depot.ref_prod}/${depot.unite}" id="${depot.ref_prod}/${depot.unite}" value="${depot.id_depot}">
@@ -245,7 +245,7 @@
                                 </div>
                                 </div>`)
 
-                            depots +=  !EtatStock ? 
+                            depots +=  response.length !== 0 && !EtatStock ? 
                                     `
                                 <div class='d-flex mt-2' >
                                     <div class="w-100 form-check form-check-inline ">

@@ -55,7 +55,15 @@ input[type="radio"]{
     background-color: #0f808a !important;
   }
   
+  .blink-grow  {
+    animation: blinker 1s linear infinite;
+  }
   
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
   
   .accordion-button:link, .accordion-button:visited, .accordion-button:hover, .accordion-button:active  {
     background-color: #0f808a !important;

@@ -3,8 +3,8 @@
 @section('content')
 <div class="commande-content w-100">
     <div class="card card-commande bg-white">
-        <div class="card-body">
-            <div class="row">
+        <div class="card-body w-100">
+            <div class="row w-100">
                 <div class="col-12 col-md-12 col-lg-12">
                     <h3 class="text-center m-0">Liste des commandes</h3>
                     <hr style="height: 2px">
@@ -79,7 +79,7 @@
                     {data:"client"},
                     {data:"user"},
                     {data:"total", className: "text-end"},
-                    {data:"action"}
+                    {data:"action",className:'text-center'}
                 ],
                 "language": {
                     url: "{{ asset('datatable/french.json') }}"
