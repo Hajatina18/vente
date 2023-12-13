@@ -42,10 +42,10 @@ class UserController extends Controller
         }
         $user->nom = $request->nom;
         $user->username = $request->username;
+        $user->is_admin = $request->is_admin;
         if($request->is_admin==0){
             if($request->is_depot === "on"){
                 $user->is_depot = true;
-               $user->is_admin = $request->is_admin;
                 $user->depot = $request->id_pdv;
                } else {
                 $user->depot = $request->id_depot;

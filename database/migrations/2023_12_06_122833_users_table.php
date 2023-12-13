@@ -19,7 +19,7 @@ class UsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->integer('is_admin')->unsigned();
-            $table->boolean("is_depot")->default(false);
+            $table->boolean('is_depot')->default(false);
             $table->integer('depot')->nullable();
             $table->rememberToken();
             $table->timestamps();
