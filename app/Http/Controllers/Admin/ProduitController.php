@@ -51,10 +51,12 @@ class ProduitController extends Controller
 
     public function add_unite(Request $request)
     {
+        
         $avoir = new Avoir;
         $avoir->id_unite = $request->unite;
         $avoir->ref_prod = $request->ref_prod;
         $avoir->prix = str_replace(',', '.', $request->prix);
+        $avoir->prix_com = str_replace(',', '.', $request->prix_com);
         $avoir->qte_unite = str_replace(',', '.', $request->qte);
         $avoir->save();
         echo json_encode($avoir);

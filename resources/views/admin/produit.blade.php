@@ -5,7 +5,7 @@
     <div class="card card-commande bg-white">
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-md-4 col-lg-4">
+                <div class="col-12 col-md-5 col-lg-5">
                     <form method="POST" action="" id="formProduct">
                         @csrf
                         <h4 class="text-center">Formulaire Produit</h4>
@@ -47,10 +47,12 @@
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td>
-                                                <input type="number" class="form-control" id="prix" name="prix"
+                                            <td width="40%">
+                                                <input type="number" class="form-control mb-1" placeholder="Prix caisse" id="prix" name="prix"
                                                     required>
+                                                <input type="number" class="form-control" placeholder="Prix commercial" id="prix_com" name="prix_com" >
                                             </td>
+
                                             <td>
                                                 <input type="text" class="form-control" id="qte" name="qte" required>
                                             </td>
@@ -88,16 +90,15 @@
                         </button>
                     </form>
                 </div>
-                <div class="col-12 col-md-8 col-lg-8">
+                <div class="col-12 col-md-7 col-lg-7">
                     <h4 class="text-center">Liste des produits</h4>
                     <div class="table-responsive">
                         <table class="table table-striped" id="liste">
                             <thead>
                                 <th>Réference</th>
-                                <th width="30%">Designation</th>
+                                <th width="25%">Designation</th>
                                 <th>Image</th>
-                                <th>Quantité en stock</th>
-                                <th width="25%">Prix par unité</th>
+                                <th width="40%">Prix par unité</th>
                                 <th>Action</th>
                             </thead>
                             <tbody></tbody>
@@ -185,7 +186,7 @@
             unite += '<option value="{{ $unite->id_unite }}">{{ $unite->unite }}</option>';
         @endforeach
         $(".add").on('click', function(){
-            $(this).parents('tbody').append('<tr><td><select class="form-select" id="unite" name="unite">'+unite+'</select></td><td><input type="number" class="form-control" id="prix" name="prix" required></td><td><input type="text" class="form-control" id="qte" name="qte" required></td><td><button type="button" class="btn btn-outline-secondary delete"><i class="las la-trash"></i></button></td></tr>');
+            $(this).parents('tbody').append('<tr class="new_unite" ><td><select class="form-select" id="unite" name="unite">'+unite+'</select></td><td><input type="number" class="form-control mb-1" placeholder="Prix caisse" id="prix" name="prix" required><input type="number" class="form-control" placeholder="Prix commercial" id="prix_com" name="prix_com" ></td><td><input type="text" class="form-control" id="qte" name="qte" required></td><td><button type="button" class="btn btn-outline-secondary delete"><i class="las la-trash"></i></button></td></tr>');
         });
         $("table").on('click', '.delete', function(){
             $(this).parents('tr').remove();
@@ -201,7 +202,6 @@
                     {data:'ref_prod'},
                     {data:'nom_prod'},
                     {data:'image_prod'},
-                    {data:'qte_stock'},
                     {data:'unite'},
                     {data:'action'}
                 ],
@@ -238,6 +238,7 @@
                         $("#unite_mesure > tbody > tr").each(function () {
                             var unite = $(this).find('td:eq(0)').children('#unite').val();
                             var prix = $(this).find('td:eq(1)').children('#prix').val();
+                            var prix_com = $(this).find('td:eq(1)').children('#prix_com').val();
                             var qte = $(this).find('td:eq(2)').children('#qte').val();
                             $.ajax({
                                 type: "POST",
@@ -247,6 +248,7 @@
                                     unite: unite,
                                     ref_prod: $("#ref_prod").val(),
                                     prix: prix,
+                                    prix_com:prix_com,
                                     qte: qte
                                 },
                                 beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
@@ -258,6 +260,9 @@
                                 dataType: "json",
                                 success: function (response) {
                                     $("#formProduct")[0].reset();
+                                    $('.new_unite').each(function(){
+                                        $(this).remove()
+                                    });
                                     table.ajax.reload();
                                 }
                             });
@@ -289,7 +294,7 @@
                     $("[name=fait_demandeModif][value="+Boolean(response.fait_demande)+"]").prop('checked', true);
                     $("#modif_unite_mesure > tbody").empty();
                     response.unite.forEach(element => {
-                        $("#modif_unite_mesure > tbody").append('<tr><td><input type="text" class="form-control" name="unite" id="modif_unite" data-id="'+element.id_unite+'" value="'+element.unite+'" readonly></td><td><input type="number" class="form-control" id="modif_prix" name="prix" value="'+element.prix+'" required></td><td><input type="text" class="form-control" id="modif_qte" name="qte" value="'+element.qte_unite+'" required></td></tr>')
+                        $("#modif_unite_mesure > tbody").append('<tr><td><input type="text" class="form-control" name="unite" id="modif_unite" data-id="'+element.id_unite+'" value="'+element.unite+'" readonly></td><td><input type="number" class="form-control" id="modif_prix" name="prix" placehokder="Prix caisse" value="'+element.prix+'" required><input type="number" class="form-control" id="modif_prix_com" placehokder="Prix commercial" name="prix_com" value="'+element.prix_com+'" required></td><td><input type="text" class="form-control" id="modif_qte" name="qte" value="'+element.qte_unite+'" required></td></tr>')
                     });
                     $("#modalModif").modal('show');
                 }

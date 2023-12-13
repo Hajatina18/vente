@@ -211,8 +211,9 @@
             
         });
 
-        function addPanier(id_depot,nom_depot,ref_prod, nom_prod, prix_prod,id_unite, unite, image_prod) {
+        function addPanier(id_depot,nom_depot,ref_prod, nom_prod, prix_prod,prix_com,id_unite, unite, image_prod,commercial) {
             var existe = false;
+            var PRIX = commercial ? prix_com : prix_prod
             $('.panier-item').each(function () {
                 var ref = $(this).find('.product-name').data('id');
                 var unity = $(this).find('.product-price-unity').data('unity');
@@ -245,8 +246,8 @@
                             }
                         },
                         complete: function(){
-                            panier.find('.total').text((new Intl.NumberFormat('fr').format(parseInt(prix_prod)*(parseFloat(panier.find('.panier-item-qty').children('input').val())))));
-                            total += (panier.find('.panier-item-qty').children('input').val() - panier.find('.panier-item-qty').children('input').data('val')) * prix_prod;
+                            panier.find('.total').text((new Intl.NumberFormat('fr').format(parseInt(PRIX)*(parseFloat(panier.find('.panier-item-qty').children('input').val())))));
+                            total += (panier.find('.panier-item-qty').children('input').val() - panier.find('.panier-item-qty').children('input').data('val')) * PRIX;
                             $("#totalPanier").text((new Intl.NumberFormat('fr').format(total))+' Ar')
                             panier.find('.panier-item-qty').children('input').data('val', panier.find('.panier-item-qty').children('input').val());
                             $('#loader').addClass('hidden')
@@ -279,12 +280,12 @@
                                 title: 'Stock épuisé',
                                 text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+Math.round(response.stock,2)+' '+response.unite
                             });
-                            $("#panier").append('<div class="panier-item mb-2"><img src="'+image_prod+'" class="panier-item-img" alt=""><div class="product-info"><p class="product-name m-0" data-id="'+ref_prod+'">'+nom_prod+'</p><p class="product-price-unity m-0"  data-price="'+prix_prod+'" data-unity="'+id_unite+'">'+(new Intl.NumberFormat('fr').format(prix_prod))+' Ar / '+unite+'</p></div><div class="panier-item-qty"><input type="number" class="form-control qte-product" name="panier-qty" data-val="'+response.qte_stock+'" value="'+response.qte_stock+'"></div><div class="total-product"><span class="total">'+(new Intl.NumberFormat('fr').format(prix_prod*1))+'</span> Ar</div><a href="javascript:void(0)" type="button" class="bagde bg-secondary delete"><i class="las la-trash"></i></a></div>');
-                            total += parseInt(prix_prod)*Math.round(response.stock,2);
+                            $("#panier").append('<div class="panier-item mb-2"><img src="'+image_prod+'" class="panier-item-img" alt=""><div class="product-info"><p class="product-name m-0" data-id="'+ref_prod+'">'+nom_prod+'</p><p class="product-price-unity m-0"  data-price="'+PRIX+'" data-unity="'+id_unite+'">'+(new Intl.NumberFormat('fr').format(PRIX))+' Ar / '+unite+'</p></div><div class="panier-item-qty"><input type="number" class="form-control qte-product" name="panier-qty" data-val="'+response.qte_stock+'" value="'+response.qte_stock+'"></div><div class="total-product"><span class="total">'+(new Intl.NumberFormat('fr').format(PRIX*1))+'</span> Ar</div><a href="javascript:void(0)" type="button" class="bagde bg-secondary delete"><i class="las la-trash"></i></a></div>');
+                            total += parseInt(PRIX)*Math.round(response.stock,2);
                             $("#totalPanier").text((new Intl.NumberFormat('fr').format(total))+' Ar');
                         }else{
-                            $("#panier").append('<div class="panier-item mb-2"><img src="'+image_prod+'" class="panier-item-img" alt=""><div class="product-info"><p class="product-name m-0" data-id="'+ref_prod+'">'+nom_prod+'</p><p class="product-price-unity m-0"  data-price="'+prix_prod+'" data-unity="'+id_unite+'">'+(new Intl.NumberFormat('fr').format(prix_prod))+' Ar / '+unite+'</p></div><div class="panier-item-qty"><input type="number" class="form-control qte-product" name="panier-qty" value="1" data-val="1"></div><div class="total-product"><span class="total">'+(new Intl.NumberFormat('fr').format(prix_prod*1))+'</span> Ar</div><a href="javascript:void(0)" type="button" class="bagde bg-secondary delete"><i class="las la-trash"></i></a></div>');
-                            total += parseInt(prix_prod);
+                            $("#panier").append('<div class="panier-item mb-2"><img src="'+image_prod+'" class="panier-item-img" alt=""><div class="product-info"><p class="product-name m-0" data-id="'+ref_prod+'">'+nom_prod+'</p><p class="product-price-unity m-0"  data-price="'+PRIX+'" data-unity="'+id_unite+'">'+(new Intl.NumberFormat('fr').format(PRIX))+' Ar / '+unite+'</p></div><div class="panier-item-qty"><input type="number" class="form-control qte-product" name="panier-qty" value="1" data-val="1"></div><div class="total-product"><span class="total">'+(new Intl.NumberFormat('fr').format(PRIX*1))+'</span> Ar</div><a href="javascript:void(0)" type="button" class="bagde bg-secondary delete"><i class="las la-trash"></i></a></div>');
+                            total += parseInt(PRIX);
                             $("#totalPanier").text((new Intl.NumberFormat('fr').format(total))+' Ar');
                         }
                     }
@@ -335,14 +336,14 @@
         });
 
         $("#recherche").on('keyup', function(){
-            var formData = new FormData();
-            formData.append('_token', '{{ csrf_token() }}');
-            formData.append('search', $(this).val());  
-            fetch('{{ route("search_product") }}',{method: 'POST', body: formData })
-            .then(function(res){ return res.json(); })
-            .then(function(data){
-                $("#product").html(data);
-            });
+            // var formData = new FormData();
+            // formData.append('_token', '{{ csrf_token() }}');
+            // formData.append('search', $(this).val());  
+            // fetch('/',{method: 'POST', body: formData })
+            // .then(function(res){ return res.json(); })
+            // .then(function(data){
+            //     $("#product").html(data);
+            // });
         });
         $(".add").on('click', function(){
             alert("azert")

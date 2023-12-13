@@ -263,15 +263,16 @@ class CommandeController extends Controller
         //     $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
             $unites = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')
                         ->where('avoirs.ref_prod', $product->ref_prod)
-                        ->select("unite_mesures.id_unite","unite_mesures.unite", "avoirs.prix","avoirs.qte_unite")->get();
+                        ->select("unite_mesures.id_unite","unite_mesures.unite", "avoirs.prix","avoirs.qte_unite","avoirs.prix_com",)->get();
             $unite = "";
             $qte ="";
             $stock = $commercial ? $product->totalStock : $product->stock;
 
             foreach ($unites as $value) {
+
                 $unite .= "<div class='d-flex justify-content-between' >
-                                <span>".$value->unite." : ".number_format($value->prix, 2, ',' , ' ')." Ar</span>
-                                <i style='cursor:pointer;' class='las text-primary la-plus-circle fs-2 me-2' onclick=\"addPanier('$product->id_depot','$product->nom_depot','$product->ref_prod','$product->nom_prod','$value->prix','$value->id_unite','$value->unite','url($product->image_prod) ')\" ></i>  
+                                <span>".$value->unite." : ".number_format($commercial ? $value->prix_com : $value->prix, 2, ',' , ' ')." Ar</span>
+                                <i style='cursor:pointer;' class='las text-primary la-plus-circle fs-2 me-2' onclick=\"addPanier('$product->id_depot','$product->nom_depot','$product->ref_prod','$product->nom_prod','$value->prix','$value->prix_com','$value->id_unite','$value->unite','url($product->image_prod) ','$commercial')\" ></i>  
                             </div>";
                 $nbr = $stock/$value->qte_unite> 0.5 ? number_format($stock/$value->qte_unite,1,',',' ') : 0 ;
                 $qte.="<div class='d-flex justify-content-between pb-1' >".$nbr  ." ". ($nbr > 1 ? $value->unite.'s' : $value->unite)."</div>";

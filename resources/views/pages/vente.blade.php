@@ -308,14 +308,14 @@
         });
 
         $("#recherche").on('keyup', function(){
-            var formData = new FormData();
-            formData.append('_token', '{{ csrf_token() }}');
-            formData.append('search', $(this).val());  
-            fetch('{{ route("search_product") }}',{method: 'POST', body: formData })
-            .then(function(res){ return res.json(); })
-            .then(function(data){
-                $("#product").html(data);
-            });
+            // var formData = new FormData();
+            // formData.append('_token', '{{ csrf_token() }}');
+            // formData.append('search', $(this).val());  
+            // fetch('{{ route("/") }}',{method: 'POST', body: formData })
+            // .then(function(res){ return res.json(); })
+            // .then(function(data){
+            //     $("#product").html(data);
+            // });
         });
 
         function sendCommande() {
