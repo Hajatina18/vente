@@ -231,7 +231,7 @@
                         const EtatStock = response.reduce((acc,val) => acc + ( (val.totalStock /val.qte_unite) > data.qte_commande),false)
                         //   console.log(response)
                         //   console.log(response.length )
-                        let depots = response.length === 0 ? `<div class="blink-grow"><span class='badge bg-danger rounded-pill'>Stock épuisé</span></div>`: response.map(depot => `
+                        let depots = response.length === 0 ? `<div class="blink-grow stock-epuise"><span class='badge bg-danger rounded-pill '>Stock épuisé</span></div>`: response.map(depot => `
                             <div class='d-flex' >
                               <div class="w-100 form-check form-check-inline ">
                                     <input class="form-check-input" type="radio" name="${depot.ref_prod}/${depot.unite}" id="${depot.ref_prod}/${depot.unite}" value="${depot.id_depot}">
@@ -327,16 +327,19 @@
             //  console.log(commande)
             var paniers = commande.paniers.map((panier,index) =>{
                 // console.log(panier.prix_produit) 
-                return {
+                const outOfStock = $("#productTable .stock-epuise").eq(index).text()
+               return {
                     id_pre_panier: panier.id_pre_panier,
                     ref_prod : panier.ref_prod,
                     qte_commande :panier.qte_commande,
                     id_unite:panier.id_unite,
                     id_depot: $("#productTable input:checked").eq(index).val(),
-                     prix_produit: panier.prix_produit, //$("#productTable input").eq(index).val()
+                    prix_produit: panier.prix_produit, //$("#productTable input").eq(index).val()
+                    outofstock : Boolean(outOfStock)
                 }
+              
             })
-            // console.log(paniers)
+        //  console.log(paniers)
             // alert($("#precommandeID").val())
         if ($("input[name=mode]:checked").val()) {
                     $.ajax({
@@ -392,15 +395,15 @@
                          }
                         }
                     });
-                } 
-                else {
-                    Swal.fire(
-                        '',
-                        'Choisissez un mode de paiement',
-                        'warning'
-                    );
-                }
-            });
+            } 
+            else {
+                Swal.fire(
+                    '',
+                    'Choisissez un mode de paiement',
+                    'warning'
+                );
+            }
+          });
     });
 
         function getDetail(data) {
