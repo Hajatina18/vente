@@ -61,11 +61,11 @@
 <div class="commande-content  w-100">
     <div class="card card-commande bg-white">
         <div class="card-body">
-            <div class="row">
+            <div class="row w-100">
                 <div class="col-12 col-md-12 col-lg-12">
                     <h3 class="text-center m-0">Liste des précommandes</h3>
                     <hr style="height: 2px">
-                    <table class=" col-12 table table-stripped w-100" id="liste">
+                    <table class=" col-12 table table-stripped" id="liste">
                         <thead class="text-center">
                              <th>#</th>
                             <th>Date Precommande</th>
@@ -97,7 +97,7 @@
                     <div class="col-12">
                         <hr style="height: 3px; width : 100%">
                         <h4 class="text-center">Liste des produits</h4>
-                        <table class="table table-striped" id="listePaniers">
+                        <table class="table table-striped w-100" id="listePaniers">
                             <thead>
                                 <th>Image</th>
                                 <th>Nom Produit</th>
@@ -118,8 +118,8 @@
 </div>
 
 
-<div class="modal fade modal-fullscreen" id="validateCommande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog ">
+<div class="modal fade " id="validateCommande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg ">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Valider la commande</h5>
@@ -153,7 +153,7 @@
                     </div>
                     <div class="col-12 mx-0 mb-2 border-bottom pb-2">
                         <div class="d-flex align-items-center justify-content-between form-group">
-                            <div class="d-flex align-items-center justify-content-between" id="productTable">
+                            <div class="d-flex align-items-center justify-content-between  w-100" id="productTable">
                                 
                             </div>
                         </div>
@@ -174,15 +174,15 @@
        
        var commande;
         function format(d,show) {
-            // console.log(d)  
+            // console.log(d) /* <td  class="${show==true? 'd-block':'d-none'}" > <input class="form-control" type="number" value="${panier.prix_produit}" />*/ 
         return(
-                `<table class="table table-striped">
+                `<table class="table table-striped w-100">
                                 <thead>
                                     <tr>
                                         <th >Designation</th>
                                         <th width="30%" class="text-center">Quantité</th>
-                                        <th class=" text-center">Choix du dépot</th>
-                                        <th class=" ">Total</th>
+                                        <th class="${show==true? 'd-block':'d-none'} text-center">Choix du dépot</th>
+                                        <th width="" class="text-center ">Total</th>
                                         
                                     </tr>
                                 </thead>
@@ -190,15 +190,15 @@
                             d.paniers.map((panier,i)=>`<tr class="product">
                                             <td>`+panier.produit.nom_prod  +`</td>
                                             <td class="qte text-center"> ${panier.qte_commande}  ${panier.qte_commande >1 ? panier.unite.unite+'s' : panier.unite.unite}  </td>
-                                            `+/* <td  class="${show==true? 'd-block':'d-none'}" > <input class="form-control" type="number" value="${panier.prix_produit}" />*/`</td>
-                                            <td class="depot" >${getDepot(panier,i)}</td>
-                                            <td class="sum text-end">`+ panier.qte_commande * panier.prix_produit+`Ar</td>
+                                            </td>
+                                           ${show==true? '<td class="depot" class=" " > '+getDepot(panier,i)+'</td>' : ''}
+                                            <td width="20%"  class="sum text-center">`+ panier.qte_commande * panier.prix_produit+`Ar</td>
                                             
                                         </tr>` )
                                 +`
                               ${show==true ? `<tr >
                                     <td colspan="3" class="text-end">Total</td>
-                                    <td id="total fs-4">${ d.paniers.reduce((a,b) =>  a + b.qte_commande*b.prix_produit,0)}</td>
+                                    <td id="total fs-4 text-end">${ d.paniers.reduce((a,b) =>  a + b.qte_commande*b.prix_produit,0)}</td>
                                 </tr> ` : ''} 
                              </tbody>
                            </table>`
@@ -226,19 +226,39 @@
                         },
                         dataType: "json",
                         success: function (response) {
-                            console.log(response)
-                            
-                        const depots = response.map(depot => `
+                        const TotalStock = response.reduce((acc,val) => acc + (val.totalStock /val.qte_unite),0)  
+                        //   response.map(val=> { console.log(val.totalStock /val.qte_unite)})
+                        const EtatStock = response.reduce((acc,val) => acc + ( (val.totalStock /val.qte_unite) > data.qte_commande),false)
+                        //   console.log(EtatStock)
+
+                        let depots = response.map(depot => `
+                            <div class='d-flex' >
                               <div class="w-100 form-check form-check-inline ">
                                     <input class="form-check-input" type="radio" name="${depot.ref_prod}/${depot.unite}" id="${depot.ref_prod}/${depot.unite}" value="${depot.id_depot}">
-                                <label for="id_depot" class="form-label">
-                                    ${depot.nom_depot} 
-                                    <span class='badge disabled ${ data.qte_commande > Math.round(depot.totalStock /depot.qte_unite,2) ?"btn-danger" : "btn-primary"} '>
-                                    ${Math.round(depot.totalStock/depot.qte_unite,2)} ${ Math.round(depot.totalStock/depot.qte_unite,2)>1 ? depot.unite+'s' :  depot.unite}</span>
-                                </label> 
+                                    <label for="id_depot" class="form-label">${depot.nom_depot} </label>
+                                     
                                 </div>
-                         `
-                         )
+                                <div class="ml-auto">
+                                  <span class='badge disabled  ${ data.qte_commande > depot.totalStock /depot.qte_unite ?"btn-danger" : "btn-primary"} '>
+                                        ${Math.round(depot.totalStock/depot.qte_unite,2)} ${ Math.round(depot.totalStock/depot.qte_unite,2)>1 ? depot.unite+'s' :  depot.unite}
+                                    </span>
+                                </div>
+                                </div>`)
+
+                            depots +=  !EtatStock ? 
+                                    `
+                                <div class='d-flex mt-2' >
+                                    <div class="w-100 form-check form-check-inline ">
+                                            <input class="form-check-input" type="radio" checked="true" name="${response[0].ref_prod}/${response[0].unite}" id="${response[0].ref_prod}/${response[0].unite}" value="all">
+                                            <label for="id_depot" class="form-label">Tous les dépots</label>              
+                                   </div>
+                                   <div class="ml-auto"> 
+                                      <span class='badge disabled btn-primary  ml-auto'>
+                                         ${Math.round(TotalStock,2)} ${ Math.round(TotalStock,2)>1 ? response[0].unite+'s' :  response[0].unite}
+                                       </span>
+                                   </div>
+                                 </div>` : ''
+                        
                             $('.depot').eq(id).html(depots)
                         }
                 })

@@ -138,6 +138,7 @@ class PreCommandeController extends Controller
     public function transfert(Request $request)
     {
         $precommande = PreCommande::find($request->precommande);
+        $is_reste= false;
         $nom = ($request->client != '') ? $request->client : 'Anonyme';
         $client = Client::where('nom_client', $nom)->first();
         if($client){
@@ -153,52 +154,78 @@ class PreCommandeController extends Controller
         $commande->id_mode = $request->mode;
         $commande->id_user = Auth::user()->id;
         if($commande->save()){
-            // foreach($precommande->paniers as $prepanier){
-            //     $panier = new Panier;
-            //     $panier->id_commande = $commande->id_commande;
-            //     $panier->ref_prod = $prepanier->ref_prod;
-            //     $panier->prix_produit = $prepanier->prix_produit;
-            //     $panier->qte_commande = $prepanier->qte_commande;
-            //     $panier->id_unite = $prepanier->id_unite;
-            //     $panier->save();
-            //     $produit = Produit::find($prepanier->ref_prod);
-            //     if(!$produit->fait_demande){
-            //         $unite = Avoir::where('ref_prod', $prepanier->ref_prod)->where('id_unite', $prepanier->id_unite)->first();
-            //         $produit->qte_stock -= ($unite->qte_unite * floatval($prepanier->qte_commande));
-            //         $produit->save();
-            //     }
-            //     $prepanier->delete();
-            // }
              foreach($request->paniers as $prepanier){
-                $panier = new Panier;
-                $panier->id_commande = $commande->id_commande;
-                $panier->ref_prod = $prepanier["ref_prod"];
-                $panier->prix_produit = $prepanier["prix_produit"];
-                $panier->qte_commande = $prepanier["qte_commande"];
-                $panier->id_unite = $prepanier["id_unite"];
-                $panier->save();
-                $unite = Avoir::where('ref_prod', $prepanier["ref_prod"])->where('id_unite', $prepanier["id_unite"])->first();
-                $Qte = ($unite->qte_unite * floatval($prepanier["qte_commande"]));
+                       
+                        
+                        $unite = Avoir::where('ref_prod', $prepanier["ref_prod"])->where('id_unite', $prepanier["id_unite"])->first();
+                        $Qte = ($unite->qte_unite * floatval($prepanier["qte_commande"]));
+                        
+                        if($prepanier["id_depot"] === 'all'){
+                            $produits = Stock::where('stocks.ref_prod',$prepanier['ref_prod'])
+                                        ->join('depots','depots.id_depot','stocks.id_depot')
+                                        ->orderBy('stocks.created_at','ASC')
+                                        ->orderBy('depots.is_default','DESC')->get();
 
-                  $produit = Stock::where('stocks.ref_prod',$prepanier['ref_prod'])
-                                // ->where('stock','>',$Qte)
-                                ->join('produits','stocks.ref_prod','produits.ref_prod')
-                                // ->join('depots','depots.id_depot','stocks.id_depot')
-                                ->where('stocks.id_depot',$prepanier["id_depot"])
-                                ->orderBy('stocks.created_at','ASC');
+                            
+                          }else{
+                            $produits = Stock::where('stocks.ref_prod',$prepanier['ref_prod'])
+                                            ->where('stocks.id_depot',$prepanier["id_depot"])
+                                            ->orderBy('stocks.created_at','ASC')->get();
+                        }   
+
+                        foreach($produits as $product) {
+                            $panier = new Panier;
+                            $panier->id_commande = $commande->id_commande;
+                            $panier->ref_prod = $prepanier["ref_prod"];
+                            $panier->prix_produit = $prepanier["prix_produit"];
+                            $panier->id_unite = $prepanier["id_unite"];
+
+                            $panier->id_depot = $product->id_depot;
+
+                            $stock = Stock::find($product->id_stock);
+                            if( $product->stock - $Qte >= 0){
+                                $stock->stock->stock -= $Qte;
+                                $panier->qte_commande = $Qte/$unite->qte_unite;
+                                $Qte= 0;
+                                break;
+                            }else{
+                                 $Qte = $Qte - $product->stock ;
+                                 $panier->qte_commande = $product->stock/$unite->qte_unite ;
+                                 $stock->stock -= $product->stock;
+                                $is_reste = true;
                                 
-                $prod = $produit->first();
-        //    return Response::json($prod, 200);
-                  //     // $principal = $produit->where('is_default',1)->first();
-                    if(!$prod->fait_demande){
-                        $prod->stock -= $Qte;
-                        $prod->save();
-                     }
-               $Prepanier = PrePaniers::where('id_pre_panier',$prepanier["id_pre_panier"])->first();
-               $Prepanier->delete();
-            }
-            $precommande->delete();
-            return Response::json($precommande, 200);
+                            }
+
+                             $stock->save();
+                             $panier->save();
+                            
+                        }   
+
+                // $prod = $produit->first();
+                //     if(!$prod->fait_demande){
+                //         $prod->stock -= $Qte;
+                //         $prod->save();
+                //      }
+
+                    $Prepanier = PrePaniers::where('id_pre_panier',$prepanier["id_pre_panier"])->first();
+                   
+                    if($Qte > 0){
+                         $Prepanier->qte_commande = $Qte/$unite->qte_unite;
+                         $Prepanier->save();   
+
+                    }else{
+                        $Prepanier->delete(); 
+                    }
+             
+                     
+               
+                }
+                
+         
+                if(!$is_reste){
+                        $precommande->delete();
+                 } 
+                 return Response::json($precommande, 200);
         }else{
             echo json_encode(array(
                 'icon' => "error",
