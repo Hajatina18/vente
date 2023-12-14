@@ -231,21 +231,24 @@
                         const EtatStock = response.reduce((acc,val) => acc + ( (val.totalStock /val.qte_unite) > data.qte_commande),false)
                         //   console.log(response)
                         //   console.log(response.length )
-                        let depots = response.length === 0 ? `<div class="blink-grow stock-epuise"><span class='badge bg-danger rounded-pill '>Stock épuisé</span></div>`: response.map(depot => `
-                            <div class='d-flex' >
-                              <div class="w-100 form-check form-check-inline ">
-                                    <input class="form-check-input" type="radio" name="${depot.ref_prod}/${depot.unite}" id="${depot.ref_prod}/${depot.unite}" value="${depot.id_depot}">
-                                    <label for="id_depot" class="form-label">${depot.nom_depot} </label>
-                                     
-                                </div>
-                                <div class="ml-auto">
-                                  <span class='badge disabled  ${ data.qte_commande > depot.totalStock /depot.qte_unite ?"btn-danger" : "btn-primary"} '>
-                                        ${Math.round(depot.totalStock/depot.qte_unite,2)} ${ Math.round(depot.totalStock/depot.qte_unite,2)>1 ? depot.unite+'s' :  depot.unite}
-                                    </span>
-                                </div>
-                                </div>`)
+                        let depots = response.length === 0 ? `<div class="blink-grow stock-epuise">
+                                                                <span class='badge bg-danger rounded-pill '>Stock épuisé</span>
+                                                            </div>`: 
+                                                            response.map(depot => `
+                                                            <div class='d-flex' >
+                                                            <div class="w-100 form-check form-check-inline ">
+                                                                    <input class="form-check-input" type="radio" checked='${response.length===1}' name="${depot.ref_prod}/${depot.unite}" id="${depot.ref_prod}/${depot.unite}" value="${depot.id_depot}">
+                                                                    <label for="id_depot" class="form-label">${depot.nom_depot} </label>
+                                                                    
+                                                                </div>
+                                                                <div class="ml-auto">
+                                                                <span class='badge disabled  ${ data.qte_commande > depot.totalStock /depot.qte_unite ?"btn-danger" : "btn-primary"} '>
+                                                                        ${Math.round(depot.totalStock/depot.qte_unite,2)} ${ Math.round(depot.totalStock/depot.qte_unite,2)>1 ? depot.unite+'s' :  depot.unite}
+                                                                    </span>
+                                                                </div>
+                                                            </div>`)
 
-                            depots +=  response.length !== 0 && !EtatStock ? 
+                            depots +=  response.length >1 && !EtatStock ? 
                                     `
                                 <div class='d-flex mt-2' >
                                     <div class="w-100 form-check form-check-inline ">
@@ -327,7 +330,7 @@
             //  console.log(commande)
             var paniers = commande.paniers.map((panier,index) =>{
                 // console.log(panier.prix_produit) 
-                const outOfStock = $("#productTable .stock-epuise").eq(index).text()
+                const outOfStock = $("#productTable .stock-epuise").eq(index).text() ? true : false
                return {
                     id_pre_panier: panier.id_pre_panier,
                     ref_prod : panier.ref_prod,
@@ -335,7 +338,7 @@
                     id_unite:panier.id_unite,
                     id_depot: $("#productTable input:checked").eq(index).val(),
                     prix_produit: panier.prix_produit, //$("#productTable input").eq(index).val()
-                    outofstock : Boolean(outOfStock)
+                    outofstock : outOfStock
                 }
               
             })
