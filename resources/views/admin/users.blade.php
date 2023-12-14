@@ -55,10 +55,10 @@
                                         <select class="form-select" id="id_depot" name="id_depot">
                                             <option default disabled>Choix de Dépôt</option>
                                             @foreach ($depots as $depot)
-                                                @if ($depot->is_default == 0)
+                                               
                                                     <option value="{{ $depot->id_depot }}">
                                                         {{ $depot->nom_depot }}</option>
-                                                @endif
+                                                
                                             @endforeach
                                         </select>
                                     </div>
