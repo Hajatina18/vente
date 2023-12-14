@@ -7,8 +7,10 @@ use App\Models\Depot;
 use App\Models\Fournisseur;
 use App\Models\Produit;
 use App\Models\Stock;
+use App\Models\StockPointVente;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DepotController extends Controller
@@ -132,5 +134,27 @@ class DepotController extends Controller
         echo json_encode($depots);
     }
 
+    public function stockByDepot (){
+        $user = auth()->user();
+        if($user->is_depot === 1){
+            $produits = StockPointVente::join('produits','produits.ref_prod','=','stock_point_ventes.ref_prod')->where('id_stock_pdv',$user->depot)->get();
+        }
+        else{
+            $produits = Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->where('id_depot',$user->depot)->get();
+        }
+        foreach ($produits as $product) {
+            $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
+            $unites = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.unite", "avoirs.prix")->get();
+            $unite = "";
+            foreach ($unites as $value) {
+                $unite .= "<span>".$value->unite." : ".number_format($value->prix, 2, ',' , ' ')." Ar</span><br>";
+            }
+            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.unite")->first();
+            $product->unite = $unite;
+            $product->qte_stock = number_format($product->qte_stock, 0, ',', ' ').' '.($product->qte_stock > 1 ? $base->unite.'s' : $base->unite);
+            $product->image_prod = "<img src='".url($product->image_prod)."' style='width: 60px'>";
+        }
+        echo json_encode($produits);
+    }
    
 }

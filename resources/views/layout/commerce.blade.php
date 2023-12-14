@@ -29,12 +29,12 @@
                         </a>
                     </li>
 
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link ">
+                {{-- <li class="sidebar-item">
+                    <a href="{{route('depots')}}" class="sidebar-link ">
                         <i class="las la-house-damage me-2"></i>
-                        <span>Depots</span>
+                        <span>Dépôts</span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="sidebar-item">
                     <a href="{{ route('fond_caisse') }}" class="sidebar-link">
