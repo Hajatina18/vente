@@ -139,6 +139,8 @@ class PreCommandeController extends Controller
     {
         $precommande = PreCommande::find($request->precommande);
         $is_reste= false;
+        $is_ouOfStock = false;
+        $length = 0;
         $nom = ($request->client != '') ? $request->client : 'Anonyme';
         $client = Client::where('nom_client', $nom)->first();
         if($client){
@@ -149,14 +151,32 @@ class PreCommandeController extends Controller
             $cli->save();
             $id_client = $cli->id_client;
         }
+
+        foreach($request->paniers as $prepanier){
+            if($prepanier["outofstock"] === "true") { 
+              $is_ouOfStock = true; 
+            }
+            $length+=1;
+        }
+
+        if($length===1 && $is_ouOfStock === true){
+            $produit = Produit::find($request->paniers[0]["ref_prod"]);
+            echo json_encode(array(
+                'icon' => "error",
+                'text' => "Le stock du produit ".$produit->nom_prod." est épuisé"
+            ));
+        }else{
         $commande = new Commande();
         $commande->id_client = $id_client;
         $commande->id_mode = $request->mode;
         $commande->id_user = Auth::user()->id;
+
         if($commande->save()){
              foreach($request->paniers as $prepanier){
-                       
-                        
+                 if($prepanier["outofstock"] === "true") { 
+                   $is_ouOfStock = true; 
+                 }
+                 else{
                         $unite = Avoir::where('ref_prod', $prepanier["ref_prod"])->where('id_unite', $prepanier["id_unite"])->first();
                         $Qte = ($unite->qte_unite * floatval($prepanier["qte_commande"]));
                         
@@ -199,7 +219,7 @@ class PreCommandeController extends Controller
                              $stock->save();
                              $panier->save();
                             
-                        }   
+                          }   
 
                 // $prod = $produit->first();
                 //     if(!$prod->fait_demande){
@@ -216,21 +236,20 @@ class PreCommandeController extends Controller
                     }else{
                         $Prepanier->delete(); 
                     }
-             
-                     
-               
                 }
-                
+             }
          
-                if(!$is_reste){
+                if(!$is_reste || $is_ouOfStock){
                         $precommande->delete();
                  } 
                  return Response::json($precommande, 200);
+           
         }else{
             echo json_encode(array(
                 'icon' => "error",
                 'text' => "Il existe un erreur interne, Veillez contacter l'administrateur"
             ));
         }
+      }
     }
 }

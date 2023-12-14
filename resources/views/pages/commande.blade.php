@@ -238,9 +238,9 @@
                                 Swal.fire({
                                     icon: 'warning',
                                     title: 'Stock épuisé',
-                                    text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+ Math.round(response.stock,2)+' '+response.unite
+                                    text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+ response.stock+' '+response.unite
                                 });
-                                panier.find('.panier-item-qty').children('input').val(response.qte_stock);
+                                panier.find('.panier-item-qty').children('input').val(response.stock);
                             }else{
                                 panier.find('.panier-item-qty').children('input').val((parseInt(panier.find('.panier-item-qty').children('input').val())+1));
                             }
@@ -254,6 +254,7 @@
                         }
                     });
                 }
+
             });
             if(!existe){
                 i++;
@@ -278,10 +279,10 @@
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Stock épuisé',
-                                text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+Math.round(response.stock,2)+' '+response.unite
+                                text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+response.stock +' '+response.unite
                             });
                             $("#panier").append('<div class="panier-item mb-2"><img src="'+image_prod+'" class="panier-item-img" alt=""><div class="product-info"><p class="product-name m-0" data-id="'+ref_prod+'">'+nom_prod+'</p><p class="product-price-unity m-0"  data-price="'+PRIX+'" data-unity="'+id_unite+'">'+(new Intl.NumberFormat('fr').format(PRIX))+' Ar / '+unite+'</p></div><div class="panier-item-qty"><input type="number" class="form-control qte-product" name="panier-qty" data-val="'+response.qte_stock+'" value="'+response.qte_stock+'"></div><div class="total-product"><span class="total">'+(new Intl.NumberFormat('fr').format(PRIX*1))+'</span> Ar</div><a href="javascript:void(0)" type="button" class="bagde bg-secondary delete"><i class="las la-trash"></i></a></div>');
-                            total += parseInt(PRIX)*Math.round(response.stock,2);
+                            total += parseInt(PRIX)*Math.trunc(response.stock,2);
                             $("#totalPanier").text((new Intl.NumberFormat('fr').format(total))+' Ar');
                         }else{
                             $("#panier").append('<div class="panier-item mb-2"><img src="'+image_prod+'" class="panier-item-img" alt=""><div class="product-info"><p class="product-name m-0" data-id="'+ref_prod+'">'+nom_prod+'</p><p class="product-price-unity m-0"  data-price="'+PRIX+'" data-unity="'+id_unite+'">'+(new Intl.NumberFormat('fr').format(PRIX))+' Ar / '+unite+'</p></div><div class="panier-item-qty"><input type="number" class="form-control qte-product" name="panier-qty" value="1" data-val="1"></div><div class="total-product"><span class="total">'+(new Intl.NumberFormat('fr').format(PRIX*1))+'</span> Ar</div><a href="javascript:void(0)" type="button" class="bagde bg-secondary delete"><i class="las la-trash"></i></a></div>');
@@ -319,9 +320,9 @@
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Stock épuisé',
-                                text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+Math.round(response.stock,2)+' '+response.unite
+                                text: 'Le stock restant du produit '+response.nom_prod+' est seulement '+response.stock+' '+response.unite
                             });
-                            qte_input.val(Math.round(response.stock,2));
+                            qte_input.val(Math.trunc(response.stock));
                         }
                     },
                     complete: function(){
