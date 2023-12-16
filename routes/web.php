@@ -64,8 +64,8 @@ Route::get('/logout', function () {
 
 
 Route::group(['middleware' => ['vente:2'], 'prefix' => 'commercial',], function () {
-    Route::get('/', [DepotController::class, 'stockByDepot'])->name('depots');
-    // Route::get('/{id?}', [CommandeController::class, 'index'])->where("id", '[0-9]+')->name('commande');
+    Route::get('/depot', [DepotController::class, 'stockByDepot'])->name('depots');
+    Route::get('/{id?}', [CommandeController::class, 'index'])->where("id", '[0-9]+')->name('commande');
     Route::get("/precommande", [PreCommandeController::class, "index"])->name("precommande");
     Route::post('/ajouter', 'App\Http\Controllers\Admin\ProduitController@ajouter')->name('ajouter_produit');
     Route::post('/modifier/{id}', 'App\Http\Controllers\Admin\ProduitController@modifier')->name('modifier_produit');

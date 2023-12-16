@@ -27,21 +27,24 @@
                             </div>
                             <div class="mb-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input type_user" type="radio" name="is_admin" id="user" value="0" checked>
+                                    <input class="form-check-input type_user" type="radio" name="is_admin" id="user"
+                                        value="0" checked>
                                     <label class="form-check-label" for="user">Vendeur(se)</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input type_user" type="radio" name="is_admin" id="admin" value="1">
+                                    <input class="form-check-input type_user" type="radio" name="is_admin" id="admin"
+                                        value="1">
                                     <label class="form-check-label" for="admin">Administrateur</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input type_user" type="radio" name="is_admin" id="commerce" value="2">
+                                    <input class="form-check-input type_user" type="radio" name="is_admin" id="commerce"
+                                        value="2">
                                     <label class="form-check-label" for="commerce">Commercial</label>
                                 </div>
                             </div>
-                           
-                           <div class="row ">
-                             
+
+                            <div id="choice_depot">
+
                                 <div class="row px-3 mt-3">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="is_depot" name="is_depot">
@@ -49,16 +52,14 @@
                                     </div>
                                 </div>
                                 <div class="row px-5 my-3">
-                                 
+
                                     <div class="col-md-6" id="depotDiv">
                                         <label for="id_depot" class="form-label">Dépôt</label>
                                         <select class="form-select" id="id_depot" name="id_depot">
                                             <option default disabled>Choix de Dépôt</option>
                                             @foreach ($depots as $depot)
-                                               
-                                                    <option value="{{ $depot->id_depot }}">
-                                                        {{ $depot->nom_depot }}</option>
-                                                
+                                                <option value="{{ $depot->id_depot }}">
+                                                    {{ $depot->nom_depot }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -73,7 +74,7 @@
                                         </select>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
                             <button type="submit" class="btn btn-outline-primary">
                                 Enregistrer
                             </button>
@@ -100,34 +101,42 @@
 @push('js')
     <script type="text/javascript">
         var table;
-        $("document").ready(function(){
+        $("document").ready(function() {
+            $("#choice_depot").hide();
             table = $("#liste").DataTable({
-                "ajax" : {
-                    "url" : '{{ route("liste_users") }}',
-                    "dataSrc" : ''
+                "ajax": {
+                    "url": '{{ route('liste_users') }}',
+                    "dataSrc": ''
                 },
-                "columns" : [
-                    {data:"nom"},
-                    {data:"username"},
-                    {data:"is_admin"},
-                    {data:"action"}
+                "columns": [{
+                        data: "nom"
+                    },
+                    {
+                        data: "username"
+                    },
+                    {
+                        data: "is_admin"
+                    },
+                    {
+                        data: "action"
+                    }
                 ],
                 "language": {
                     url: "{{ asset('datatable/french.json') }}"
                 }
             });
         });
-        
-        $("#formUser").on('submit', function(){
+
+        $("#formUser").on('submit', function() {
             var form = $(this);
-            if($("#id_user").val()){
+            if ($("#id_user").val()) {
                 sendUser(form);
-            }else{
-                if($("#password").val()){
+            } else {
+                if ($("#password").val()) {
                     sendUser(form);
-                }else{
+                } else {
                     Swal.fire({
-                        icon : 'warning',
+                        icon: 'warning',
                         text: 'Veuillez renseigner le champ Mot de passe pour completer l\'insertion, s\'il vous plait'
                     });
                 }
@@ -137,17 +146,17 @@
 
         function sendUser(form) {
             $.ajax({
-                url : '{{ route("add_user") }}',
-                type : 'POST',
-                data : form.serialize(),
-                dataType : 'json',
-                beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                url: '{{ route('add_user') }}',
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'json',
+                beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
                     $('#loader').removeClass('hidden')
                 },
-                complete : function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                complete: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
                     $('#loader').addClass('hidden')
                 },
-                success: function(response){
+                success: function(response) {
                     $("#formUser")[0].reset();
                     $("#id_user").val(null);
                     Swal.fire({
@@ -159,19 +168,19 @@
             });
         }
 
-        $('table').on('click', '.edit', function(){
+        $('table').on('click', '.edit', function() {
             $("#id_user").val($(this).data('id'));
             $("#nom").val($(this).parents('tr').find('td:eq(0)').text());
             $("#username").val($(this).parents('tr').find('td:eq(1)').text());
             let type = $(this).parents('tr').find('td:eq(2)').text();
-            if(type == "Administrateur"){
+            if (type == "Administrateur") {
                 $("#admin").prop('checked', true);
-            }else{
+            } else {
                 $("#user").prop('checked', true);
             }
         });
 
-        $('table').on('click', '.delete_user', function(){
+        $('table').on('click', '.delete_user', function() {
             let id = $(this).data('id');
             if (id) {
                 Swal.fire({
@@ -189,17 +198,17 @@
                             type: "POST",
                             url: "{{ route('delete_user') }}",
                             data: {
-                                _token : '{{ csrf_token() }}',
+                                _token: '{{ csrf_token() }}',
                                 id: id
                             },
-                            beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            beforeSend: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
                                 $('#loader').removeClass('hidden')
                             },
-                            complete : function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                            complete: function() { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
                                 $('#loader').addClass('hidden')
                             },
                             dataType: "json",
-                            success: function (response) {
+                            success: function(response) {
                                 table.ajax.reload();
                                 $("#formUser")[0].reset();
                                 $("#id_user").val(null);
@@ -212,23 +221,29 @@
                     }
                 })
             }
-        });       
-        $("document").ready(function(){
-            $("#depotDiv").show();
-            $("#pointVenteDiv").hide();
-            $("#label_depot").text("Attribué à une autre dépôt");
-            $("#is_depot").change(function () {
-                    if (this.checked) {
-                        $("#depotDiv").hide();
-                        $("#pointVenteDiv").show();
-                        $("#label_depot").text("Attribuée à un point de vente");
-                    } else {
-                        $("#depotDiv").show();
-                        $("#pointVenteDiv").hide();
-                        $("#label_depot").text("Attribuée à un autre dépôt");
-                    }
-            });
-        
+        });
+        $("document").ready(function() {
+            $("#user").change(function() {
+                if ($(this).is(":checked")) {
+                    $("#choice_depot").show();
+                    $("#depotDiv").show();
+                    $("#pointVenteDiv").hide();
+                    $("#label_depot").text("Attribué à une autre dépôt");
+                    $("#is_depot").change(function() {
+                        if (this.checked) {
+                            $("#depotDiv").hide();
+                            $("#pointVenteDiv").show();
+                            $("#label_depot").text("Attribuée à un point de vente");
+                        } else {
+                            $("#depotDiv").show();
+                            $("#pointVenteDiv").hide();
+                            $("#label_depot").text("Attribuée à un autre dépôt");
+                        }
+                    });
+                } else {
+                    $("#choice_depot").hide();
+                }
+            })
         });
     </script>
 @endpush
