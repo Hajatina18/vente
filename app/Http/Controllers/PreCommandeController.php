@@ -21,13 +21,12 @@ class PreCommandeController extends Controller
 {
     public function index(Request $request)
     {
-        $user= auth()->user();
+        $user = auth()->user();
 
         setlocale(LC_ALL, 'fr_FR.utf8', 'FRA');
         $Precomm = PreCommande::with("paniers");
         $precommandes =$user->is_admin===1 ? $Precomm->get() : $Precomm->where('id_user',$user->id)->get()  ;
-
-        $modes = ModePaiement::all();
+       $modes = ModePaiement::all();
         return view("pages.precommande", compact('precommandes', "modes"));
     }
     public function getStock(Request $request){
@@ -60,7 +59,7 @@ class PreCommandeController extends Controller
            
 
             $precommande->date = date('d/m/Y H:i:s', strtotime($precommande->created_at));
-            $precommande->user = User::find($precommande->id_user)->nom;
+            $precommande->user = User::find($precommande->id_user);
             $precommande->total = number_format($total->total, 2, ',', ' ').' Ar';
             $precommande->action = '` <a class="btn btn-primary edit_precommande" data-id="'.$precommande->id_pre_commande .'">Modifier</a>
                                      <a class="btn btn-success validate_commande" onclick=\'getDetail('.$precommande.')\' data-id="'. $precommande->id_pre_commande .'">Valider</a>`';
@@ -140,6 +139,8 @@ class PreCommandeController extends Controller
         $precommande = PreCommande::find($request->precommande);
         $is_reste= false;
         $is_ouOfStock = false;
+        $nbrOutofStock = 0;
+        $user = auth()->user();
         $length = 0;
         $nom = ($request->client != '') ? $request->client : 'Anonyme';
         $client = Client::where('nom_client', $nom)->first();
@@ -153,17 +154,23 @@ class PreCommandeController extends Controller
         }
 
         foreach($request->paniers as $prepanier){
-            if($prepanier["outofstock"] === "true") { 
+            if($prepanier["outofstock"] === "true" && $user->is_admin !==0) { 
               $is_ouOfStock = true; 
+              $nbrOutofStock+=1;
             }
             $length+=1;
         }
 
-        if($length===1 && $is_ouOfStock === true){
+        if($length===1 && $is_ouOfStock === true ){
             $produit = Produit::find($request->paniers[0]["ref_prod"]);
             echo json_encode(array(
                 'icon' => "error",
                 'text' => "Le stock du produit ".$produit->nom_prod." est épuisé"
+            ));
+        }else if($length === $nbrOutofStock && $is_ouOfStock === true){
+            echo json_encode(array(
+                'icon' => "error",
+                'text' => "Les stock de ces ".$nbrOutofStock." produits sont  épuisés!"
             ));
         }else{
         $commande = new Commande();
@@ -173,7 +180,7 @@ class PreCommandeController extends Controller
 
         if($commande->save()){
              foreach($request->paniers as $prepanier){
-                 if($prepanier["outofstock"] === "true") { 
+                 if($prepanier["outofstock"] === "true" &&  $user->is_admin !==0) { 
                    $is_ouOfStock = true; 
                  }
                  else{
@@ -188,12 +195,13 @@ class PreCommandeController extends Controller
 
                             
                           }else{
+                            $depot = $user->is_admin==0 ? $user->depot: $prepanier["id_depot"];
                             $produits = Stock::where('stocks.ref_prod',$prepanier['ref_prod'])
-                                            ->where('stocks.id_depot',$prepanier["id_depot"])
+                                            ->where('stocks.id_depot',$depot)
                                             ->orderBy('stocks.created_at','ASC')->get();
                         }   
 
-                        foreach($produits as $product) {
+                     foreach($produits as $product) {
                             $panier = new Panier;
                             $panier->id_commande = $commande->id_commande;
                             $panier->ref_prod = $prepanier["ref_prod"];
@@ -203,11 +211,11 @@ class PreCommandeController extends Controller
                             $panier->id_depot = $product->id_depot;
 
                             $stock = Stock::find($product->id_stock);
+                          
                             if( $product->stock - $Qte >= 0){
-                                $stock->stock->stock -= $Qte;
+                                $stock->stock -= $Qte;
                                 $panier->qte_commande = $Qte/$unite->qte_unite;
                                 $Qte= 0;
-                                break;
                             }else{
                                  $Qte = $Qte - $product->stock ;
                                  $panier->qte_commande = $product->stock/$unite->qte_unite ;
@@ -239,8 +247,8 @@ class PreCommandeController extends Controller
                 }
              }
          
-                if(!$is_reste || $is_ouOfStock){
-                        $precommande->delete();
+                if(!$is_reste || !$is_ouOfStock){
+                         $precommande->delete();
                  } 
                  return Response::json($precommande, 200);
            

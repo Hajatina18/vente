@@ -46,6 +46,7 @@
                                 <th>Nom Produit</th>
                                 <th>Prix</th>
                                 <th>Quantité</th>
+                                <th>Dépot</th>
                                 <th>Prix Total</th>
                             </thead>
                             <tbody></tbody>
@@ -107,7 +108,7 @@
                         $("#modalDetail").find('#dateModal').text(response.commande.date);
                         $("#listePaniers > tbody").empty();
                         response.paniers.forEach(panier => {
-                            $("#listePaniers > tbody").append("<tr><td><img src='{{ url('/') }}/"+panier.image_prod+"' style='width: 60px'></td><td>"+panier.nom_prod+"</td><td class='text-end'>"+panier.prix_produit+"</td><td class='text-end'>"+panier.qte_commande+" "+panier.unite+"</td><td class='text-end'>"+panier.total+"</td></tr>");
+                            $("#listePaniers > tbody").append("<tr><td><img src='{{ url('/') }}/"+panier.image_prod+"' style='width: 60px'></td><td>"+panier.nom_prod+"</td><td class='text-center'>"+panier.prix_produit+"</td><td class='text-center'>"+panier.qte_commande+" "+panier.unite+"</td><td class='text-center'>"+panier.nom_depot+"</td><td class='text-end'>"+panier.total+"</td></tr>");
                         });
                         $("#modalDetail").modal('show');
                     }

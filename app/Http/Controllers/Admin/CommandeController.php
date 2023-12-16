@@ -44,6 +44,7 @@ class CommandeController extends Controller
         $commande->date = utf8_encode(strftime("%d %B %Y", strtotime($commande->created_at)).utf8_decode(' à ').strftime("%H:%M:%S", strtotime($commande->created_at)));
         $paniers = Panier::join('produits', 'produits.ref_prod', '=', 'paniers.ref_prod')
                                 ->join('unite_mesures', 'unite_mesures.id_unite', '=', 'paniers.id_unite')
+                                ->join('depots','depots.id_depot','paniers.id_depot')
                                 ->where('id_commande', $id_commande)
                                 ->get();
         foreach ($paniers as $panier) {
