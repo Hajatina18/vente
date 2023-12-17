@@ -81,12 +81,27 @@ class CommandeController extends Controller
         $panier->qte_commande = $request->qte;
         $panier->prix_produit = $request->prix;
         if($panier->save()){
-            $produit = Produit::find($request->ref_prod);
-            if(!$produit->fait_demande){
-                $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
-                $produit->qte_stock -= ($unite->qte_unite * floatval($request->qte));
-                $produit->save();
-            }
+            $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
+            $Qte = ($unite->qte_unite * floatval($request->qte));
+            
+            $depot = auth()->user()->depot;
+            $produits = Stock::where('stocks.ref_prod',$request->ref_prod)
+                                        ->where('stocks.id_depot',$depot)
+                                        ->orderBy('stocks.created_at','ASC')->get();
+        foreach($produits as $product) {
+            $stock = Stock::find($product->id_stock);
+                          
+                            if( $product->stock - $Qte >= 0){
+                                $stock->stock -= $Qte;
+                                $Qte= 0;
+                            }else{
+                                 $Qte = $Qte - $product->stock ;
+                                  $stock->stock -= $product->stock;
+                            }
+
+                             $stock->save();
+        }
+
             echo json_encode(array(
                 'icon' => "success",
                 'text' => "Commande enregistré avec success"
