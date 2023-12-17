@@ -6,7 +6,7 @@
         <div class="card-body">
             <div class="row mx-0">
                 <div class="col-12  mb-4 d-flex align-items-center border-bottom border-dark justify-content-between">
-                    <h4>Touts Produits</h4>
+                    <h4>Toutes les Produits dans le Stock</h4>
                     
                     <form action="#" id="formSearch">
                         <div class="form-group mb-2">

@@ -27,7 +27,7 @@ class CommandeController extends Controller
     {
         $modes = ModePaiement::all();
         $precommande = PreCommande::withSum(['paniers' => fn ($query) => $query->select(DB::raw("sum(prix_produit*qte_commande)"))], '')->where("id_pre_commande", $id)->first();
-        return view('pages.commande', array("precommande" => $precommande,'modes' => $modes, "parametres" => $id));
+        return view('pages.commande', array("precommande" => $precommande, 'modes' => $modes, "parametres" => $id));
     }
 
     public function searchProduct(Request $request)
@@ -39,7 +39,7 @@ class CommandeController extends Controller
             ->select('produits.*', 'avoirs.prix', 'unite_mesures.unite', 'unite_mesures.id_unite')
             ->where(function ($query) use ($word) {
                 $query->where('nom_prod', 'like', "%$word%")
-                ->orWhere('produits.ref_prod', 'like', "%$word%");
+                    ->orWhere('produits.ref_prod', 'like', "%$word%");
             })->where('qte_stock', '>', 0)
             ->orWhere('fait_demande', true)
             ->get();
@@ -50,9 +50,9 @@ class CommandeController extends Controller
     {
         $nom = ($request->client != '') ? $request->client : 'Anonyme';
         $client = Client::where('nom_client', $nom)->first();
-        if($client){
+        if ($client) {
             $id_client = $client->id_client;
-        }else{
+        } else {
             $cli = new Client;
             $cli->nom_client = $nom;
             $cli->save();
@@ -62,9 +62,9 @@ class CommandeController extends Controller
         $commande->id_client = $id_client;
         $commande->id_mode = $request->mode;
         $commande->id_user = Auth::user()->id;
-        if($commande->save()){
+        if ($commande->save()) {
             echo json_encode($commande);
-        }else{
+        } else {
             echo json_encode(array(
                 'icon' => "error",
                 'text' => "Il existe un erreur interne, Veillez contacter l'administrateur"
@@ -106,19 +106,19 @@ class CommandeController extends Controller
                 'icon' => "success",
                 'text' => "Commande enregistré avec success"
             ));
-        }else{
+        } else {
             echo json_encode(array(
                 'icon' => "error",
                 'text' => "Il existe un erreur interne, Veillez contacter l'administrateur"
             ));
         }
     }
-    
+
     public function getClient()
     {
         $clients = Client::all();
         foreach ($clients as $client) {
-            $client->action = '<a class="btn btn-sm btn-secondary " data-id="'.$client->nom_client.'">
+            $client->action = '<a class="btn btn-sm btn-secondary " data-id="' . $client->nom_client . '">
                 <i class="las la-plus-circle add"></i>
             </a>';
         }
@@ -140,7 +140,7 @@ class CommandeController extends Controller
         $view = view('pages.partials.ticket', compact('commande', "paniers", 'config'))->render();
         $pdf = new Mpdf([
             'mode' => 'utf-8',
-            'format' => [48, 280],//@le ticket ty 70*280 ty fa afaka atao page le izy (A4, A3, ...)
+            'format' => [48, 280], //@le ticket ty 70*280 ty fa afaka atao page le izy (A4, A3, ...)
             'orientation' => 'P'
         ]);
         $pdf->WriteHTML($view);
@@ -161,7 +161,7 @@ class CommandeController extends Controller
         $view = view('pages.partials.facture', compact('commande', "paniers", 'config'))->render();
         $pdf = new Mpdf([
             'mode' => 'utf-8',
-            'format' => 'A4',//@le ticket ty 70*280 ty fa afaka atao page le izy (A4, A3, ...)
+            'format' => 'A4', //@le ticket ty 70*280 ty fa afaka atao page le izy (A4, A3, ...)
             'orientation' => 'P'
         ]);
         $pdf->WriteHTML($view);
@@ -192,39 +192,39 @@ class CommandeController extends Controller
                  StockPointVente::where('ref_prod',$ref_prod)->where('id_pdv',$user->depot)->first();
         }
 
-         $avoir = Avoir::where('ref_prod', $ref_prod)->where('avoirs.id_unite', $unite)->join('unite_mesures', 'avoirs.id_unite', '=', 'unite_mesures.id_unite')->select('*')->first();
-        
+        $avoir = Avoir::where('ref_prod', $ref_prod)->where('avoirs.id_unite', $unite)->join('unite_mesures', 'avoirs.id_unite', '=', 'unite_mesures.id_unite')->select('*')->first();
+
         // echo json_encode(($avoir->qte_unite * $qte) > $produit->totalStock);
-       if($commercial &&( $avoir->qte_unite * $qte) > $produit->totalStock ){
-            $produit->stock = $commercial ?  $produit->totalStock/$avoir->qte_unite : $produit->stock/ $avoir->qte_unite;
+        if ($commercial && ($avoir->qte_unite * $qte) > $produit->totalStock) {
+            $produit->stock = $commercial ?  $produit->totalStock / $avoir->qte_unite : $produit->stock / $avoir->qte_unite;
             $produit->unite = $avoir->unite;
             echo json_encode($produit);
-        }else if(!$commercial && ($avoir->qte_unite * $qte) > $produit->stock){
-            $produit->stock =  $produit->stock/ $avoir->qte_unite;
+        } else if (!$commercial && ($avoir->qte_unite * $qte) > $produit->stock) {
+            $produit->stock =  $produit->stock / $avoir->qte_unite;
             $produit->unite = $avoir->unite;
             echo json_encode($produit);
-        }else{
+        } else {
             echo json_encode(true);
         }
     }
     public function caisse()
     {
-        $user = auth()->user(); 
+        $user = auth()->user();
         $caisse = FondCaisse::where(DB::raw('date(created_at)'), date('Y-m-d'))->select(DB::raw('SUM(montant) as total'))->first();
-        $command = $user->is_admin ===1 ? DB::table('commandes') : DB::table('commandes')->where('id_user',$user->id);
+        $command = $user->is_admin === 1 ? DB::table('commandes') : DB::table('commandes')->where('id_user', $user->id);
         $jour =  $command
-                    ->where(DB::raw('date(commandes.created_at)'), '=' , date('Y-m-d'))
-                    ->join('paniers', 'commandes.id_commande', '=', 'paniers.id_commande')
-                    ->select(DB::raw('SUM(qte_commande * prix_produit) as total'))
-                    ->first();
+            ->where(DB::raw('date(commandes.created_at)'), '=', date('Y-m-d'))
+            ->join('paniers', 'commandes.id_commande', '=', 'paniers.id_commande')
+            ->select(DB::raw('SUM(qte_commande * prix_produit) as total'))
+            ->first();
         $commandes = Commande::where('id_user', Auth::user()->id)->where(DB::raw('date(created_at)'), date('Y-m-d'))->get();
         foreach ($commandes as $commande) {
             $total = DB::table('paniers')
-                        ->where('id_commande', $commande->id_commande)
-                        ->select(DB::raw('SUM(qte_commande * prix_produit) as total'))
-                        ->first();
+                ->where('id_commande', $commande->id_commande)
+                ->select(DB::raw('SUM(qte_commande * prix_produit) as total'))
+                ->first();
             $commande->date = date('d/m/Y H:i:s', strtotime($commande->created_at));
-            $commande->total = number_format($total->total, 2, ',', ' ').' Ar';
+            $commande->total = number_format($total->total, 2, ',', ' ') . ' Ar';
             $commande->client = Client::find($commande->id_client)->nom_client;
         }
         $total = $caisse->total + $jour->total;
@@ -242,15 +242,15 @@ class CommandeController extends Controller
         $id_commande = $request->id;
         $commande = Commande::find($id_commande);
         $commande->nom_client = Client::find($commande->id_client)->nom_client;
-        $commande->date = utf8_encode(strftime("%d %B %Y", strtotime($commande->created_at)).utf8_decode(' à ').strftime("%H:%M:%S", strtotime($commande->created_at)));
+        $commande->date = utf8_encode(strftime("%d %B %Y", strtotime($commande->created_at)) . utf8_decode(' à ') . strftime("%H:%M:%S", strtotime($commande->created_at)));
         $paniers = Panier::join('produits', 'produits.ref_prod', '=', 'paniers.ref_prod')
                                 ->join('unite_mesures', 'unite_mesures.id_unite', '=', 'paniers.id_unite')
                                 ->join('depots','depots.id_depot','paniers.id_depot')
                                 ->where('id_commande', $id_commande)
                                 ->get();
         foreach ($paniers as $panier) {
-            $panier->total = number_format($panier->prix_produit * $panier->qte_commande,2,',', ' ').' Ar';
-            $panier->prix_produit = number_format($panier->prix_produit, 2, ',', ' ').' Ar';
+            $panier->total = number_format($panier->prix_produit * $panier->qte_commande, 2, ',', ' ') . ' Ar';
+            $panier->prix_produit = number_format($panier->prix_produit, 2, ',', ' ') . ' Ar';
             $panier->qte_commande = number_format($panier->qte_commande, 2, ',', ' ');
         }
         echo json_encode(array(
@@ -276,31 +276,30 @@ class CommandeController extends Controller
                                                 ->where('stock','>',0)
                                                 ->where('id_pdv',$id)->get());
         foreach ($produits as $product) {
-        //     $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
+            //     $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
             $unites = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')
-                        ->where('avoirs.ref_prod', $product->ref_prod)
-                        ->select("unite_mesures.id_unite","unite_mesures.unite", "avoirs.prix","avoirs.qte_unite","avoirs.prix_com",)->get();
+                ->where('avoirs.ref_prod', $product->ref_prod)
+                ->select("unite_mesures.id_unite", "unite_mesures.unite", "avoirs.prix", "avoirs.qte_unite", "avoirs.prix_com",)->get();
             $unite = "";
-            $qte ="";
+            $qte = "";
             $stock = $commercial ? $product->totalStock : $product->stock;
 
             foreach ($unites as $value) {
 
                 $unite .= "<div class='d-flex justify-content-between' >
-                                <span>".$value->unite." : ".number_format($commercial ? $value->prix_com : $value->prix, 2, ',' , ' ')." Ar</span>
+                                <span>" . $value->unite . " : " . number_format($commercial ? $value->prix_com : $value->prix, 2, ',', ' ') . " Ar</span>
                                 <i style='cursor:pointer;' class='las text-primary la-plus-circle fs-2 me-2' onclick=\"addPanier('$product->id_depot','$product->nom_depot','$product->ref_prod','$product->nom_prod','$value->prix','$value->prix_com','$value->id_unite','$value->unite','url($product->image_prod) ','$commercial')\" ></i>  
                             </div>";
-                $nbr = $stock/$value->qte_unite> 0.5 ? number_format($stock/$value->qte_unite,1,',',' ') : 0 ;
-                $qte.="<div class='d-flex justify-content-between pb-1' >".$nbr  ." ". ($nbr > 1 ? $value->unite.'s' : $value->unite)."</div>";
-
+                $nbr = $stock / $value->qte_unite > 0.5 ? number_format($stock / $value->qte_unite, 1, ',', ' ') : 0;
+                $qte .= "<div class='d-flex justify-content-between pb-1' >" . $nbr  . " " . ($nbr > 1 ? $value->unite . 's' : $value->unite) . "</div>";
             }
             $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
             $product->unite = $unite;
             $product->qte_stock = $qte;
             // $product->nom_prod = $commercial ? "<div> <div>".$product->nom_prod."</div><div><span class='btn disabled btn-secondary btn-sm' >".$product->nom_depot."</span></div></div>" : $product->nom_prod ;
             // $product->qte_stock = number_format($stock, 0, ',', ' ').' '.($stock > 1 ? $base->unite.'s' : $base->unite);
-           
-            $product->image_prod = "<img src='".url($product->image_prod)."' style='width: 60px'>";
+
+            $product->image_prod = "<img src='" . url($product->image_prod) . "' style='width: 60px'>";
         }
         echo json_encode($produits );
     
