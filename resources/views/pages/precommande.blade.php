@@ -119,10 +119,10 @@
 
 
 <div class="modal fade " id="validateCommande" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg ">
+    <div class="modal-dialog modal-xl ">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Valider la commande</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Valider la commande {{$user->id}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -174,25 +174,26 @@
        
        var commande;
       
-       function format(d,show) {
-             console.log(d) /* <td  class="${show==true? 'd-block':'d-none'}" > <input class="form-control" type="number" value="${panier.prix_produit}" />*/ 
+       function format(d,show,showAdminPrice) {
+            //  console.log(d) /* */ 
         return(
                 `<table class="table table-striped w-100">
                                 <thead>
                                     <tr>
                                         <th >Designation</th>
-                                        <th width="30%" class="text-center">Quantité</th>
+                                        <th width="20%" class="text-center">Quantité</th>
+                                         ${showAdminPrice==true?'<th width="15%" class="text-center">Prix admin</th>' : ''}
                                         <th class="${show==true? 'd-block':'d-none'} text-center">Choix du dépot</th>
-                                        <th width="" class="text-center ">Total</th>
+                                        <th width="20%" class="text-center ">Total</th>
                                         
                                     </tr>
                                 </thead>
                                 <tbody>`+
                             d.paniers.map((panier,i)=>`<tr class="product">
                                             <td>`+panier.produit.nom_prod  +`</td>
-                                            <td class="qte text-center"> ${panier.qte_commande}  ${panier.qte_commande >1 ? panier.unite.unite+'s' : panier.unite.unite}  </td>
-                                            </td>
-                                           ${show==true? '<td class="depot "  > '+getDepot(panier,i)+'</td>' : ''}
+                                            <td class="qte text-center"><span data-qte="${panier.qte_commande}" ></span> ${panier.qte_commande}  ${panier.qte_commande >1 ? panier.unite.unite+'s' : panier.unite.unite}  </td>
+                                            <td  class="${showAdminPrice==true? 'd-block':'d-none'}" > <input class="form-control price" type="number" value="${panier.prix_produit}" /></td>
+                                            ${show==true? '<td class="depot "  > '+getDepot(panier,i)+'</td>' : ''}
                                             <td width="20%"  class="sum text-center">`+ panier.qte_commande * panier.prix_produit+`Ar</td>
                                             
                                         </tr>` )
@@ -268,6 +269,8 @@
 
 
          $("document").ready(function(){
+          const is_admin = {{ $user->is_admin }};
+         
             table = $("#liste").DataTable({
                 "ajax" : {
                     "url" : '/precommande/liste',
@@ -304,14 +307,14 @@
             }
             else {
                 // Open this row
-                row.child(format(row.data(),false)).show();
+                row.child(format(row.data(),false,false)).show();
             }
         });
        
-        $("#productTable").on('change','.input',function(e){
+        $("#productTable").on('change','.price',function(e){
                 var prix = e.target.value
-               var qte = $(this).parents('tr').find('td:eq(1)').text()
-                 $(this).parents('tr').find('td:eq(3)').html(qte*prix)
+               var qte = $(this).parents('tr').find('td:eq(1) span').data('qte')
+                 $(this).parents('tr').find('td:eq(4)').html(qte*prix)
                  calc_total()
         })
 
@@ -329,16 +332,14 @@
                var paniers = commande.paniers.map((panier,index) =>{
                 const id_depot =$("#productTable input:checked").eq(index).val()
                 const outOfStock = id_depot ? false : true 
-               //    alert(id_depot)
-            //     console.log(panier)
-
+           alert($("#productTable .price").eq(index).val())
                return {
                     id_pre_panier: panier.id_pre_panier,
                     ref_prod : panier.ref_prod,
                     qte_commande :panier.qte_commande,
                     id_unite:panier.id_unite,
                     id_depot:  id_depot ?  id_depot :null ,
-                    prix_produit: panier.prix_produit, //$("#productTable input").eq(index).val()
+                    prix_produit: is_admin ?  $("#productTable .price").eq(index).val() : panier.prix_produit, 
                     outofstock : outOfStock
                 }
               
@@ -415,33 +416,7 @@
             $("#precommandeID").val(data.id_pre_commande)
             $("#validateCommande").modal('show');
 
-            $("#productTable").html(format(data,data.user.is_admin!==0))
-            // if(id){
-            //     $.ajax({
-            //         url : '{{ route("admin_getDetail_commande") }}',
-            //         type : 'POST',
-            //         data: {
-            //             _token: '{{ csrf_token() }}',
-            //             id : id
-            //         },
-            //         beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-            //             $('#loader').removeClass('hidden')
-            //         },
-            //         complete : function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
-            //             $('#loader').addClass('hidden')
-            //         },
-            //         dataType : 'json',
-            //         success: function(response){
-            //             $("#modalDetail").find('#clientModal').text(response.commande.nom_client);
-            //             $("#modalDetail").find('#dateModal').text(response.commande.date);
-            //             $("#listePaniers > tbody").empty();
-            //             response.paniers.forEach(panier => {
-            //                 $("#listePaniers > tbody").append("<tr><td><img src='{{ url('/') }}/"+panier.image_prod+"' style='width: 60px'></td><td>"+panier.nom_prod+"</td><td class='text-end'>"+panier.prix_produit+"</td><td class='text-end'>"+panier.qte_commande+" "+panier.unite+"</td><td class='text-end'>"+panier.total+"</td></tr>");
-            //             });
-            //             $("#modalDetail").modal('show');
-            //         }
-            //     });
-            // }
+            $("#productTable").html(format(data, {{$user->is_admin!==0}}, {{$user->is_admin ==1}}))
         }
         
         

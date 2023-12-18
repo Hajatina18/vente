@@ -27,7 +27,7 @@ class PreCommandeController extends Controller
         $Precomm = PreCommande::with("paniers");
         $precommandes =$user->is_admin===1 ? $Precomm->get() : $Precomm->where('id_user',$user->id)->get()  ;
        $modes = ModePaiement::all();
-        return view("pages.precommande", compact('precommandes', "modes"));
+        return view("pages.precommande", compact('user','precommandes', "modes"));
     }
     public function getStock(Request $request){
      
