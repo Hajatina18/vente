@@ -28,7 +28,7 @@
                             <div class="mb-2">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input type_user" type="radio" name="is_admin" id="user"
-                                        value="0" checked>
+                                        value="0">
                                     <label class="form-check-label" for="user">Vendeur(se)</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
 
-                            <div id="choice_depot">
+                            <div id="choice">
 
                                 <div class="row px-3 mt-3">
                                     <div class="form-check form-switch">
@@ -102,7 +102,7 @@
     <script type="text/javascript">
         var table;
         $("document").ready(function() {
-            $("#choice_depot").hide();
+    
             table = $("#liste").DataTable({
                 "ajax": {
                     "url": '{{ route('liste_users') }}',
@@ -222,28 +222,31 @@
                 })
             }
         });
-        $("document").ready(function() {
-            $("#user").change(function() {
-                if ($(this).is(":checked")) {
-                    $("#choice_depot").show();
-                    $("#depotDiv").show();
-                    $("#pointVenteDiv").hide();
-                    $("#label_depot").text("Attribué à une autre dépôt");
-                    $("#is_depot").change(function() {
-                        if (this.checked) {
-                            $("#depotDiv").hide();
-                            $("#pointVenteDiv").show();
-                            $("#label_depot").text("Attribuée à un point de vente");
-                        } else {
-                            $("#depotDiv").show();
-                            $("#pointVenteDiv").hide();
-                            $("#label_depot").text("Attribuée à un autre dépôt");
-                        }
-                    });
-                } else {
-                    $("#choice_depot").hide();
-                }
-            })
-        });
+
+        $(document).ready(function() {
+            $("#choice").hide();
+      $(".type_user").change(function() {
+        if ($("#user").is(":checked")) {
+          $("#choice").show();
+          $("#depotDiv").show();
+          $("#pointVenteDiv").hide();
+          $("#label_depot").text("Attribué à une autre dépôt");
+
+          $("#is_depot").change(function() {
+            if (this.checked) {
+              $("#depotDiv").hide();
+              $("#pointVenteDiv").show();
+              $("#label_depot").text("Attribuée à un point de vente");
+            } else {
+              $("#depotDiv").show();
+              $("#pointVenteDiv").hide();
+              $("#label_depot").text("Attribuée à un autre dépôt");
+            }
+          });
+        } else {
+          $("#choice").hide();
+        }
+      });
+    });
     </script>
 @endpush
