@@ -140,7 +140,7 @@ class DepotController extends Controller
             $produits = StockPointVente::join('produits','produits.ref_prod','=','stock_point_ventes.ref_prod')->where('id_stock_pdv',$user->depot)->get();
         }
         else{
-            $produits = Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->where('id_depot',$user->depot)->get();
+            $produits = Stock::join('poroduits','produits.ref_prod','=','stocks.ref_prod')->where('id_depot',$user->depot)->get();
         }
         foreach ($produits as $product) {
             $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
@@ -157,4 +157,9 @@ class DepotController extends Controller
         echo json_encode($produits);
     }
    
+
+    public function getDepots (Request $request) {
+        $depots = Depot::where('id_depot', '!=', $request->approvisionneur)->get();
+        echo json_encode($depots);
+    }
 }

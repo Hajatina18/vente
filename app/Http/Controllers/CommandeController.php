@@ -9,6 +9,7 @@ use App\Models\FondCaisse;
 use App\Models\Magasin;
 use App\Models\ModePaiement;
 use App\Models\Panier;
+use App\Models\PointVente;
 use App\Models\PreCommande;
 use App\Models\PrePaniers;
 use App\Models\Produit;
@@ -135,7 +136,7 @@ class CommandeController extends Controller
             $panier->designation = Produit::find($panier->ref_prod)->nom_prod;
             $panier->unite = UniteMesure::find($panier->id_unite)->unite;
         }
-        $config = Magasin::find(1);
+        $config = PointVente::find(1);
         $config->logo = public_path($config->logo);
         $view = view('pages.partials.ticket', compact('commande', "paniers", 'config'))->render();
         $pdf = new Mpdf([
@@ -156,7 +157,7 @@ class CommandeController extends Controller
             $panier->designation = Produit::find($panier->ref_prod)->nom_prod;
             $panier->unite = UniteMesure::find($panier->id_unite)->unite;
         }
-        $config = Magasin::find(1);
+        $config = PointVente::find(1);
         $config->logo = $config->logo != null ? public_path($config->logo) : null;
         $view = view('pages.partials.facture', compact('commande', "paniers", 'config'))->render();
         $pdf = new Mpdf([

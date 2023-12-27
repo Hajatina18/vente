@@ -72,7 +72,7 @@
                                       <a href="{{ route('entrer_admin') }}" class="sidebar-link ">
                                           <div class="">
                                               <i class="las la-truck me-2"></i>
-                                              <span>Entrée</span>
+                                              <span>Bon d'Entrée</span>
                                           </div>
                                       </a>
                                     </li>

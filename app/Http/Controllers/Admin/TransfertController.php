@@ -61,9 +61,9 @@ class TransfertController extends Controller
         $date = new DateTime($transfert->created_at);
         $date_transfert = new DateTime($transfert->date_transfert);
         if($transfert->is_depot == true){
-            $transfert->demandeur = DB::table('point_ventes')->select('nom_pdv as nom')->where('id_pdv', $transfert->id_demandeur)->get();
+            $transfert->demandeur = DB::table('point_ventes')->join('users', 'users.depot', '=', 'point_ventes.id_pdv')->select('point_ventes.nom_pdv as depot', 'users.nom as nom' )->where('id_pdv', $transfert->id_demandeur)->where('users.is_depot',true)->get();
         }else {
-            $transfert->demandeur = DB::table('depots')->select('nom_depot as nom')->where('id_depot', $transfert->id_demandeur)->get();
+            $transfert->demandeur = DB::table('depots')->join('users', 'users.depot', '=', 'depots.id_depot' )->select('nom_depot as depot', 'uesrs.nom as nom')->where('id_depot', $transfert->id_demandeur)->where('users.is_depot',false)->get();
         } 
         $transfert->approvisionneur = DB::table('depots')->select('nom_depot')->where('id_depot', $transfert->id_approvisionneur)->get();
         $transfert->produits = TransfertProduit::join('produits', 'produits.ref_prod', '=', 'transfert_produits.ref_prod')

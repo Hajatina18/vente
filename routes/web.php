@@ -105,6 +105,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function () {
         Route::get('/{id}', [DepotController::class, 'index'])->name('detail_depot');
         Route::get('/{id}/stock', [DepotController::class, 'stock'])->name('stock_depot');
         Route::post('/delete', [DepotController::class, 'delete'])->name('delete_depot');
+        Route::post('/get-depots', [DepotController::class, 'getDepots'])->name('getDepots');
     });
 
     Route::group(['prefix' => 'points_vente'], function () {
