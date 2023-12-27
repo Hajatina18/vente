@@ -142,8 +142,7 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function () {
         Route::post('/', [UserController::class, 'create'])->name('add_user');
         Route::post('/delete', [UserController::class, 'delete'])->name('delete_user');
     });
-    Route::get('/config', [ConfigController::class, 'index'])->name('config');
-    Route::post('/config_add', [ConfigController::class, 'create'])->name("add_config");
+    
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {

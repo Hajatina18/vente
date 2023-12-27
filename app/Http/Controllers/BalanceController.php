@@ -29,7 +29,7 @@ class BalanceController extends Controller
                     ->where(DB::raw('week(paniers.created_at)'), (new DateTime())->format('W'))
                     ->sum(DB::raw('qte_commande*qte_unite'));
             $stock = Stock::where('ref_prod', $produit->ref_prod)->where('week', (new DateTime())->format('W'))->first();
-            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $produit->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
+            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $produit->ref_prod)->select("unite_mesures.unite")->first();
             $produit->unite = $base->unite;
             $produit->entrer = $entrer;
             $produit->sortie = $sortie;
@@ -57,7 +57,7 @@ class BalanceController extends Controller
                     ->where(DB::raw('week(paniers.created_at)'), $week1)
                     ->sum(DB::raw('qte_commande*qte_unite'));
             $stock = Stock::where('ref_prod', $produit->ref_prod)->where('week', $week1)->first();
-            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $produit->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
+            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $produit->ref_prod)->select("unite_mesures.unite")->first();
             $produit->unite = $base->unite;
             $produit->entrer = $entrer;
             $produit->sortie = $sortie;

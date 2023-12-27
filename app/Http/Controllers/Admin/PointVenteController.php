@@ -52,6 +52,11 @@ class PointVenteController extends Controller
         }else{
             $pointVente = new PointVente;
         }
+        if($request->file('image_prod') != null){
+            $image = $request->file('image_prod')->getClientOriginalName();
+            $path = $request->file('image_prod')->storeAs('produit', $image, 'public');
+            $image_final = 'storage/produit/'.$image;
+        }
         $pointVente->nom_pdv = $request->nom_pdv;
         $pointVente->address_pdv = $request->address_pdv;
         $pointVente->telephone_pdv = $request->telephone_pdv;
@@ -59,6 +64,12 @@ class PointVenteController extends Controller
         $pointVente->nif_pdv = $request->nif_pdv;
         $pointVente->stat_pdv = $request->stat_pdv;
         $pointVente->rcs_pdv = $request->rcs_pdv;
+        if($request->file('logo') != null){
+            $image = $request->file('logo')->getClientOriginalName();
+            $path = $request->file('logo')->storeAs('magasin', $image, 'public');
+            $image_final = 'storage/magasin/'.$image;
+            $pointVente->logo = $image_final;
+        }
 
         if($pointVente->save()){
             $array = array(

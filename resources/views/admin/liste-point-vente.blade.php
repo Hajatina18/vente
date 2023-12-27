@@ -54,7 +54,10 @@
                                                 <label for="rcs_pdv" class="form-label">RCS</label> 
                                                 <input type="text" class="form-control" id="rcs_pdv" name="rcs_pdv">
                                             </div>
-                                            
+                                            <div class="mb-3">
+                                                <label for="logo" class="form-label">Logo</label>
+                                                <input class="form-control" type="file" id="logo" name="logo">
+                                            </div>
                                     
                                             <button type="submit" id="submitFormPointVente" class="btn btn-primary">
                                                 Sauvagarder

@@ -26,7 +26,7 @@ class ProduitController extends Controller
             $path = $request->file('image_prod')->storeAs('produit', $image, 'public');
             $image_final = 'storage/produit/'.$image;
         }else{
-            $image_final = 'img/default.jpg';
+            $image_final = 'storage/img/default.jpg';
         }
         $product = new Produit;
         $product->ref_prod = $request->ref_prod;

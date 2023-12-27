@@ -97,15 +97,7 @@
                             </h2>
                             <div id="collapseThree" class="accordion-collapse collapse " aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                               <ul class="accordion-body text-small shadow bg-layout" >
-                              <li class="sidebar-item">
-                                        <a href="{{ route('config') }}" class="sidebar-link ">
-                                            <div class="sidebar">
-                                                <i class="las la-info-circle me-2"></i>
-
-                                            </div>
-                                            Info
-                                        </a>
-                                    </li>
+                             
                                     <li class="sidebar-item">
                                         <a href="{{ route('user_admin') }}" class="sidebar-link ">
                                             <div class="sidebar">
