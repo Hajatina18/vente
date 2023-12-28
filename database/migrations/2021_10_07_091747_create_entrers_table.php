@@ -26,6 +26,7 @@ class CreateEntrersTable extends Migration
             $table->double('prix_achat_ttc')-> default(0);
             $table->double('cout_trans')-> default(0);
             $table->date('date_echeance')->nullable();
+            $table->double('cout_revient');
             $table->integer('depot');
             $table->foreign('depot')->references('id_depot')->on('depots');
             $table->timestamps();

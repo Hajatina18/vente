@@ -511,15 +511,8 @@
                 dataType: "json",
                 success: function(response) {
                     var idDepotSelect = $('#id_depot');
-
-                    // Réinitialisez la liste déroulante (si nécessaire)
                     idDepotSelect.empty();
-
-
-                    // Ajoutez une option vide au début (si nécessaire)
                     idDepotSelect.append('<option disabled selected>Choix de Dépôt</option>');
-
-                    // Parcourez les éléments de la réponse et ajoutez des options à la liste déroulante
                     response.forEach(element => {
                         idDepotSelect.append('<option value="' + element.id_depot + '">' + element.nom_depot + '</option>');
                     });

@@ -288,7 +288,7 @@
                         defaultContent: ''
                     },
                     {data:"date"},
-                    {data:"user.name"},
+                    {data:"user.nom"},
                     {data:"total", className: "text-end"},
                     {data:"action"}
                 ],
@@ -332,7 +332,7 @@
                var paniers = commande.paniers.map((panier,index) =>{
                 const id_depot =$("#productTable input:checked").eq(index).val()
                 const outOfStock = id_depot ? false : true 
-           alert($("#productTable .price").eq(index).val())
+        //    alert($("#productTable .price").eq(index).val())
                return {
                     id_pre_panier: panier.id_pre_panier,
                     ref_prod : panier.ref_prod,

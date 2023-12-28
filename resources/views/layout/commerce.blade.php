@@ -36,11 +36,11 @@
                     </a>
                 </li> --}}
 
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a href="{{ route('fond_caisse') }}" class="sidebar-link">
                         <i class="las la-cash-register me-2"></i>
                         <span>Fond de caisse</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>

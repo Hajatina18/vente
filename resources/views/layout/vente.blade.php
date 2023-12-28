@@ -28,16 +28,4 @@
             <span>Caisse</span>
         </a>
     </li>
-    <li class="sidebar-item">
-        <a href="{{ route('entrer_admin') }}" class="sidebar-link">
-            <i class="las la-truck me-2"></i>
-            <span>Entrer</span>
-        </a>
-    </li>
-    <!--<li class="sidebar-item position-fixed bottom-0">
-        <a href="{{ route('logout') }}" class="sidebar-link">
-            <i class="la la-sign-out me-2"></i>
-            <span>Se deconnecter</span>
-        </a>
-    </li> -->
 </ul>

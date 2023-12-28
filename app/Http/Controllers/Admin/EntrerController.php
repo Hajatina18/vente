@@ -59,6 +59,7 @@ class EntrerController extends Controller
             $enter->num_bl = $request->num_bl;
             $enter->date_echeance = $request->date_echeance;
             $enter->depot = $depot->id_depot;
+            $enter->cout_revient = $enter->cout_trans * $enter->prix_achat_ttc ;
             if($enter->save()){
             $array = $enter;
             }else{

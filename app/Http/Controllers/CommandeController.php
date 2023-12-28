@@ -210,6 +210,7 @@ class CommandeController extends Controller
     }
     public function caisse()
     {
+       
         $user = auth()->user();
         $caisse = FondCaisse::where(DB::raw('date(created_at)'), date('Y-m-d'))->select(DB::raw('SUM(montant) as total'))->first();
         $command = $user->is_admin === 1 ? DB::table('commandes') : DB::table('commandes')->where('id_user', $user->id);
@@ -254,6 +255,8 @@ class CommandeController extends Controller
             $panier->prix_produit = number_format($panier->prix_produit, 2, ',', ' ') . ' Ar';
             $panier->qte_commande = number_format($panier->qte_commande, 2, ',', ' ');
         }
+
+        return dd($commande, $paniers);
         echo json_encode(array(
             'commande' => $commande,
             'paniers' => $paniers
