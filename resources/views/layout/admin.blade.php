@@ -142,10 +142,18 @@
                       <li class="sidebar-item">
                           <a href="{{ route('balance') }}" class="sidebar-link">
                               <div class="sidebar">
-                                  <i class="las la-clipboard-list me-2"></i>
+                                  <i class="las la-home me-2"></i>
                                   <span>Balance</span>
                               </div>
                           </a>
                       </li>
+                      <li class="sidebar-item">
+                        <a href="{{ route('chiffre') }}" class="sidebar-link">
+                            <div class="sidebar">
+                                <i class="las la-clipboard-list me-2"></i>
+                                <span>Chiffre d'affaire </span>
+                            </div>
+                        </a>
+                    </li>
                   </ul>
     <!--</div>-->

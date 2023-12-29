@@ -133,10 +133,7 @@
         });
 
     
-        $('table').on('click', '.edit', function(){
-            $("#id_depot").val($(this).data('id'));
-            $("#nom_depot").val($(this).parents('tr').find('td:eq(0)').text());
-        });
+     
         //delete depot
         $('table').on('click', '.delete_depot', function(){
             let id = $(this).data('id');

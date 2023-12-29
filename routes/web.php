@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\TransfertController;
 use App\Http\Controllers\Admin\PointVenteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BalanceController;
+use App\Http\Controllers\ChiffreAffaireController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\FondCaisseController;
 use App\Http\Controllers\PreCommandeController;
@@ -71,7 +72,6 @@ Route::group(['middleware' => ['vente:2'], 'prefix' => 'commercial',], function 
     Route::post('/modifier/{id}', 'App\Http\Controllers\Admin\ProduitController@modifier')->name('modifier_produit');
 });
 
-
 Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function () {
     Route::get('/', [Dashboard::class, 'index'])->name("admin");
 
@@ -127,6 +127,11 @@ Route::group(['middleware' => ['vente:1'], 'prefix' => "admin"], function () {
 
     Route::group(['prefix' => 'balance'], function () {
         Route::get("/", [BalanceController::class, 'index'])->name('balance');
+        Route::get("/getWeek/{week?}", [BalanceController::class, 'getWeek'])->name('getWeek');
+    });
+
+    Route::group(['prefix' => 'ca'], function () {
+        Route::get("/", [ChiffreAffaireController::class, 'index'])->name('chiffre');
         Route::get("/getWeek/{week?}", [BalanceController::class, 'getWeek'])->name('getWeek');
     });
 
