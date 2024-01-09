@@ -31,9 +31,9 @@ class Dashboard extends Controller
                     ->join('paniers', 'commandes.id_commande', '=', 'paniers.id_commande')
                     ->select(DB::raw('SUM(qte_commande * prix_produit) as total'))
                     ->get();
-        $produits = Produit::where('qte_stock', '<=', 5)->where('fait_demande', false)->get();
+        $produits = Produit::where('qte_stock', '<=', 5)->get();
         foreach ($produits as $product) {
-            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->where('qte_unite', 1)->select("unite_mesures.unite")->first();
+            $base = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')->where('avoirs.ref_prod', $product->ref_prod)->select("unite_mesures.unite")->first();
             $product->qte_stock = number_format($product->qte_stock, 0, ',', ' ').' '.($product->qte_stock > 1 ? $base->unite.'s' : $base->unite);
         }
         $entrers = Entrer::where("date_echeance", ">=", date('Y-m-d'))->where('date_echeance', '<=', date('Y-m-d', strtotime('+ 7days')))->get();

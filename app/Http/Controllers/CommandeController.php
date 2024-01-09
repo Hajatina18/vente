@@ -81,27 +81,27 @@ class CommandeController extends Controller
         $panier->id_unite = $request->unite;
         $panier->qte_commande = $request->qte;
         $panier->prix_produit = $request->prix;
-        if($panier->save()){
+        if ($panier->save()) {
             $unite = Avoir::where('ref_prod', $request->ref_prod)->where('id_unite', $request->unite)->first();
             $Qte = ($unite->qte_unite * floatval($request->qte));
-            
-            $depot = auth()->user()->depot;
-            $produits = Stock::where('stocks.ref_prod',$request->ref_prod)
-                                        ->where('stocks.id_depot',$depot)
-                                        ->orderBy('stocks.created_at','ASC')->get();
-        foreach($produits as $product) {
-            $stock = Stock::find($product->id_stock);
-                          
-                            if( $product->stock - $Qte >= 0){
-                                $stock->stock -= $Qte;
-                                $Qte= 0;
-                            }else{
-                                 $Qte = $Qte - $product->stock ;
-                                  $stock->stock -= $product->stock;
-                            }
 
-                             $stock->save();
-        }
+            $depot = auth()->user()->depot;
+            $produits = Stock::where('stocks.ref_prod', $request->ref_prod)
+                ->where('stocks.id_depot', $depot)
+                ->orderBy('stocks.created_at', 'ASC')->get();
+            foreach ($produits as $product) {
+                $stock = Stock::find($product->id_stock);
+
+                if ($product->stock - $Qte >= 0) {
+                    $stock->stock -= $Qte;
+                    $Qte = 0;
+                } else {
+                    $Qte = $Qte - $product->stock;
+                    $stock->stock -= $product->stock;
+                }
+
+                $stock->save();
+            }
 
             echo json_encode(array(
                 'icon' => "success",
@@ -181,16 +181,16 @@ class CommandeController extends Controller
         //           Stock::where('ref_prod',$ref_prod)->where('id_depot',$user->id_depot)->first() 
         //         : 
         // $produit = StockPointVente::where('ref_prod',$ref_prod)->where('id_pdv',$user->id_pdv)->first();
-        if($commercial){
-        $produit = Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->where('stock','>',0)
-                        ->select(DB::raw('SUM(stock) as totalStock'),'produits.*','stocks.*')
-                        ->groupBy('produits.ref_prod')
-                        ->where('produits.ref_prod',$ref_prod)->first();    
-        }else{
-            $produit = $user->is_admin === 0 && $user->is_depot ? 
-                  Stock::where('ref_prod',$ref_prod)->where('id_depot',$user->depot)->first() 
-                   : 
-                 StockPointVente::where('ref_prod',$ref_prod)->where('id_pdv',$user->depot)->first();
+        if ($commercial) {
+            $produit = Stock::join('produits', 'produits.ref_prod', '=', 'stocks.ref_prod')->where('stock', '>', 0)
+                ->select(DB::raw('SUM(stock) as totalStock'), 'produits.*', 'stocks.*')
+                ->groupBy('produits.ref_prod')
+                ->where('produits.ref_prod', $ref_prod)->first();
+        } else {
+            $produit = $user->is_admin === 0 && $user->is_depot ?
+                Stock::where('ref_prod', $ref_prod)->where('id_depot', $user->depot)->first()
+                :
+                StockPointVente::where('ref_prod', $ref_prod)->where('id_pdv', $user->depot)->first();
         }
 
         $avoir = Avoir::where('ref_prod', $ref_prod)->where('avoirs.id_unite', $unite)->join('unite_mesures', 'avoirs.id_unite', '=', 'unite_mesures.id_unite')->select('*')->first();
@@ -210,7 +210,7 @@ class CommandeController extends Controller
     }
     public function caisse()
     {
-       
+
         $user = auth()->user();
         $caisse = FondCaisse::where(DB::raw('date(created_at)'), date('Y-m-d'))->select(DB::raw('SUM(montant) as total'))->first();
         $command = $user->is_admin === 1 ? DB::table('commandes') : DB::table('commandes')->where('id_user', $user->id);
@@ -246,10 +246,10 @@ class CommandeController extends Controller
         $commande->nom_client = Client::find($commande->id_client)->nom_client;
         $commande->date = utf8_encode(strftime("%d %B %Y", strtotime($commande->created_at)) . utf8_decode(' à ') . strftime("%H:%M:%S", strtotime($commande->created_at)));
         $paniers = Panier::join('produits', 'produits.ref_prod', '=', 'paniers.ref_prod')
-                                ->join('unite_mesures', 'unite_mesures.id_unite', '=', 'paniers.id_unite')
-                                ->join('depots','depots.id_depot','paniers.id_depot')
-                                ->where('id_commande', $id_commande)
-                                ->get();
+            ->join('unite_mesures', 'unite_mesures.id_unite', '=', 'paniers.id_unite')
+            ->join('depots', 'depots.id_depot', 'paniers.id_depot')
+            ->where('id_commande', $id_commande)
+            ->get();
         foreach ($paniers as $panier) {
             $panier->total = number_format($panier->prix_produit * $panier->qte_commande, 2, ',', ' ') . ' Ar';
             $panier->prix_produit = number_format($panier->prix_produit, 2, ',', ' ') . ' Ar';
@@ -264,21 +264,21 @@ class CommandeController extends Controller
     }
     public function getProduit()
     {
-        $user =auth()->user();
+        $user = auth()->user();
         $id = $user->depot;
         $is_depot = $user->is_depot;
 
         $commercial = $user->is_admin === 2;
- 
-        $produits = $commercial ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')->where('stock','>',0)
-                                        ->select(DB::raw('SUM(stock) as totalStock'),'produits.*','stocks.*')
-                                        ->groupBy('produits.ref_prod')
-                                        ->join('depots','depots.id_depot','stocks.id_depot')->get() 
-                                : ($is_depot ? Stock::join('produits','produits.ref_prod','=','stocks.ref_prod')
-                                               ->where('id_depot',$id)->get() 
-                                             : StockPointVente::join('produits','produits.ref_prod','=','stock_point_ventes.ref_prod')
-                                                ->where('stock','>',0)
-                                                ->where('id_pdv',$id)->get());
+
+        $produits = $commercial ? Stock::join('produits', 'produits.ref_prod', '=', 'stocks.ref_prod')->where('stock', '>', 0)
+            ->select(DB::raw('SUM(stock) as totalStock'), 'produits.*', 'stocks.*')
+            ->groupBy('produits.ref_prod')
+            ->join('depots', 'depots.id_depot', 'stocks.id_depot')->get()
+            : ($is_depot ? Stock::join('produits', 'produits.ref_prod', '=', 'stocks.ref_prod')
+                ->where('id_depot', $id)->get()
+                : StockPointVente::join('produits', 'produits.ref_prod', '=', 'stock_point_ventes.ref_prod')
+                ->where('stock', '>', 0)
+                ->where('id_pdv', $id)->get());
         foreach ($produits as $product) {
             //     $product->action = "<a href='#' class='btn btn-primary' onclick=\"getProduit('".$product->ref_prod."')\">Modifier</a>";
             $unites = DB::table('avoirs')->join('unite_mesures', 'unite_mesures.id_unite', '=', 'avoirs.id_unite')
@@ -305,7 +305,6 @@ class CommandeController extends Controller
 
             $product->image_prod = "<img src='" . url($product->image_prod) . "' style='width: 60px'>";
         }
-        echo json_encode($produits );
-    
+        echo json_encode($produits);
     }
 }

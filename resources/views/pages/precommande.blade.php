@@ -416,7 +416,7 @@
             $("#precommandeID").val(data.id_pre_commande)
             $("#validateCommande").modal('show');
 
-            $("#productTable").html(format(data, {{$user->is_admin!==0}}, {{$user->is_admin ==1}}))
+            $("#productTable").html(format(data))
         }
         
         

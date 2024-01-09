@@ -103,6 +103,8 @@
     <script src="{{ asset('js/date-euro.js') }}"></script>
     <script src="{{ asset('datatable/date_uk.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/chart.umd.js') }}"></script>
+    <script src="{{ asset('js/echarts.min.js') }}"></script>
     @stack('js')
 </body>
 
